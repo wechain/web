@@ -3,13 +3,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import isEmpty from 'lodash/isEmpty';
-import { Button } from 'antd';
+import { Button, Select } from 'antd';
 import { selectPosts, selectDailyRanking } from './selectors';
 import { getPostsBegin } from './actions/getPosts';
 import { daysAgoToString } from 'utils/date';
 import PostItem from './components/PostItem';
 import { formatAmount } from "utils/helpers/steemitHelpers";
 import { timeUntilMidnightSeoul } from 'utils/date';
+import { getSortOption, setSortOption } from 'utils/sortOptions';
 
 class PostList extends Component {
   static propTypes = {
@@ -45,8 +46,14 @@ class PostList extends Component {
 
   showAll = () => this.setState({ showAll: true });
 
+  handleSortOption = (value) => {
+    setSortOption('daily', value);
+    window.location.reload();
+  }
+
   render() {
     const { posts, dailyRanking, daysAgo } = this.props;
+    const Option = Select.Option;
 
     let ranking = dailyRanking[daysAgo];
     if (isEmpty(ranking)) {
@@ -77,6 +84,17 @@ class PostList extends Component {
               <div><b>{timeUntilMidnightSeoul(true)}</b> left till midnight (KST)</div>
             }
           </div>
+          {daysAgo === 0 &&
+            <div className="sort-option">
+              <span className="text-small">Sort by: </span>
+              <Select size="small" defaultValue={getSortOption('daily')} onChange={this.handleSortOption}>
+                <Option value="payout">Payout</Option>
+                <Option value="created">New</Option>
+                <Option value="vote_count">Vote Count</Option>
+                <Option value="comment_count">Comment Count</Option>
+              </Select>
+            </div>
+          }
         </div>
         <div className="daily-posts">
           {rankingItems.slice(0,10)}

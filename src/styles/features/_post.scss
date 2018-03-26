@@ -44,6 +44,7 @@
 
   .heading {
     padding-left: 80px;
+    position: relative;
 
     @include responsive(ipadpro) {
       padding-left: 40px;
@@ -66,6 +67,25 @@
 
       @include responsive(tablet) {
         margin-bottom: 1.5rem;
+      }
+    }
+
+    .sort-option {
+      position: absolute;
+      right: 80px;
+      top: 0;
+
+      @include responsive(ipadpro) {
+        right: 40px;
+      }
+
+      @include responsive(tablet) {
+        right: 20px;
+      }
+
+      .ant-select {
+        width: 8.5rem;
+        font-size: 0.75rem;
       }
     }
   }

@@ -2,6 +2,7 @@ import { put, takeEvery } from 'redux-saga/effects';
 import update from 'immutability-helper';
 import api from 'utils/api';
 import { getPostKey } from '../utils';
+import { getSortOption } from 'utils/sortOptions';
 
 /*--------- CONSTANTS ---------*/
 const GET_POSTS_BEGIN = 'GET_POSTS_BEGIN';
@@ -61,7 +62,7 @@ export function getPostsReducer(state, action) {
 /*--------- SAGAS ---------*/
 function* getPosts({ daysAgo }) {
   try {
-    const posts = yield api.get('/posts.json', { days_ago: daysAgo });
+    const posts = yield api.get('/posts.json', { days_ago: daysAgo, sort: getSortOption('daily') });
 
     yield put(getPostsSuccess(daysAgo, posts));
   } catch(e) {
