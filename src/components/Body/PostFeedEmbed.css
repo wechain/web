@@ -1,11 +1,12 @@
 .postFeedEmbed {
-    display: block;
-    position: relative;
+  display: inline-block;
+  position: relative;
+  max-width: 100%;
 }
 
 .postFeedEmbed-icon {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
 }
