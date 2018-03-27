@@ -55,8 +55,8 @@ class PostList extends Component {
     const { posts, dailyRanking, daysAgo } = this.props;
     const Option = Select.Option;
 
-    let ranking = dailyRanking[daysAgo];
-    if (isEmpty(ranking)) {
+    let ranking = dailyRanking[daysAgo] || [];
+    if (isEmpty(ranking) && daysAgo !== 0) {
       return null;
     }
 
