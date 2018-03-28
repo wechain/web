@@ -106,6 +106,11 @@ function* publishContent({ props, editMode }) {
       throw new Error("Please upload at least one image.");
     }
 
+    const myAccount = yield select(selectMyAccount());
+    if (myAccount.name !== post.author) {
+      throw new Error("Please login before posting.");
+    }
+
     const title = `${post.title} - ${post.tagline}`;
 
     if (editMode) { // Edit
@@ -115,13 +120,6 @@ function* publishContent({ props, editMode }) {
       yield api.post('/posts.json', { post: post }, true);
     }
     // console.log('2------', res);
-
-    const myAccount = yield select(selectMyAccount());
-    if (myAccount.name !== post.author) {
-      yield put(publishContentFailure('UNAUTHORIZED'));
-      yield api.delete(`/posts${getPostPath(post)}.json`, null, true);
-      return;
-    }
 
     // Inject 'steemhunt' as a main category for every post
     const tags = [MAIN_CATEGORY].concat(post.tags);
