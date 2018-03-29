@@ -53,7 +53,6 @@ class PostList extends Component {
 
   render() {
     const { posts, dailyRanking, daysAgo } = this.props;
-    const Option = Select.Option;
 
     let ranking = dailyRanking[daysAgo] || [];
     if (isEmpty(ranking) && daysAgo !== 0) {
@@ -88,10 +87,10 @@ class PostList extends Component {
             <div className="sort-option">
               <span className="text-small">Sort by: </span>
               <Select size="small" defaultValue={getSortOption('daily')} onChange={this.handleSortOption}>
-                <Option value="payout">Payout</Option>
-                <Option value="created">New</Option>
-                <Option value="vote_count">Vote Count</Option>
-                <Option value="comment_count">Comment Count</Option>
+                <Select.Option value="payout">Payout</Select.Option>
+                <Select.Option value="created">New</Select.Option>
+                <Select.Option value="vote_count">Vote Count</Select.Option>
+                <Select.Option value="comment_count">Comment Count</Select.Option>
               </Select>
             </div>
           }

@@ -16,7 +16,7 @@ export default class PostItem extends Component {
     const activeVotes = post.active_votes.filter(v => v.percent !== 0).length;
 
     return (
-      <div className="post">
+      <div className={`post${rank === 1 ? ' top-border' : ''}`}>
         <div className="rank">{rank}</div>
         <Link to={getPostPath(post)}>
           <img src={post.images && getThumbnail(post.images[0].link, 240, 240)} alt={post.title} className="thumbnail"/>

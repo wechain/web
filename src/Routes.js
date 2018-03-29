@@ -19,7 +19,8 @@ const Terms = asyncComponent(() => import('pages/Terms'));
 const Privacy = asyncComponent(() => import('pages/Privacy'));
 const Cookies = asyncComponent(() => import('pages/Cookies'));
 const HuntedList = asyncComponent(() => import('pages/HuntedList'));
-const Profile = asyncComponent(() => import('features/User/Profile'));
+const Profile = asyncComponent(() => import('pages/Profile'));
+const HuntedListByAuthor = asyncComponent(() => import('pages/HuntedListByAuthor'));
 
 const BackButton = withRouter(({ history }) => (
   <Icon
@@ -46,13 +47,13 @@ export class RoutesLeft extends Component {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/about" exact component={Home} />
-          <Route path="/@:author/:permlink" exact component={Post} />
           <Route path="/post" exact component={Draft} />
-          <Route path="/@:author/:permlink/edit" exact component={Draft} />
-          <Route path="/@:author" component={Profile} />
           <Route path='/terms' component={Terms} />
           <Route path='/privacy' component={Privacy} />
           <Route path='/cookies' component={Cookies} />
+          <Route path="/@:author/:permlink" exact component={Post} />
+          <Route path="/@:author/:permlink/edit" exact component={Draft} />
+          <Route path="/@:author" component={Profile} />
           <Route path='*' component={NotFound} />
         </Switch>
       </div>
@@ -85,8 +86,8 @@ class Right extends Component {
           <Route path="/about" exact component={HuntedList} />
           <Route path="/post" exact component={PostForm} />
           <Route path="/@:author/:permlink/edit" exact component={PostForm} />
-          <Route path="/@:author" component={HuntedList} />
           <Route path="/@:author/:permlink" exact component={HuntedList} />
+          <Route path="/@:author" component={HuntedListByAuthor} />
           <Route path='*' component={HuntedList} />
         </Switch>
       </div>

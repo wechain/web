@@ -24,9 +24,19 @@ export const selectDailyRanking = () => createSelector(
   state => state.dailyRanking,
 );
 
+export const selectAuthorPosts = () => createSelector(
+  selectPostDomain(),
+  state => state.authorPosts,
+);
+
 export const selectIsLoading = () => createSelector(
   selectPostDomain(),
   state => state.isLoading,
+);
+
+export const selectAuthorStatus = () => createSelector(
+  selectPostDomain(),
+  state => state.authorStatus,
 );
 
 export const selectCurrentPost = () => createSelector(

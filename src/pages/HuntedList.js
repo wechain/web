@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
+import { Spin } from 'antd';
 import PostList from 'features/Post/PostList';
-import InfiniteList from 'components/InfiniteList';
+import InfiniteScroll from 'components/InfiniteScroll';
 import { selectIsLoading } from 'features/Post/selectors';
 
 class HuntedList extends Component {
@@ -28,14 +29,20 @@ class HuntedList extends Component {
     const oldest = Date.now() - last(daysAgoArray) * 86400000;
     const hasMore = oldest > genesis;
 
+    const items = daysAgoArray.map((daysAgo) =>
+      <PostList key={daysAgo} daysAgo={daysAgo} />
+    )
+
     return (
-      <InfiniteList
-        list={daysAgoArray}
+      <InfiniteScroll
+        loadMore={this.addMorePostList}
         hasMore={hasMore}
         isLoading={this.props.isLoading}
-        loadMoreCb={this.addMorePostList}
-        itemMappingCb={daysAgo => <PostList key={daysAgo} daysAgo={daysAgo} />}
-      />
+        loader={<Spin className="center-loading" key={0} />}
+        useWindow={false}
+      >
+        {items}
+      </InfiniteScroll>
     );
   }
 }

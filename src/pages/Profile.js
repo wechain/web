@@ -5,20 +5,19 @@ import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import { Helmet } from 'react-helmet';
 import { Icon, Timeline } from 'antd';
-import { setCurrentUserBegin } from './actions/setCurrentUser';
-import { selectMe, selectCurrentUser, selectCurrentAccount, selectMyFollowingsList } from 'features/User/selectors';
+import { setCurrentUserBegin } from 'features/User/actions/setCurrentUser';
+import { selectCurrentUser, selectCurrentAccount, selectMyFollowingsList } from 'features/User/selectors';
 import { COLOR_PRIMARY, COLOR_LIGHT_GREY } from 'styles/constants';
-import UserSteemPower from './components/UserSteemPower';
-import UserEstimatedValue from './components/UserEstimatedValue';
-import FollowerCount from './components/FollowerCount';
-import FollowButton from './components/FollowButton';
+import UserSteemPower from 'features/User/components/UserSteemPower';
+import UserEstimatedValue from 'features/User/components/UserEstimatedValue';
+import FollowerCount from 'features/User/components/FollowerCount';
+import FollowButton from 'features/User/components/FollowButton';
 import { toTimeAgo } from 'utils/date';
 import CircularProgress from 'components/CircularProgress';
 import { scrollTop } from 'utils/scroller';
 
 class Profile extends Component {
   static propTypes = {
-    me: PropTypes.string.isRequired,
     currentUser: PropTypes.string,
     account: PropTypes.shape({
       name: PropTypes.string,
@@ -31,11 +30,10 @@ class Profile extends Component {
       following_count: PropTypes.number,
     }).isRequired,
     myFollowings: PropTypes.array,
+    setCurrentUser: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    me: undefined,
-    currentUser: undefined,
     account: {
       name: undefined,
       reputation: 0,
@@ -43,7 +41,6 @@ class Profile extends Component {
       follower_count: 0,
       following_count: 0,
     },
-    myFollowings: undefined,
   };
 
   componentDidMount() {
@@ -129,7 +126,6 @@ class Profile extends Component {
 }
 
 const mapStateToProps = (state, props) => createStructuredSelector({
-  me: selectMe(),
   account: selectCurrentAccount(),
   currentUser: selectCurrentUser(),
   myFollowings: selectMyFollowingsList(),
