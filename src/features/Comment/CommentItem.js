@@ -1,4 +1,7 @@
+import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
 import Body from 'components/Body';
 import { List, Avatar } from 'antd';
 import { sortCommentsFromSteem } from 'utils/helpers/stateHelpers';
@@ -7,13 +10,21 @@ import Author from 'components/Author';
 import CommentReplyForm from './CommentReplyForm';
 import VoteButton from 'features/Vote/VoteButton';
 import { toTimeAgo } from 'utils/date';
+import { selectMe } from 'features/User/selectors';
 
-export default class CommentItem extends PureComponent {
+class CommentItem extends PureComponent {
+  static propTypes = {
+    me: PropTypes.string.isRequired,
+    comment: PropTypes.object,
+    commentsData: PropTypes.object,
+    commentsChild: PropTypes.object,
+  };
+
   constructor() {
     super();
     this.state = {
       showReplyForm: false,
-      isEditing: false,
+      showEditForm: false,
     };
   }
 
@@ -25,9 +36,17 @@ export default class CommentItem extends PureComponent {
     this.setState({ showReplyForm: !this.state.showReplyForm });
   };
 
+  closeEditForm = () => {
+    this.setState({ showEditForm: false });
+  };
+
+  switchEditForm = () => {
+    this.setState({ showEditForm: !this.state.showEditForm });
+  };
+
   render() {
-    const { comment, commentsChild, commentsData } = this.props;
-    const { showReplyForm } = this.state;
+    const { comment, commentsChild, commentsData, me } = this.props;
+    const { showReplyForm, showEditForm } = this.state;
 
     if (!comment) {
       return null;
@@ -46,15 +65,26 @@ export default class CommentItem extends PureComponent {
           }
           description={
             <div className="comment-body">
-              <Body post={comment} />
-
-              <div className="actions">
-                <VoteButton post={comment} type="comment" layout="comment" />
-                <span className="separator">|</span>
-                <ContentPayoutAndVotes content={comment} />
-                <span className="separator">|</span>
-                <a className="hover-link" onClick={this.switchReplyForm}>reply</a>
-              </div>
+              {showEditForm ?
+                <CommentReplyForm content={comment} editMode={true} closeForm={this.closeEditForm} />
+              :
+                <div>
+                  <Body post={comment} />
+                  <div className="actions">
+                    <VoteButton post={comment} type="comment" layout="comment" />
+                    <span className="separator">|</span>
+                    <ContentPayoutAndVotes content={comment} />
+                    <span className="separator">|</span>
+                    <a className="hover-link" onClick={this.switchReplyForm}>reply</a>
+                    {me === comment.author && comment.cashout_time !== '1969-12-31T23:59:59' &&
+                      <span>
+                        <span className="separator">|</span>
+                        <a className="hover-link" onClick={this.switchEditForm}>edit</a>
+                      </span>
+                    }
+                  </div>
+                </div>
+              }
 
               {showReplyForm && (
                 <CommentReplyForm content={comment} closeForm={this.closeReplyForm} />
@@ -78,3 +108,9 @@ export default class CommentItem extends PureComponent {
     );
   }
 }
+
+const mapStateToProps = () => createStructuredSelector({
+  me: selectMe(),
+});
+
+export default connect(mapStateToProps, null)(CommentItem);

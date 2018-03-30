@@ -12,16 +12,21 @@ import api from 'utils/api';
 /*--------- CONSTANTS ---------*/
 const REPLY_BEGIN = 'REPLY_BEGIN';
 const REPLY_SUCCESS = 'REPLY_SUCCESS';
+const REPLY_EDIT_SUCCESS = 'REPLY_EDIT_SUCCESS';
 const REPLY_FAILURE = 'REPLY_FAILURE';
 const ADD_COMMENTS_FROM_POST = 'ADD_COMMENTS_FROM_POST';
 
 /*--------- ACTIONS ---------*/
-export function replyBegin(parent, body) {
-  return { type: REPLY_BEGIN, parent, body };
+export function replyBegin(parent, body, editMode) {
+  return { type: REPLY_BEGIN, parent, body, editMode };
 }
 
 function replySuccess(parent, tempId, replyObj) {
   return { type: REPLY_SUCCESS, parent, tempId, replyObj };
+}
+
+function replyEditSuccess(id, body) {
+  return { type: REPLY_EDIT_SUCCESS, id, body };
 }
 
 function replyFailure(message) {
@@ -65,6 +70,17 @@ export function replyReducer(state, action) {
         hasSucceeded: { $set: true },
       });
     }
+    case REPLY_EDIT_SUCCESS: {
+      const { id, body } = action;
+
+      return update(state, {
+        commentsData: {
+          [id]: { body: { $set: body } },
+        },
+        isPublishing: { $set: false },
+        hasSucceeded: { $set: true },
+      });
+    }
     case REPLY_FAILURE: {
       return update(state, {
         isPublishing: { $set: false },
@@ -76,51 +92,66 @@ export function replyReducer(state, action) {
 }
 
 /*--------- SAGAS ---------*/
-function* reply({ parent, body }) {
+function* reply({ parent, body, editMode }) {
   try {
     const myAccount = yield select(selectMyAccount());
-    const permlink = createCommentPermlink(parent.author, parent.permlink);
-    const json_metadata = { tags: [ parent.category || (parent.tags && parent.tags[0]) ] };
-    const now = toCustomISOString(new Date());
-    const cashoutTime = toCustomISOString(new Date(Date.now() + 604800));
-    const tempId = Math.floor((Math.random() * 1000000) + 1);
 
-    const replyObj = {
-      id: tempId,
-      author: myAccount.name,
-      parent_author: parent.author,
-      permlink,
-      body,
-      json_metadata,
-      created: now,
-      last_update: now,
-      active_votes: [],
-      cashout_time: cashoutTime,
-      net_votes: 0,
-      author_reputation: myAccount.reputation,
-    };
+    if (editMode) {
+      yield steemConnectAPI.comment(
+        parent.parent_author,
+        parent.parent_permlink,
+        parent.author,
+        parent.permlink,
+        '',
+        body,
+        parent.json_metadata,
+      );
 
-    // If parent is a post
-    if (!parent.parent_author) {
-      yield put(addCommentsFromPosts(parent, tempId));
+      yield put(replyEditSuccess(parent.id, body));
+    } else {
+      const permlink = createCommentPermlink(parent.author, parent.permlink);
+      const tempId = Math.floor((Math.random() * 1000000) + 1);
+      const json_metadata = { tags: [ parent.category || (parent.tags && parent.tags[0]) ] };
+      const now = toCustomISOString(new Date());
+      const cashoutTime = toCustomISOString(new Date(Date.now() + 604800));
+
+      const replyObj = {
+        id: tempId,
+        author: myAccount.name,
+        parent_author: parent.author,
+        permlink,
+        body,
+        json_metadata,
+        created: now,
+        last_update: now,
+        active_votes: [],
+        cashout_time: cashoutTime,
+        net_votes: 0,
+        author_reputation: myAccount.reputation,
+      };
+
+      yield steemConnectAPI.comment(
+        parent.author,
+        parent.permlink,
+        myAccount.name,
+        permlink,
+        '',
+        body,
+        json_metadata,
+      );
+
+      // If parent is a post
+      if (!parent.parent_author) {
+        yield put(addCommentsFromPosts(parent, tempId));
+      }
+
+      // Update children counter on local & DB
+      const post = yield select(selectCurrentPost());
+      yield api.increaseCommentCount(post);
+      yield put(postIncreaseCommentCount(post));
+
+      yield put(replySuccess(parent, tempId, replyObj));
     }
-
-    yield steemConnectAPI.comment(
-      parent.author,
-      parent.permlink,
-      myAccount.name,
-      permlink,
-      '',
-      body,
-      { tags: [ parent.category || (parent.tags && parent.tags[0]) ] },
-    );
-
-    // Update children counter on local & DB
-    const post = yield select(selectCurrentPost());
-    yield api.increaseCommentCount(post);
-    yield put(postIncreaseCommentCount(post));
-
-    yield put(replySuccess(parent, tempId, replyObj));
   } catch (e) {
     if (e.error_description) {
       if (e.error_description.indexOf('STEEMIT_MIN_REPLY_INTERVAL') >= 0) {

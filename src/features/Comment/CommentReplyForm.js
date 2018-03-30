@@ -11,13 +11,24 @@ import { scrollTo } from 'utils/scroller';
 class CommentReplyForm extends Component {
   static propTypes = {
     content: PropTypes.object.isRequired,
+    editMode: PropTypes.bool,
     closeForm: PropTypes.func,
+  };
+
+  static defaultProps = {
+    editMode: false,
   };
 
   constructor() {
     super();
     this.state = {
       body: '',
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.editMode) {
+      this.setState({ body: this.props.content.body });
     }
   }
 
@@ -45,7 +56,7 @@ class CommentReplyForm extends Component {
   reply = () => this.props.reply(this.state.body);
 
   render() {
-    const { closeForm } = this.props;
+    const { editMode, closeForm } = this.props;
 
     return (
       <div className="reply-form">
@@ -53,12 +64,19 @@ class CommentReplyForm extends Component {
           placeholder="Say something..."
           onChange={this.onChange}
           ref={node => this.form = node}
+          value={this.state.body}
           autosize />
         <div className="actions">
-          { closeForm  && (
+          {closeForm  && (
             <Button shape="circle" onClick={closeForm} icon="close" size="small" className="close-button"></Button>
           )}
-          <Button type="primary" onClick={this.reply} loading={this.props.isCommentPublishing}>Post</Button>
+          <Button
+            type="primary"
+            onClick={this.reply}
+            loading={this.props.isCommentPublishing}
+          >
+            {editMode ? 'Update' : 'Post'}
+          </Button>
         </div>
       </div>
     );
@@ -71,7 +89,7 @@ const mapStateToProps = () => createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
-  reply: body => dispatch(replyBegin(props.content, body)),
+  reply: (body) => dispatch(replyBegin(props.content, body, props.editMode)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentReplyForm);
