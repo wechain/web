@@ -70,7 +70,7 @@ function getBody(post) {
     `## Screenshots\n` +
     `${screenshots}\n` +
     `\n---\n` +
-    `## Description\n` +
+    `## Hunter's comment\n` +
     `${post.description}\n` +
     `\n---\n` +
     `## Link\n` +

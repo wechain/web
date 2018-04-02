@@ -361,7 +361,12 @@ class PostForm extends Component {
           onOk={() => this.setGuidelineVisible(false)}
           onCancel={() => this.setGuidelineVisible(false)}
         >
-          <p>These are the areas of products Steemhunt welcomes:</p>
+          <p>Steemhunt is a ranking community run by early-adopters who hunt &quot;effortlessly cool products.&quot; Please follow these guidelines when making a post. If your post fails to follow the guidelines, it may be excluded from the ranking.</p>
+          <hr/>
+          <h4>1. Post a &quot;Product,&quot; not a &quot;Business.&quot;</h4>
+          <p>A business is larger and more vague than a product. For example, you may post a new Samsung Galaxy S9 phone - this is a product. You can’t post &quot;Samsung&quot; itself - this is a business. Also, you can’t post a local product. Steemhunt is a global community, so you should bring something that everyone can enjoy.</p>
+          <h4>2. Types of Products to Post</h4>
+          <p>Steemhunt generally covers unique IT or hardware products, including:</p>
           <ul>
             <li>Web services</li>
             <li>Mobile apps</li>
@@ -370,16 +375,24 @@ class PostForm extends Component {
             <li>Tech gadgets</li>
             <li>Unique items</li>
           </ul>
-          <p>Steemhunt WON’T like if you post:</p>
+          <h4>3. Language - English Only</h4>
+          <p>Steemhunt runs a single ranking board globally, so please post and comment in English.</p>
+          <h4>4. Product Link</h4>
+          <p>All posts must have a valid website. You can only provide an official website of the product, app download link, or e-commerce site where users can make purchases. The following examples WILL NOT be accepted:</p>
           <ul>
-            <li>A business instead of a product. A business is larger and more vague than a product. For example, you may post a new Samsung Galaxy S9 phone - this is a product. You can’t post “Samsung” itself - this is a business.</li>
-            <li>Something launched a while ago that many people already know about.</li>
-            <li>Something that does not have any valid website, so users can’t make purchases or see information clearly.</li>
-            <li>Using an upvoting bot service that may disrupt our daily ranking.</li>
+            <li>Newspaper articles</li>
+            <li>Listicles (like &quot;00 cool inventions …&quot;)</li>
+            <li>Blog posts (unless it’s a launching post.)</li>
+            <li>Social media posts such as Facebook, Twitter, Youtube, or Instagram</li>
           </ul>
-          <p>Steemhunt runs a single ranking board globally, so <b>please post and comment in English</b>. For fairness, other languages may be excluded from the ranking.</p>
-          <p>Please make sure you “hunt” cool new products in the areas we mentioned above, so that we can make Steemhunt a cool ranking community. Thanks again for your support.</p>
-          <p>Also, please make a sentence and description with your own words. If you just simply copy and paste whatever is written on the product’s website or other sites, we won’t upvote your post.</p>
+          <h4>5. Plagiarism and Copyright</h4>
+          <p>Write a sentence and description with your own words. Do not copy and paste from the product’s website or other sites. You can however quote some content from a site, but you must use quotes and cite the source properly.</p>
+          <h4>6. Do Not Use Upvoting Bot</h4>
+          <p>Using an upvoting bot service may disrupt our daily ranking. This is a product community where &quot;people&quot; actually see the product you’ve hunted, and upvote the products they think are cool.</p>
+          <h4>7. Post &quot;New&quot; Products</h4>
+          <p>Steemhunt is about cool &quot;new&quot; products. Please make sure that your hunt is about something that’s recently introduced. If the product is not new, there must be strong reason to post. For example, the product must be substantially updated or upgraded in a way that has a positive effect on users. Or, it must be a product that not many people have observed and may be interesting to discover.</p>
+          <hr/>
+          <p>These posting guidelines are being continuously developed by our community. Feel free to suggest any opinions on how to make Steemhunt a cooler ranking community. You can join our <a href="https://discord.gg/mWXpgks" target="_blank" rel="noopener noreferrer">Discord Chat</a> and make any suggestions.</p>
         </Modal>
         <FormItem
           {...formItemLayout}
@@ -465,13 +478,13 @@ class PostForm extends Component {
 
         <FormItem
           {...formItemLayout}
-          label="Description"
+          label="Hunter's comment"
         >
           {getFieldDecorator('description', {
             initialValue: this.initialValue('description'),
           })(
             <Input.TextArea
-              placeholder="Extra information, if needed"
+              placeholder="Your comment on this product"
               rows={4}
               onChange={this.handleDescriptionChange} />
           )}
