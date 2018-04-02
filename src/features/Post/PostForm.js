@@ -128,6 +128,7 @@ class PostForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
+    this.props.form.validateFieldsAndScroll();
     this.props.publishContent(this.state.editMode);
   };
 
@@ -204,7 +205,7 @@ class PostForm extends Component {
   };
 
   checkUrl = (_, value, callback) => {
-    if (value.length === 0) {
+    if (!value || value.length === 0) {
       return callback();
     }
     value = addReferral(value);

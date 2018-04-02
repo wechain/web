@@ -10,9 +10,9 @@ This project was bootstrapped with [Steemiz](https://github.com/steemiz/steemiz)
 
 ## Development Setup
 
-1.
+1. Create environment file on root directory
 ```
-cat > env.local # on the root directory of this repo
+cat > env.local
 
 # Copy and paste settings below:
 REACT_APP_API_ROOT="http://localhost:3001"
