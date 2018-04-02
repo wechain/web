@@ -484,7 +484,7 @@ class PostForm extends Component {
             initialValue: this.initialValue('description'),
           })(
             <Input.TextArea
-              placeholder="Your comment on this product"
+              placeholder="Comment on this product"
               rows={4}
               onChange={this.handleDescriptionChange} />
           )}
