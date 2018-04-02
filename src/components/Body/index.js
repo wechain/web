@@ -40,7 +40,8 @@ export function getHtml(body, jsonMetadata = {}, returnType = 'Object') {
       const id = match[1];
       const type = match[2];
       const link = match[3];
-      const embed = embedjs.get(link, { width: '100%', height: 400, autoplay: true });
+      const embed = embedjs.get(link.replace('&amp;', '&'), { width: '100%', height: 315, autoplay: true });
+
       sections.push(<PostFeedEmbed key={idx++} embed={embed} />);
       section = section.substring(`${id} ${type} ${link} ~~~`.length);
       if (section === '') continue;
