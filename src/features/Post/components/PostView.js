@@ -121,24 +121,10 @@ class PostView extends Component {
               <div><Icon type="camera-o" /></div>
             </Carousel>
           }
-          {post.images.length === 1 &&
-            <Carousel
-              className="carousel"
-              autoplay={false}
-              effect="fade"
-            >
-              {images}
-            </Carousel>
-          }
-          {post.images.length > 1 &&
-            <Carousel
-              className="carousel"
-              autoplay={true}
-              effect="scrollx"
-            >
-              {images}
-            </Carousel>
-          }
+
+          <Carousel className="carousel" autoplay={true} effect="scrollx">
+            {images}
+          </Carousel>
 
           <div className="description">
             {post.description && getHtml(post.description)}
