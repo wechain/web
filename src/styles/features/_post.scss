@@ -349,6 +349,29 @@
         max-width: 100%;
       }
 
+      pre {
+        overflow: auto;
+        background-color: #efefef;
+        max-width: 460px;
+
+        @include responsive(mobile) {
+          max-width: 350px;
+        }
+
+        @include responsive(mobile) {
+          max-width: 280px;
+        }
+
+        @include responsive(tiny) {
+          max-width: 230px;
+        }
+      }
+
+      blockquote {
+        padding-left: 1rem;
+        border-left: 1px solid #ddd;
+      }
+
       .actions {
         margin-bottom: 0.375em;
         .vote-button, .vote-count {
