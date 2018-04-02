@@ -10,3 +10,7 @@
   top: 50%;
   left: 50%;
 }
+
+.PostFeedCard__thumbs iframe {
+  border: 0;
+}
