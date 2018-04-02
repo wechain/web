@@ -37,8 +37,7 @@ class CommentReplyForm extends Component {
       this.props.hasCommentSucceeded !== nextProps.hasCommentSucceeded &&
       this.form &&
       !isEmpty(this.form.textAreaRef.value)) {
-      this.form.textAreaRef.value = '';
-      this.form.resizeTextarea();
+      this.setState({ body: '' });
 
       if (nextProps.closeForm) { // indented comment
         nextProps.closeForm();

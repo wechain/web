@@ -111,7 +111,7 @@ function* reply({ parent, body, editMode }) {
     } else {
       const permlink = createCommentPermlink(parent.author, parent.permlink);
       const tempId = Math.floor((Math.random() * 1000000) + 1);
-      const json_metadata = { tags: [ parent.category || (parent.tags && parent.tags[0]) ] };
+      const json_metadata = { tags: [ 'steemhunt' ] };
       const now = toCustomISOString(new Date());
       const cashoutTime = toCustomISOString(new Date(Date.now() + 604800));
 
