@@ -278,13 +278,17 @@
         margin-top: 0.625rem;
         resize: none;
         border: 0;
-        padding: 0.625rem 9rem 0.625rem 1rem;
+        padding: 0.625rem 7rem 0.625rem 1rem;
         border-radius: 1.15625rem;
         background-color: #f3f3f3;
 
         &:focus { // override
           -webkit-box-shadow: none;
           box-shadow: none;
+        }
+
+        @include responsive(mobile) {
+          padding-right: 6rem;
         }
       }
 
