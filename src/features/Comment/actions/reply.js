@@ -119,6 +119,7 @@ function* reply({ parent, body, editMode }) {
         id: tempId,
         author: myAccount.name,
         parent_author: parent.author,
+        parent_permlink:  parent.permlink,
         permlink,
         body,
         json_metadata,
