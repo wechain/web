@@ -6,7 +6,7 @@ import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 import asyncComponent from 'asyncComponent';
 import { Icon } from 'antd';
-import { getMeBegin } from 'features/User/actions/getMe';
+import { getMeBegin, refreshMeBegin } from 'features/User/actions/getMe';
 import { selectMe } from 'features/User/selectors';
 import Header from 'features/App/Header';
 import Post from 'features/Post/Post';
@@ -65,6 +65,7 @@ class Right extends Component {
   static propTypes = {
     me: PropTypes.string.isRequired,
     getMe: PropTypes.func.isRequired,
+    refreshMe: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -74,6 +75,12 @@ class Right extends Component {
     }
 
     this.props.getMe(accessToken); // with existing token
+
+    this.refresher = setInterval(this.props.refreshMe, 60000); // to update voting power gage
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.refresher);
   }
 
   render() {
@@ -101,6 +108,7 @@ const mapStateToProps = (state, ownProps) => createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   getMe: token => dispatch(getMeBegin(token)),
+  refreshMe: () => dispatch(refreshMeBegin()),
 });
 
 export const RoutesRight = withRouter(connect(mapStateToProps, mapDispatchToProps)(Right));

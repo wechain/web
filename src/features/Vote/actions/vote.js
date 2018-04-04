@@ -3,6 +3,7 @@ import steem from 'steem';
 import { selectMe } from 'features/User/selectors';
 import steemConnectAPI from 'utils/steemConnectAPI';
 import { postRefreshBegin } from 'features/Post/actions/refreshPost';
+import { refreshMeBegin } from 'features/User/actions/getMe';
 
 /*--------- CONSTANTS ---------*/
 const VOTE_BEGIN = 'VOTE_BEGIN';
@@ -44,6 +45,8 @@ function* vote({ content, weight, contentType }) {
     } else {
       yield put(updatePayout(updatedContent, contentType));
     }
+
+    yield put(refreshMeBegin());
   } catch(e) {
     yield put(voteFailure(content, accountName, contentType, e.message));
   }

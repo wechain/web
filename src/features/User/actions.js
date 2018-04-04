@@ -2,7 +2,7 @@ import combine from 'utils/combine';
 /*
  * EXPORTING REDUCERS and SAGAS
  */
-import getMe, { getMeReducer } from './actions/getMe';
+import { getMeManager, refreshMeManager, getMeReducer } from './actions/getMe';
 import getAccounts, { getAccountsReducer } from './actions/getAccounts';
 import getFollowerCount, { getFollowerCountReducer } from './actions/getFollowerCount';
 import getFollowings, { getFollowingsReducer } from './actions/getFollowings';
@@ -37,7 +37,8 @@ export const reducer = (state = initialState, action) => combine(
 
 // All sagas to be loaded
 export default [
-  getMe,
+  getMeManager,
+  refreshMeManager,
   getAccounts,
   getFollowerCount,
   getFollowings,

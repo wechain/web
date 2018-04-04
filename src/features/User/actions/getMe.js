@@ -9,12 +9,17 @@ import api from 'utils/api';
 
 /*--------- CONSTANTS ---------*/
 const GET_ME_BEGIN = 'GET_ME_BEGIN';
+const REFRESH_ME_BEGIN = 'REFRESH_ME_BEGIN';
 const GET_ME_SUCCESS = 'GET_ME_SUCCESS';
 const GET_ME_FAILURE = 'GET_ME_FAILURE';
 
 /*--------- ACTIONS ---------*/
 export function getMeBegin(token) {
   return { type: GET_ME_BEGIN, token };
+}
+
+export function refreshMeBegin() {
+  return { type: REFRESH_ME_BEGIN };
 }
 
 export function getMeSuccess(me) {
@@ -80,6 +85,24 @@ function* getMe({ token }) {
   }
 }
 
-export default function* getMeManager() {
+export function* getMeManager() {
   yield takeLatest(GET_ME_BEGIN, getMe);
+}
+
+function* refreshMe() {
+  try {
+    const me = yield steemConnectAPI.me();
+    const appProps = yield select(selectAppProps());
+
+    yield put(getMeSuccess({
+      ...me,
+      account: format(me.account, appProps),
+    }));
+  } catch(e) {
+    console.error(e);
+  }
+}
+
+export function* refreshMeManager() {
+  yield takeLatest(REFRESH_ME_BEGIN, refreshMe);
 }
