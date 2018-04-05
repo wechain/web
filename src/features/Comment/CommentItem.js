@@ -53,7 +53,7 @@ class CommentItem extends PureComponent {
     }
 
     return (
-      <List.Item>
+      <List.Item className={`comment${comment.net_rshares < 0 ? ' flagged' : ''}`}>
         <List.Item.Meta
           avatar={<Avatar src={`${process.env.REACT_APP_STEEMCONNECT_IMG_HOST}/@${comment.author}?s=64`} />}
           title={

@@ -321,6 +321,12 @@
       overflow-x: scroll;
     }
 
+    .comment {
+      &.flagged {
+        opacity: 0.3;
+      }
+    }
+
     .ant-list-item-meta-title {
       margin-bottom: 0.375em;
       font-weight: 400;
