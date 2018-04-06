@@ -54,7 +54,7 @@ class Header extends Component {
 
       setTimeout(() => {
         this.searchInput.focus();
-      }, 100);
+      }, 300);
     }
   };
 
