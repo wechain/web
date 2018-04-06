@@ -32,6 +32,18 @@ hr {
   box-sizing: border-box;
 }
 
+.one-column-hidden {
+  @include responsive(tablet) { // max-width: 1023
+    display: none !important;
+  }
+}
+
+.two-column-hidden {
+  @media only screen and (min-width: 1024px) {
+    display: none !important;
+  }
+}
+
 .text-right {
   text-align: right;
 }

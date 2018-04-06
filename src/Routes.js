@@ -6,8 +6,10 @@ import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 import asyncComponent from 'asyncComponent';
 import { Icon } from 'antd';
+import isEmpty from 'lodash/isEmpty';
 import { getMeBegin, refreshMeBegin } from 'features/User/actions/getMe';
 import { selectMe } from 'features/User/selectors';
+import { selectSearchTerm } from 'features/Post/selectors';
 import Header from 'features/App/Header';
 import Post from 'features/Post/Post';
 import PostForm from 'features/Post/PostForm';
@@ -21,6 +23,7 @@ const Cookies = asyncComponent(() => import('pages/Cookies'));
 const HuntedList = asyncComponent(() => import('pages/HuntedList'));
 const Profile = asyncComponent(() => import('pages/Profile'));
 const HuntedListByAuthor = asyncComponent(() => import('pages/HuntedListByAuthor'));
+const Search = asyncComponent(() => import('pages/Search'));
 
 const BackButton = withRouter(({ history }) => (
   <Icon
@@ -48,12 +51,12 @@ export class RoutesLeft extends Component {
           <Route path="/" exact component={Home} />
           <Route path="/about" exact component={Home} />
           <Route path="/post" exact component={Draft} />
-          <Route path='/terms' component={Terms} />
-          <Route path='/privacy' component={Privacy} />
-          <Route path='/cookies' component={Cookies} />
+          <Route path='/terms' exact component={Terms} />
+          <Route path='/privacy' exact component={Privacy} />
+          <Route path='/cookies' exact component={Cookies} />
           <Route path="/@:author/:permlink" exact component={Post} />
           <Route path="/@:author/:permlink/edit" exact component={Draft} />
-          <Route path="/@:author" component={Profile} />
+          <Route path="/@:author" exact component={Profile} />
           <Route path='*' component={NotFound} />
         </Switch>
       </div>
@@ -64,6 +67,7 @@ export class RoutesLeft extends Component {
 class Right extends Component {
   static propTypes = {
     me: PropTypes.string.isRequired,
+    searchTerm: PropTypes.string.isRequired,
     getMe: PropTypes.func.isRequired,
     refreshMe: PropTypes.func.isRequired,
   };
@@ -84,18 +88,20 @@ class Right extends Component {
   }
 
   render() {
+    const List = isEmpty(this.props.searchTerm) ? HuntedList : Search;
+
     return (
       <div className="panel-right">
         {this.props.location.search && <Redirect to="/" /> /* Authentication redirection */ }
         <Header/>
         <Switch>
-          <Route path="/" exact component={HuntedList} />
-          <Route path="/about" exact component={HuntedList} />
+          <Route path="/" exact component={List} />
+          <Route path="/about" exact component={List} />
           <Route path="/post" exact component={PostForm} />
           <Route path="/@:author/:permlink/edit" exact component={PostForm} />
-          <Route path="/@:author/:permlink" exact component={HuntedList} />
-          <Route path="/@:author" component={HuntedListByAuthor} />
-          <Route path='*' component={HuntedList} />
+          <Route path="/@:author/:permlink" exact component={List} />
+          <Route path="/@:author" exact component={HuntedListByAuthor} />
+          <Route path='*' component={List} />
         </Switch>
       </div>
     );
@@ -104,6 +110,7 @@ class Right extends Component {
 
 const mapStateToProps = (state, ownProps) => createStructuredSelector({
   me: selectMe(),
+  searchTerm: selectSearchTerm(),
 });
 
 const mapDispatchToProps = dispatch => ({

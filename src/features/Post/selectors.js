@@ -49,6 +49,21 @@ export const selectPostByKey = (key) => createSelector(
   posts => posts[key],
 );
 
+export const selectSearchTerm = () => createSelector(
+  selectPostDomain(),
+  state => state.searchTerm,
+);
+
+export const selectSearchResult = () => createSelector(
+  selectPostDomain(),
+  state => state.searchResult,
+);
+
+export const selectIsSearching = () => createSelector(
+  selectPostDomain(),
+  state => state.isSearching,
+);
+
 export const selectCurrentComments = () => createSelector(
   [selectCurrentPost(), selectCommentsDomain()],
   (currentPost, commentsDomain) => {

@@ -5,6 +5,7 @@ import combine from 'utils/combine';
 import getPosts, { getPostsReducer } from './actions/getPosts';
 import getPostsByAuthor, { getPostsByAuthorReducer } from './actions/getPostsByAuthor';
 import getPost, { getPostReducer } from './actions/getPost';
+import searchPost, { searchPostReducer } from './actions/searchPost';
 import publishContent, { publishContentReducer } from './actions/publishContent';
 import { updateDraftReducer } from './actions/updateDraft';
 import resteem, { resteemReducer } from './actions/resteem';
@@ -33,6 +34,9 @@ export const initialState = {
   isLoading: false,
   isPublishing: false,
   currentPostKey: null,
+  searchTerm: '',
+  isSearching: false,
+  searchResult: [],
 };
 
 export const reducer = (state = initialState, action) => combine(
@@ -41,6 +45,7 @@ export const reducer = (state = initialState, action) => combine(
     getPostsReducer,
     getPostsByAuthorReducer,
     getPostReducer,
+    searchPostReducer,
     publishContentReducer,
     postReducer,
     resteemReducer,
@@ -55,6 +60,7 @@ export default [
   getPosts,
   getPostsByAuthor,
   getPost,
+  searchPost,
   publishContent,
   resteem,
   postRefresh,
