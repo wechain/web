@@ -15,7 +15,7 @@ import { getSortOption, setSortOption } from 'utils/sortOptions';
 class HuntedListByAuthor extends Component {
   static propTypes = {
     currentUser: PropTypes.string,
-    lauthorStatus: PropTypes.object.isRequired,
+    authorStatus: PropTypes.object.isRequired,
     posts: PropTypes.object.isRequired,
     authorPosts: PropTypes.object.isRequired,
     getPostsByAuthor: PropTypes.func.isRequired,
@@ -50,7 +50,7 @@ class HuntedListByAuthor extends Component {
   };
 
   render() {
-    const { lauthorStatus, currentUser, authorPosts, posts } = this.props;
+    const { authorStatus, currentUser, authorPosts, posts } = this.props;
 
     const items = (authorPosts[currentUser] || []).map((key, index) =>
       <PostItem key={index + 1} rank={index + 1} post={posts[key]} />
@@ -58,12 +58,12 @@ class HuntedListByAuthor extends Component {
 
     let hasMore = true;
     let isLoading = false;
-    if (lauthorStatus[currentUser]) {
-      if (lauthorStatus[currentUser]['finished']) {
+    if (authorStatus[currentUser]) {
+      if (authorStatus[currentUser]['finished']) {
         hasMore = false;
       }
 
-      if (lauthorStatus[currentUser]['loading']) {
+      if (authorStatus[currentUser]['loading']) {
         isLoading = true;
       }
     }
@@ -76,11 +76,11 @@ class HuntedListByAuthor extends Component {
         loader={<Spin className="center-loading" key={0} />}
         useWindow={false}
         className="post-list"
-        header={lauthorStatus[currentUser] &&
+        header={authorStatus[currentUser] &&
           <div className="heading" key="header">
             <h3>Hunted by @{currentUser}</h3>
             <div className="heading-sub">
-              <b>{lauthorStatus[currentUser].total_count}</b> products, <b>{formatAmount(lauthorStatus[currentUser].total_payout)}</b> hunter’s rewards were generated.
+              <b>{authorStatus[currentUser].total_count}</b> products, <b>{formatAmount(authorStatus[currentUser].total_payout)}</b> hunter’s rewards were generated.
             </div>
             <div className="sort-option">
               <span className="text-small">Sort by: </span>
@@ -102,7 +102,7 @@ class HuntedListByAuthor extends Component {
 
 const mapStateToProps = () => createStructuredSelector({
   currentUser: selectCurrentUser(),
-  lauthorStatus: selectAuthorStatus(),
+  authorStatus: selectAuthorStatus(),
   posts: selectPosts(),
   authorPosts: selectAuthorPosts(),
 });
