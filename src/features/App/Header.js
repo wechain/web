@@ -48,14 +48,11 @@ class Header extends Component {
   handleVisibleChange = (visible) => this.setState({ menuVisible: visible });
 
   setSearchVisible = (bool) => {
-    this.setState({ searchVisible: bool });
-    if (bool) {
-      console.log(window.searchInput = this.searchInput);
-
-      setTimeout(() => {
+    this.setState({ searchVisible: bool }, () => {
+      if (bool) {
         this.searchInput.focus();
-      }, 300);
-    }
+      }
+    });
   };
 
   handleSearch = (e) => this.props.setSearchTerm(e.target.value);
