@@ -70,7 +70,29 @@
       }
     }
 
+    .radio-option {
+      text-align: right;
+      position: absolute;
+      right: 80px;
+      top: 0;
+
+      @include responsive(ipadpro) {
+        right: 40px;
+      }
+
+      @include responsive(tablet) {
+        right: 20px;
+      }
+
+      @include responsive(mobile) {
+        position: static;
+        text-align: left;
+        margin: 0.5rem 0;
+      }
+    }
+
     .sort-option {
+      text-align: right;
       position: absolute;
       right: 80px;
       top: 0;

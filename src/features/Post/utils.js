@@ -1,8 +1,8 @@
 export const getPostKey = function(post) {
   return `${post.author}/${post.permlink}`;
 }
-export const getPostPath = function(post) {
-  return `/@${post.author}/${post.permlink}`;
+export const getPostPath = function(post, prefix = '') {
+  return `${prefix}/@${post.author}/${post.permlink}`;
 }
 export const generatePostKey = function(author, permlink) {
   return `${author}/${permlink}`;

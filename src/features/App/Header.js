@@ -77,24 +77,45 @@ class Header extends Component {
             <Menu.Item key="0">
                <span onClick={follow}>
                 <Icon type={isFollowLoading ? 'loading' : 'star-o'} />
-                FOLLOW @STEEMHUNT
+                FOLLOW STEEMHUNT
               </span>
             </Menu.Item>
           }
+
           <Menu.Item key="1">
-            <Link to={`/@${me}`} onClick={() => this.handleVisibleChange(false)}>
-              <Icon type="loading-3-quarters" /> VOTING POWER: {parseInt(myAccount.voting_power / 100, 10)}%
+            <Link to="/hall-of-fame" onClick={() => this.handleVisibleChange(false)}>
+              <Icon type="trophy" /> HALL OF FAME
             </Link>
           </Menu.Item>
           <Menu.Item key="2">
             <Link to={`/@${me}`} onClick={() => this.handleVisibleChange(false)}>
-              <Icon type="user" /> MY PROFILE
+              <Icon type="loading-3-quarters" /> VOTING POWER: {parseInt(myAccount.voting_power / 100, 10)}%
             </Link>
           </Menu.Item>
           <Menu.Item key="3">
+            <Link to={`/@${me}`} onClick={() => this.handleVisibleChange(false)}>
+              <Icon type="user" /> MY PROFILE
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="4">
             <span onClick={this.props.logout}>
               <Icon type="poweroff" /> LOGOUT
             </span>
+          </Menu.Item>
+        </Menu>
+      );
+    } else {
+      menu = (
+        <Menu theme="dark">
+          <Menu.Item key="0" className="two-column-hidden">
+            <Link to="/about" onClick={() => this.handleVisibleChange(false)}>
+              <Icon type="question-circle-o" /> ABOUT STEEMHUNT
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="1">
+            <Link to="/hall-of-fame" onClick={() => this.handleVisibleChange(false)}>
+              <Icon type="trophy" /> HALL OF FAME
+            </Link>
           </Menu.Item>
         </Menu>
       );
@@ -133,9 +154,21 @@ class Header extends Component {
 
         {!isLoading && !me &&
           <div className="pull-right">
-            <a href={getLoginURL()} className="right-margin header-button smaller">
+            <a href={getLoginURL()} className="right-margin header-button smaller mobile-hidden">
               <Button shape="circle" icon="plus" />
             </a>
+            <Popover
+              content={menu}
+              trigger="click"
+              placement="bottom"
+              visible={this.state.menuVisible}
+              onVisibleChange={this.handleVisibleChange}
+            >
+              <span className="right-margin header-button smaller">
+                <Button shape="circle" icon="ellipsis" />
+              </span>
+            </Popover>
+
             <Button type="primary" href={getLoginURL()} ghost className="right-margin header-button smaller">Login</Button>
             <Button
               type="primary"
@@ -167,7 +200,7 @@ class Header extends Component {
             onClick={() => this.setSearchVisible(true)}
           />
 
-          <Link to="/about" className="header-button smaller right-margin two-column-hidden">
+          <Link to="/about" className="header-button smaller right-margin two-column-hidden mobile-hidden">
             <Button shape="circle" icon="question" style={{ fontSize: '21px' }} />
           </Link>
         </div>

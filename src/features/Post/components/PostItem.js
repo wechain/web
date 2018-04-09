@@ -7,12 +7,13 @@ import Author from 'components/Author';
 
 export default class PostItem extends Component {
   static propTypes = {
+    pathPrefix: PropTypes.string,
     rank: PropTypes.number.isRequired,
     post: PropTypes.object.isRequired,
   };
 
   render() {
-    const { rank, post } = this.props;
+    const { rank, post, pathPrefix } = this.props;
     const activeVotes = post.active_votes.filter(v => v.percent !== 0).length;
 
     return (
@@ -22,7 +23,7 @@ export default class PostItem extends Component {
           <img src={post.images && getThumbnail(post.images[0].link, 240, 240)} alt={post.title} className="thumbnail"/>
         </Link>
         <div className="summary">
-          <div className="title"><Link to={getPostPath(post)}>{post.title}</Link></div>
+          <div className="title"><Link to={getPostPath(post, pathPrefix)}>{post.title}</Link></div>
           <div className="tagline">{post.tagline}</div>
           <div className="stats">
             <Author name={post.author} />

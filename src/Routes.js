@@ -23,6 +23,7 @@ const Cookies = asyncComponent(() => import('pages/Cookies'));
 const HuntedList = asyncComponent(() => import('pages/HuntedList'));
 const Profile = asyncComponent(() => import('pages/Profile'));
 const HuntedListByAuthor = asyncComponent(() => import('pages/HuntedListByAuthor'));
+const HallOfFame = asyncComponent(() => import('pages/HallOfFame'));
 const Search = asyncComponent(() => import('pages/Search'));
 
 const BackButton = withRouter(({ history }) => (
@@ -54,6 +55,8 @@ export class RoutesLeft extends Component {
           <Route path='/terms' exact component={Terms} />
           <Route path='/privacy' exact component={Privacy} />
           <Route path='/cookies' exact component={Cookies} />
+          <Route path="/hall-of-fame" exact component={Home} />
+          <Route path="/hall-of-fame/@:author/:permlink" exact component={Post} />
           <Route path="/@:author/:permlink" exact component={Post} />
           <Route path="/@:author/:permlink/edit" exact component={Draft} />
           <Route path="/@:author" exact component={Profile} />
@@ -89,6 +92,7 @@ class Right extends Component {
 
   render() {
     const List = isEmpty(this.props.searchTerm) ? HuntedList : Search;
+    const TopList = isEmpty(this.props.searchTerm) ? HallOfFame : Search;
 
     return (
       <div className="panel-right">
@@ -98,6 +102,7 @@ class Right extends Component {
           <Route path="/" exact component={List} />
           <Route path="/about" exact component={List} />
           <Route path="/post" exact component={PostForm} />
+          <Route path="/hall-of-fame" component={TopList} />
           <Route path="/@:author/:permlink/edit" exact component={PostForm} />
           <Route path="/@:author/:permlink" exact component={List} />
           <Route path="/@:author" exact component={HuntedListByAuthor} />

@@ -29,6 +29,11 @@ export const selectAuthorPosts = () => createSelector(
   state => state.authorPosts,
 );
 
+export const selectTopPosts = () => createSelector(
+  selectPostDomain(),
+  state => state.topPosts,
+);
+
 export const selectIsLoading = () => createSelector(
   selectPostDomain(),
   state => state.isLoading,
@@ -37,6 +42,11 @@ export const selectIsLoading = () => createSelector(
 export const selectAuthorStatus = () => createSelector(
   selectPostDomain(),
   state => state.authorStatus,
+);
+
+export const selectTopStatus = () => createSelector(
+  selectPostDomain(),
+  state => state.topStatus,
 );
 
 export const selectCurrentPost = () => createSelector(

@@ -32,6 +32,12 @@ hr {
   box-sizing: border-box;
 }
 
+.mobile-hidden {
+  @include responsive(mobile) { // max-width: 1023
+    display: none !important;
+  }
+}
+
 .one-column-hidden {
   @include responsive(tablet) { // max-width: 1023
     display: none !important;

@@ -4,6 +4,7 @@ import combine from 'utils/combine';
  */
 import getPosts, { getPostsReducer } from './actions/getPosts';
 import getPostsByAuthor, { getPostsByAuthorReducer } from './actions/getPostsByAuthor';
+import getTopPosts, { getTopPostsReducer } from './actions/getTopPosts';
 import getPost, { getPostReducer } from './actions/getPost';
 import searchPost, { searchPostReducer } from './actions/searchPost';
 import publishContent, { publishContentReducer } from './actions/publishContent';
@@ -30,6 +31,8 @@ export const initialState = {
   posts: {},
   authorPosts: {},
   authorStatus: {},
+  topPosts: {},
+  topStatus: {},
   dailyRanking: {},
   isLoading: false,
   isPublishing: false,
@@ -44,6 +47,7 @@ export const reducer = (state = initialState, action) => combine(
     updateDraftReducer,
     getPostsReducer,
     getPostsByAuthorReducer,
+    getTopPostsReducer,
     getPostReducer,
     searchPostReducer,
     publishContentReducer,
@@ -59,6 +63,7 @@ export const reducer = (state = initialState, action) => combine(
 export default [
   getPosts,
   getPostsByAuthor,
+  getTopPosts,
   getPost,
   searchPost,
   publishContent,
