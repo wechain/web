@@ -18,7 +18,7 @@ class HallOfFame extends Component {
   };
 
   state = {
-    period: 'all',
+    period: 'week',
   };
 
 
@@ -84,9 +84,9 @@ class HallOfFame extends Component {
             <h3>Hall of Fame</h3>
             <div className="radio-option">
               <Radio.Group onChange={this.handlePeriodChanged} defaultValue={period} size="small">
-                <Radio.Button value="all">All Time</Radio.Button>
-                <Radio.Button value="month">This Month</Radio.Button>
                 <Radio.Button value="week">This Week</Radio.Button>
+                <Radio.Button value="month">This Month</Radio.Button>
+                <Radio.Button value="all">All Time</Radio.Button>
               </Radio.Group><br/>
             </div>
             <div className="heading-sub">
