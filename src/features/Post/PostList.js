@@ -24,7 +24,7 @@ class PostList extends Component {
     super();
 
     this.state = {
-      timer: timeUntilMidnightSeoul(true),
+      timer: null,
       showAll: false,
     }
 
@@ -42,7 +42,16 @@ class PostList extends Component {
     clearInterval(this.interval);
   }
 
-  tick = () => this.setState({ timer: timeUntilMidnightSeoul(true) });
+  tick = () => {
+    const timeLeft = timeUntilMidnightSeoul(true)
+
+    if (timeLeft === '00:00:00') {
+      this.setState({ timer: (<div>Today's ranking competition is finished. Please <a onClick={() => window.location.reload()}>refresh your page.</a></div>) });
+      clearInterval(this.interval);
+    } else {
+      this.setState({ timer: (<div><b>{timeLeft}</b> left till midnight (KST)</div>) });
+    }
+  }
 
   showAll = () => this.setState({ showAll: true });
 
@@ -78,10 +87,8 @@ class PostList extends Component {
         <div className="heading">
           <h3>{daysAgoToString(daysAgo)}</h3>
           <div className="heading-sub">
-            <b>{ranking.length}</b> products, <b>{formatAmount(dailyTotalReward)}</b> hunter’s rewards were generated.
-            {daysAgo === 0 &&
-              <div><b>{timeUntilMidnightSeoul(true)}</b> left till midnight (KST)</div>
-            }
+            <b>{ranking.length}</b> products, <b>{formatAmount(dailyTotalReward)}</b> hunter’s rewards were generated.<br/>
+            {daysAgo === 0 && this.state.timer }
           </div>
           {daysAgo === 0 &&
             <div className="sort-option">

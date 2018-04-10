@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { Spin, Select, Radio } from 'antd';
+import { Spin, Radio } from 'antd';
 import InfiniteScroll from 'components/InfiniteScroll';
 import { selectTopStatus, selectTopPosts, selectPosts } from 'features/Post/selectors';
 import { getTopPostsBegin } from 'features/Post/actions/getTopPosts';
@@ -23,8 +23,6 @@ class HallOfFame extends Component {
 
 
   componentDidMount() {
-    const { match } = this.props;
-
     this.props.getTopPosts(this.state.period, 1);
   }
 
