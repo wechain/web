@@ -580,3 +580,47 @@
     }
   } // .bottom-container
 } // .post-view
+
+.preview-modal {
+  img {
+    display: block;
+    max-width: 100%;
+    max-height: 72vh;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .prev, .next {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    line-height: 100%;
+
+    i {
+      position: absolute;
+      top: 50%;
+      margin-top: -16px;
+      font-size: 20px;
+      color: #ddd;
+    }
+  }
+
+  .prev {
+    top: 0;
+    left: 0;
+
+    i {
+      left: 2px;
+    }
+  }
+
+  .next {
+    top: 0;
+    right: 0;
+
+    i {
+      right: 2px;
+    }
+  }
+}

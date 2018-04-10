@@ -58,11 +58,28 @@ class PostView extends Component {
       previewVisible: true,
     });
   };
+  changePreview = (diff) => {
+    const images = this.props.post.images;
+
+    for (let i in images) {
+      if (images[i].link === this.state.previewImage) {
+        let newIndex = parseInt(i) + diff;
+        if (newIndex < 0) {
+          newIndex = images.length + newIndex;
+        }
+        if (newIndex >= images.length) {
+          newIndex = newIndex - images.length;
+        }
+
+        return this.setState({ previewImage: images[newIndex].link });
+      }
+    }
+  };
 
   hidePost = (e) => {
     api.hidePost(this.props.post, true);
     this.setState({ shouldShowHideButton: false });
-  }
+  };
 
   render() {
     const { me, post } = this.props;
@@ -192,8 +209,14 @@ class PostView extends Component {
             {tags}
           </div>
         </div>
-        <Modal visible={this.state.previewVisible} footer={null} onCancel={this.hideModal} width="50%">
-          <img alt="Preview" src={this.state.previewImage} width="100%" />
+        <Modal visible={this.state.previewVisible} footer={null} onCancel={this.hideModal} width="50%" className="preview-modal">
+          <img alt="Preview" src={this.state.previewImage} />
+          <div className="prev" onClick={() => this.changePreview(-1)}>
+            <Icon type="left" />
+          </div>
+          <div className="next" onClick={() => this.changePreview(1)}>
+            <Icon type="right" />
+          </div>
         </Modal>
       </div>
     )
