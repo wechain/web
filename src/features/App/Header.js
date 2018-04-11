@@ -13,6 +13,7 @@ import {
   selectMyFollowingsList,
   selectMyFollowingsListLoaded
 } from 'features/User/selectors';
+import { selectSearchTerm } from 'features/Post/selectors';
 import { getFollowingsBegin } from 'features/User/actions/getFollowings';
 import { followBegin } from 'features/User/actions/follow';
 import { logoutBegin } from 'features/User/actions/logout';
@@ -57,15 +58,19 @@ class Header extends Component {
 
   handleSearch = (e) => this.props.setSearchTerm(e.target.value);
 
+  resetSearch() {
+    this.props.setSearchTerm(null);
+    this.setSearchVisible(false);
+  }
+
   handleKeyPress = (e) => {
     if (e.keyCode === 27) { // ESC
-      this.props.setSearchTerm('');
-      this.setSearchVisible(false);
+      this.resetSearch();
     }
   };
 
   render() {
-    const { me, myAccount, myFollowingsList, myFollowingsLoadStatus, isLoading, follow } = this.props;
+    const { me, myAccount, myFollowingsList, myFollowingsLoadStatus, isLoading, follow, searchTerm } = this.props;
     const isFollowing = myFollowingsList.find(following => following.following === 'steemhunt');
     const isFollowLoading = isLoading || myFollowingsLoadStatus['steemhunt'];
 
@@ -186,6 +191,7 @@ class Header extends Component {
         <div className="pull-right">
           <Input.Search
             ref={node => this.searchInput = node}
+            value={searchTerm}
             placeholder="Search products"
             onSearch={value => this.props.setSearchTerm(value)}
             onChange={this.handleSearch}
@@ -216,6 +222,7 @@ const mapStateToProps = createStructuredSelector({
   myFollowingsLoadStatus: selectMyFollowingsLoadStatus(),
   myFollowingsList: selectMyFollowingsList(),
   myFollowingsListLoaded: selectMyFollowingsListLoaded(),
+  searchTerm: selectSearchTerm(),
 });
 
 const mapDispatchToProps = (dispatch, props) => ({

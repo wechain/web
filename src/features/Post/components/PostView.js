@@ -63,7 +63,7 @@ class PostView extends Component {
 
     for (let i in images) {
       if (images[i].link === this.state.previewImage) {
-        let newIndex = parseInt(i) + diff;
+        let newIndex = parseInt(i, 10) + diff;
         if (newIndex < 0) {
           newIndex = images.length + newIndex;
         }

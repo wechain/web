@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { Spin } from 'antd';
+import { Spin, Icon } from 'antd';
 import { selectPosts, selectSearchTerm, selectSearchResult, selectIsSearching } from 'features/Post/selectors';
-import { searchPostBegin } from 'features/Post/actions/searchPost';
+import { searchPostBegin, setSearchTerm } from 'features/Post/actions/searchPost';
 import PostItem from 'features/Post/components/PostItem';
 
 class Search extends Component {
@@ -26,6 +26,8 @@ class Search extends Component {
     }
   }
 
+  handleClose = (e) => this.props.setSearchTerm(null);
+
   render() {
     const { searchTerm, searchResult, posts, isSearching } = this.props;
 
@@ -36,7 +38,10 @@ class Search extends Component {
     return (
       <div className="post-list">
         <div className="heading">
-          <h3>Results for &quot;{searchTerm}&quot;</h3>
+          <h3>
+            Results for &quot;{searchTerm}&quot;
+            <Icon type="close-circle-o" className="close-button" onClick={this.handleClose} />
+          </h3>
           <div className="heading-sub">
             <b>{searchResult.length}</b> products found
           </div>
@@ -60,6 +65,7 @@ const mapStateToProps = () => createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   searchPost: () => dispatch(searchPostBegin()),
+  setSearchTerm: (term) => dispatch(setSearchTerm(term)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);

@@ -70,7 +70,7 @@ export class RoutesLeft extends Component {
 class Right extends Component {
   static propTypes = {
     me: PropTypes.string.isRequired,
-    searchTerm: PropTypes.string.isRequired,
+    searchTerm: PropTypes.string,
     getMe: PropTypes.func.isRequired,
     refreshMe: PropTypes.func.isRequired,
   };
@@ -92,6 +92,7 @@ class Right extends Component {
 
   render() {
     const List = isEmpty(this.props.searchTerm) ? HuntedList : Search;
+    const AuthorList = isEmpty(this.props.searchTerm) ? HuntedListByAuthor : Search;
     const TopList = isEmpty(this.props.searchTerm) ? HallOfFame : Search;
 
     return (
@@ -105,7 +106,7 @@ class Right extends Component {
           <Route path="/hall-of-fame" component={TopList} />
           <Route path="/@:author/:permlink/edit" exact component={PostForm} />
           <Route path="/@:author/:permlink" exact component={List} />
-          <Route path="/@:author" exact component={HuntedListByAuthor} />
+          <Route path="/@:author" exact component={AuthorList} />
           <Route path='*' component={List} />
         </Switch>
       </div>
