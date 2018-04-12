@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -11,7 +11,7 @@ import { hasVoted } from 'utils/helpers/steemitHelpers';
 import { formatAmount } from 'utils/helpers/steemitHelpers';
 import { getLoginURL } from 'utils/token';
 
-class VoteButton extends Component {
+class VoteButton extends PureComponent {
   static propTypes = {
     post: PropTypes.object.isRequired,
     type: PropTypes.string.isRequired,
