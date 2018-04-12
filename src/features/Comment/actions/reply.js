@@ -8,6 +8,7 @@ import steemConnectAPI from 'utils/steemConnectAPI';
 import { postIncreaseCommentCount } from 'features/Post/actions/refreshPost';
 import { selectCurrentPost } from 'features/Post/selectors';
 import api from 'utils/api';
+import { extractErrorMessage } from 'utils/errorMessage';
 
 /*--------- CONSTANTS ---------*/
 const REPLY_BEGIN = 'REPLY_BEGIN';
@@ -154,15 +155,7 @@ function* reply({ parent, body, editMode }) {
       yield put(replySuccess(parent, tempId, replyObj));
     }
   } catch (e) {
-    if (e.error_description) {
-      if (e.error_description.indexOf('STEEMIT_MIN_REPLY_INTERVAL') >= 0) {
-        yield notification['error']({ message: 'You can only comment once every 20 seconds. Please try again later.' });
-      } else {
-        yield notification['error']({ message: e.error_description });
-      }
-    } else {
-      yield notification['error']({ message: e.message });
-    }
+    yield notification['error']({ message: extractErrorMessage(e) });
     yield put(replyFailure(e.message));
   }
 }

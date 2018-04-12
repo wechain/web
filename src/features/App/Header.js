@@ -149,6 +149,7 @@ class Header extends Component {
               placement="bottomRight"
               visible={this.state.menuVisible}
               onVisibleChange={this.handleVisibleChange}
+              overlayClassName="menu-popover"
             >
               <span className="ant-dropdown-link header-button" role="button">
                 <AvatarSteemit name={me} votingPower={myAccount.voting_power} />
@@ -168,6 +169,7 @@ class Header extends Component {
               placement="bottom"
               visible={this.state.menuVisible}
               onVisibleChange={this.handleVisibleChange}
+              overlayClassName="menu-popover"
             >
               <span className="right-margin header-button smaller">
                 <Button shape="circle" icon="ellipsis" />

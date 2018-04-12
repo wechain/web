@@ -1,9 +1,11 @@
 import { put, select, takeEvery } from 'redux-saga/effects';
 import steem from 'steem';
+import { notification } from 'antd';
 import { selectMe } from 'features/User/selectors';
 import steemConnectAPI from 'utils/steemConnectAPI';
 import { postRefreshBegin } from 'features/Post/actions/refreshPost';
 import { refreshMeBegin } from 'features/User/actions/getMe';
+import { extractErrorMessage } from 'utils/errorMessage';
 
 /*--------- CONSTANTS ---------*/
 const VOTE_BEGIN = 'VOTE_BEGIN';
@@ -48,6 +50,7 @@ function* vote({ content, weight, contentType }) {
 
     yield put(refreshMeBegin());
   } catch(e) {
+    yield notification['error']({ message: extractErrorMessage(e) });
     yield put(voteFailure(content, accountName, contentType, e.message));
   }
 }

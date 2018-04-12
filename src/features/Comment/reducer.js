@@ -3,6 +3,7 @@ import { manageContentVote } from '../Vote/utils';
 import { UPDATE_PAYOUT, VOTE_FAILURE, VOTE_OPTIMISTIC } from '../Vote/actions/vote';
 import { GET_COMMENTS_FROM_POST_SUCCESS } from './actions/getCommentsFromPost';
 import { getCommentsChildrenLists, mapCommentsBasedOnId } from './utils/comments';
+import { calculateContentPayout } from 'utils/helpers/steemitHelpers';
 
 export default function commentsReducer(state, action) {
   switch (action.type) {
@@ -60,6 +61,7 @@ export default function commentsReducer(state, action) {
               pending_payout_value: {$set: content.pending_payout_value},
               total_payout_value: {$set: content.total_payout_value},
               active_votes: {$set: content.active_votes},
+              payout_value: {$set: calculateContentPayout(content)},
               isUpdating: {$set: false},
             }
           },

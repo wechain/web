@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import numeral from 'numeral';
-import { Button, Slider, Popover, notification } from 'antd';
+import { Button, Slider, Popover, Popconfirm, notification } from 'antd';
 import { selectIsConnected, selectMyAccount } from 'features/User/selectors';
 import { selectAppProps, selectAppRate, selectAppRewardFund } from 'features/App/selectors';
 import { voteBegin } from './actions/vote';
@@ -64,14 +64,10 @@ class VoteButton extends Component {
     }
   };
 
-  handleVisibleChange = (visible, postUpvoted) => {
+  handleVisibleChange = (visible) => {
     if (visible) {
       if (!this.props.isConnected) {
         return this.openSignin();
-      }
-
-      if (postUpvoted) { // Cancel voting if already voted
-        return this.doVote(0);
       }
     }
     this.setState({ sliderOpened: visible });
@@ -105,6 +101,7 @@ class VoteButton extends Component {
     const { myAccount, isConnected, post, layout } = this.props;
     const { voteWeight, sliderOpened } = this.state;
     const postUpvoted = hasVoted(post, myAccount.name);
+    const deleteConfirmation = <div>Are you sure unvote this post?<br/>Your voting power won&quot;t recharge even if you unvote.</div>
 
     const content = isConnected ? (
       <div className="vote-box">
@@ -131,66 +128,121 @@ class VoteButton extends Component {
     if (layout === 'list') {
       return (
         <div className={`vote-button${postUpvoted ? ' active' : ''}`}>
-          <Popover
-            content={content}
-            trigger="click"
-            placement="left"
-            visible={sliderOpened}
-            onVisibleChange={(visible) => this.handleVisibleChange(visible, postUpvoted)}
-          >
-            <Button
-              type="primary"
-              shape="circle"
-              icon="up"
-              ghost={postUpvoted ? false : true}
-              loading={post.isUpdating}
-            />
-          </Popover>
+          {postUpvoted ?
+            <Popconfirm
+              title={deleteConfirmation}
+              onConfirm={() => this.doVote(0)}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button
+                type="primary"
+                shape="circle"
+                icon="up"
+                ghost={false}
+                loading={post.isUpdating}
+              />
+            </Popconfirm>
+          :
+            <Popover
+              content={content}
+              trigger="click"
+              placement="left"
+              visible={sliderOpened}
+              onVisibleChange={(visible) => this.handleVisibleChange(visible)}
+            >
+              <Button
+                type="primary"
+                shape="circle"
+                icon="up"
+                ghost={true}
+                loading={post.isUpdating}
+              />
+            </Popover>
+          }
           <div className="payout-value">{formatAmount(post.payout_value)}</div>
         </div>
       );
     } else if (layout ==='detail-page') {
       return (
         <div className={`vote-button${postUpvoted ? ' active' : ''}`}>
-          <Popover
-            content={content}
-            trigger="click"
-            placement="top"
-            visible={sliderOpened}
-            onVisibleChange={(visible) => this.handleVisibleChange(visible, postUpvoted)}
-          >
-            <Button
-              type="primary"
-              shape="circle"
-              ghost={postUpvoted ? false : true}
-              icon="up"
-              loading={post.isUpdating}
+          {postUpvoted ?
+            <Popconfirm
+              title={deleteConfirmation}
+              onConfirm={() => this.doVote(0)}
+              okText="Yes"
+              cancelText="No"
             >
-              UPVOTE
-              <div className="payout-value">{formatAmount(post.payout_value)}</div>
-            </Button>
-          </Popover>
+              <Button
+                type="primary"
+                shape="circle"
+                ghost={false}
+                icon="up"
+                loading={post.isUpdating}
+              >
+                UNVOTE
+                <div className="payout-value">{formatAmount(post.payout_value)}</div>
+              </Button>
+            </Popconfirm>
+          :
+            <Popover
+              content={content}
+              trigger="click"
+              placement="top"
+              visible={sliderOpened}
+              onVisibleChange={(visible) => this.handleVisibleChange(visible)}
+            >
+              <Button
+                type="primary"
+                shape="circle"
+                ghost={true}
+                icon="up"
+                loading={post.isUpdating}
+              >
+                UPVOTE
+                <div className="payout-value">{formatAmount(post.payout_value)}</div>
+              </Button>
+            </Popover>
+          }
         </div>
       );
     } else { // comment
       return (
         <div className={`vote-button${postUpvoted ? ' active' : ''}`}>
-          <Popover
-            content={content}
-            trigger="click"
-            placement="top"
-            visible={sliderOpened}
-            onVisibleChange={(visible) => this.handleVisibleChange(visible, postUpvoted)}
-          >
-            <Button
-              type="primary"
-              shape="circle"
-              icon="up"
-              size="small"
-              ghost={postUpvoted ? false : true}
-              loading={post.isUpdating}
-            />
-          </Popover>
+          {postUpvoted ?
+            <Popconfirm
+              title={deleteConfirmation}
+              onConfirm={() => this.doVote(0)}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button
+                type="primary"
+                shape="circle"
+                icon="up"
+                size="small"
+                ghost={false}
+                loading={post.isUpdating}
+              />
+            </Popconfirm>
+          :
+            <Popover
+              content={content}
+              trigger="click"
+              placement="top"
+              visible={sliderOpened}
+              onVisibleChange={(visible) => this.handleVisibleChange(visible)}
+            >
+              <Button
+                type="primary"
+                shape="circle"
+                icon="up"
+                size="small"
+                ghost={true}
+                loading={post.isUpdating}
+              />
+            </Popover>
+          }
           <span className="payout-value">{formatAmount(post.payout_value)}</span>
         </div>
       );

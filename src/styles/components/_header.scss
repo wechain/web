@@ -105,8 +105,8 @@ header {
 }
 
 // override for header dropdown
-.ant-popover.ant-popover-placement-bottom,
-.ant-popover.ant-popover-placement-bottomRight {
+.menu-popover.ant-popover.ant-popover-placement-bottom,
+.menu-popover.ant-popover.ant-popover-placement-bottomRight {
   margin-left: 5px;
 
   .ant-popover-inner-content, .ant-popover-arrow {
@@ -126,7 +126,7 @@ header {
   }
 }
 
-.ant-popover.ant-popover-placement-bottomRight {
+.menu-popover.ant-popover.ant-popover-placement-bottomRight {
   .ant-popover-inner-content, .ant-popover-arrow {
     right: 20px;
   }

@@ -8,6 +8,7 @@ import { notification } from 'antd';
 import { getPostKey, getPostPath } from 'features/Post/utils';
 import steemConnectAPI from 'utils/steemConnectAPI';
 import { initialState } from '../actions';
+import { extractErrorMessage } from 'utils/errorMessage';
 
 /*--------- CONSTANTS ---------*/
 const MAIN_CATEGORY = 'steemhunt';
@@ -179,15 +180,7 @@ function* publishContent({ props, editMode }) {
 
     yield props.history.push(getPostPath(post)); // Redirect to #show
   } catch (e) {
-    if (e.error_description) {
-      if (e.error_description.indexOf('STEEMIT_MIN_ROOT_COMMENT_INTERVAL') >= 0) {
-        yield notification['error']({ message: 'You may only post once every 5 minutes.' });
-      } else {
-        yield notification['error']({ message: e.error_description });
-      }
-    } else {
-      yield notification['error']({ message: e.message });
-    }
+    yield notification['error']({ message: extractErrorMessage(e) });
     yield put(publishContentFailure(e.message));
   }
 }

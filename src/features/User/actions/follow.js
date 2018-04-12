@@ -3,6 +3,7 @@ import update from 'immutability-helper';
 import { notification } from 'antd';
 import { selectMe } from '../selectors';
 import steemConnectAPI from 'utils/steemConnectAPI';
+import { extractErrorMessage } from 'utils/errorMessage';
 
 /*--------- CONSTANTS ---------*/
 const FOLLOW_BEGIN = 'FOLLOW_BEGIN';
@@ -72,7 +73,7 @@ function* follow({ accountName }) {
     yield put(followSuccess(me, accountName));
     yield notification['success']({ message: `You are now following ${accountName}.` });
   } catch (e) {
-    console.log(e.error_description);
+    yield notification['error']({ message: extractErrorMessage(e) });
     yield put(followFailure(e.message));
   }
 }

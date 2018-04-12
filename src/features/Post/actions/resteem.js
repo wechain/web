@@ -3,8 +3,8 @@ import update from 'immutability-helper';
 import steemConnectAPI from 'utils/steemConnectAPI';
 import { getPostKey } from '../utils';
 import { selectMe } from 'features/User/selectors';
-
 import { notification } from 'antd';
+import { extractErrorMessage } from 'utils/errorMessage';
 
 /*--------- CONSTANTS ---------*/
 const RESTEEM_BEGIN = 'RESTEEM_BEGIN';
@@ -67,9 +67,7 @@ function* resteem({ post }) {
     yield put(resteemSuccess(me, post));
     yield notification['success']({ message: 'Content was successfully resteemed.' });
   } catch (e) {
-    if (e.error_description.indexOf('already reblog') >= 0) {
-      yield notification['error']({ message: 'You already resteemed the content.' });
-    }
+    yield notification['error']({ message: extractErrorMessage(e) });
     yield put(resteemFailure(post, e.message));
   }
 }
