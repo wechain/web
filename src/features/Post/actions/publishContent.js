@@ -168,7 +168,9 @@ function* publishContent({ props, editMode }) {
       yield steemConnectAPI.broadcast(operations);
     } catch (e) {
       // Delete post on Steemhunt as transaction failed
-      yield api.delete(`/posts${getPostPath(post)}.json`, null, true);
+      if (!editMode) {
+        yield api.delete(`/posts${getPostPath(post)}.json`, null, true);
+      }
       throw e;
     }
     yield put(publishContentSuccess(post));
