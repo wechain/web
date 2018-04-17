@@ -13,7 +13,11 @@ import { extractErrorMessage } from 'utils/errorMessage';
 /*--------- CONSTANTS ---------*/
 const MAIN_CATEGORY = 'steemhunt';
 const APP_NAME = 'steemhunt';
-const DEFAULT_BENEFICIARY = { account: 'steemhunt', weight: 1000 };
+const DEFAULT_BENEFICIARY = [
+  { account: 'steemhunt', weight: 900 },
+  { account: 'steemhunt.fund', weight: 100 },
+  { account: 'steemhunt.pay', weight: 500 },
+];
 
 const PUBLISH_CONTENT_BEGIN = 'PUBLISH_CONTENT_BEGIN';
 const PUBLISH_CONTENT_SUCCESS = 'PUBLISH_CONTENT_SUCCESS';
@@ -157,7 +161,7 @@ function* publishContent({ props, editMode }) {
         allow_curation_rewards: true,
         extensions: [
           [0, {
-            beneficiaries: [DEFAULT_BENEFICIARY].concat(post.beneficiaries || [])
+            beneficiaries: DEFAULT_BENEFICIARY.concat(post.beneficiaries || [])
           }]
         ]
       }]);
