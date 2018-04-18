@@ -519,7 +519,7 @@ class PostForm extends Component {
               <Icon type="plus" /> Add makers or contributors
             </Button>
             <p className="text-small top-margin">
-              10% beneficiaries will be used for Steemhunt operation, and another 5% for sponsors who
+              10% beneficiaries will be used for Steemhunt operation, and another 5% for sponsors who&nbsp;
               <a href="https://steemit.com/steemhunt/@steemhunt/introducing-incentives-for-steemhunt-sponsors" target="_blank" rel="noopener noreferrer">
                 delegated Steem Power to @steemhunt.
               </a>
