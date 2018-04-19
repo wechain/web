@@ -147,3 +147,38 @@ export function createPermlink(title, author, parent_author, parent_permlink) {
   permlink = `re-${parent_author}-${parent_permlink}-${timeStr}`;
   return Promise.resolve(checkPermLinkLength(permlink));
 }
+
+// How much STEEM this account has delegated out (minus received).
+// Ref: https://github.com/steemit/condenser/blob/ae1e9534262a19ec163982c71d74e3bd74c9a9d3/src/app/utils/StateFunctions.js
+export function delegatedSteem(account, gprops) {
+    const delegated_vests = parseFloat(account.delegated_vesting_shares.split( ' ' )[0]);
+    const received_vests = parseFloat(account.received_vesting_shares.split( ' ' )[0]);
+    const vests = delegated_vests - received_vests;
+    const total_vests = parseFloat(gprops.total_vesting_shares.split( ' ' )[0]);
+    const total_vest_steem = parseFloat(gprops.total_vesting_fund_steem.split( ' ' )[0]);
+    const vesting_steemf = total_vest_steem * (vests / total_vests);
+    return vesting_steemf;
+}
+
+export function calculateVotingValue(voteWeight, myAccount, appProps, rewardFund, rate) {
+    if (!appProps || !rewardFund || !myAccount || !voteWeight) {
+      return 0;
+    }
+
+    const { steemPower, voting_power } = myAccount;
+    const { total_vesting_fund_steem, total_vesting_shares } = appProps;
+    const { reward_balance, recent_claims } = rewardFund;
+
+    const totalVestingFundSteem = parseFloat(total_vesting_fund_steem);
+    const totalVestingShares = parseFloat(total_vesting_shares);
+    const a = totalVestingFundSteem / totalVestingShares;
+
+    const rewardBalance = parseFloat(reward_balance);
+    const recentClaims = parseFloat(recent_claims);
+    const r = (steemPower - delegatedSteem(myAccount, appProps)) / a;
+    let p = voting_power * voteWeight * 100 / 10000;
+    p = (p + 49) / 50;
+    const result = r * p * 100 * (rewardBalance / recentClaims * parseFloat(rate));
+
+    return result;
+  };

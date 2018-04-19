@@ -7,7 +7,7 @@ import { Button, Slider, Popover, Popconfirm, notification } from 'antd';
 import { selectIsConnected, selectMyAccount } from 'features/User/selectors';
 import { selectAppProps, selectAppRate, selectAppRewardFund } from 'features/App/selectors';
 import { voteBegin } from './actions/vote';
-import { hasVoted } from 'utils/helpers/steemitHelpers';
+import { hasVoted, calculateVotingValue } from 'utils/helpers/steemitHelpers';
 import { formatAmount } from 'utils/helpers/steemitHelpers';
 import { getLoginURL } from 'utils/token';
 
@@ -74,27 +74,9 @@ class VoteButton extends PureComponent {
   };
 
   votingValueCalculator = voteWeight => {
-    const { appProps, rewardFund, myAccount } = this.props;
-    if (!appProps) {
-      return 0;
-    }
+    const { myAccount, appProps, rewardFund, rate } = this.props;
 
-    const { steemPower, voting_power } = myAccount;
-    const { total_vesting_fund_steem, total_vesting_shares } = appProps;
-    const { reward_balance, recent_claims } = rewardFund;
-
-    const totalVestingFundSteem = parseFloat(total_vesting_fund_steem);
-    const totalVestingShares = parseFloat(total_vesting_shares);
-    const a = totalVestingFundSteem / totalVestingShares;
-
-    const rewardBalance = parseFloat(reward_balance);
-    const recentClaims = parseFloat(recent_claims);
-    const rate = parseFloat(this.props.rate);
-    const r = steemPower / a;
-    let p = voting_power * voteWeight * 100 / 10000;
-    p = (p + 49) / 50;
-    const result = r * p * 100 * (rewardBalance / recentClaims * rate);
-    return result;
+    return calculateVotingValue(voteWeight, myAccount, appProps, rewardFund, rate);
   };
 
   render() {
