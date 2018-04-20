@@ -522,9 +522,11 @@ class PostForm extends Component {
                 </div>
               )
             }
-            <Button type="dashed" onClick={this.addBeneficiary}>
-              <Icon type="plus" /> Add makers or contributors
-            </Button>
+            {beneficiaryIds.length < 5 &&
+              <Button type="dashed" onClick={this.addBeneficiary}>
+                <Icon type="plus" /> Add makers or contributors
+              </Button>
+            }
             <p className="text-small top-margin">
               10% beneficiaries will be used for Steemhunt operation, and another 5% for sponsors who&nbsp;
               <a href="https://steemit.com/steemhunt/@steemhunt/introducing-incentives-for-steemhunt-sponsors" target="_blank" rel="noopener noreferrer">
