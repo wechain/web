@@ -392,6 +392,7 @@
         overflow: auto;
         background-color: #efefef;
         max-width: 460px;
+        padding: 0.5em 1em;
 
         @include responsive(mobile) {
           max-width: 350px;
