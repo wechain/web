@@ -8,12 +8,11 @@ import { selectMe } from 'features/User/selectors';
 import { publishContentBegin } from './actions/publishContent';
 import { updateDraft, resetDraft } from './actions/updateDraft';
 import { initialState } from './actions';
-import { splitTags } from 'utils/sanitizer';
 import { timeUntilMidnightSeoul } from 'utils/date';
 import api from 'utils/api';
 import { selectCurrentPost } from './selectors';
 import { getPostBegin, setCurrentPostKey } from './actions/getPost';
-import { sanitizeText, addReferral } from './utils';
+import { sanitizeText, splitTags, addReferral } from './utils';
 
 const FormItem = Form.Item;
 let currentBeneficiaryId = 0;
@@ -244,9 +243,9 @@ class PostForm extends Component {
 
   // MARK: - Handle live updates
 
-  handleTitleChange = (e) => this.props.updateDraft('title', sanitizeText(e.target.value) || initialState.draft.title);
-  handleTaglineChange = (e) => this.props.updateDraft('tagline', sanitizeText(e.target.value) || initialState.draft.tagline);
-  handleDescriptionChange = (e) => this.props.updateDraft('description', e.target.value || initialState.draft.description);
+  handleTitleChange = (e) => this.props.updateDraft('title', sanitizeText(e.target.value, true) || initialState.draft.title);
+  handleTaglineChange = (e) => this.props.updateDraft('tagline', sanitizeText(e.target.value, true) || initialState.draft.tagline);
+  handleDescriptionChange = (e) => this.props.updateDraft('description', sanitizeText(e.target.value) || initialState.draft.description);
   handleImageChange = ({ fileList }) => {
     const images = fileList.map(function(f) {
       if (f.response && f.response.data && f.response.data.link) {
