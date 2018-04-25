@@ -205,17 +205,6 @@ function linkifyNode(child, state) {
 }
 
 function linkify(content, mutate, hashtags, usertags, images, links) {
-  // hashtag
-  content = content.replace(/(^|\s)(#[-a-z\d]+)/ig, (tag) => {
-    if (/#[\d]+$/.test(tag)) return tag; // Don't allow numbers to be tags
-    const space = /^\s/.test(tag) ? tag[0] : '';
-    const tag2 = tag.trim().substring(1);
-    const tagLower = tag2.toLowerCase();
-    if (hashtags) hashtags.add(tagLower);
-    if (!mutate) return tag;
-    return `${space}<a href="https://steemit.com/trending/${tagLower}">${tag}</a>`;
-  });
-
   // usertag (mention)
   content = content.replace(/(^|\s)(@[a-z][-\.a-z\d]+[a-z\d])/ig, (user) => {
     const space = /^\s/.test(user) ? user[0] : '';
@@ -242,6 +231,18 @@ function linkify(content, mutate, hashtags, usertags, images, links) {
     if (links) links.add(ln);
     return `<a href="${ln}">${ln}</a>`;
   });
+
+  // hashtag
+  content = content.replace(/(^|\s)(#[-a-z\d]+)/gi, tag => {
+    if (/#[\d]+$/.test(tag)) return tag; // Don't allow numbers to be tags
+    const space = /^\s/.test(tag) ? tag[0] : '';
+    const tag2 = tag.trim().substring(1);
+    const tagLower = tag2.toLowerCase();
+    if (hashtags) hashtags.add(tagLower);
+    if (!mutate) return tag;
+    return space + `<a href="https://steemit.com/trending/${tagLower}">${tag}</a>`;
+  });
+
   return content;
 }
 
