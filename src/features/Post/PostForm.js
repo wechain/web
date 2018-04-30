@@ -151,7 +151,7 @@ class PostForm extends Component {
       }
       this.props.updateDraft('beneficiaries', beneficiaries);
 
-      if (weightSum > 90 || weightSum < 0) {
+      if (weightSum > 85 || weightSum < 0) {
         this.setState({ beneficiariesValid: false });
       } else {
         this.setState({ beneficiariesValid: true });
@@ -330,7 +330,7 @@ class PostForm extends Component {
             <Col span={10}>
               <InputNumber
                 min={1}
-                max={90}
+                max={85}
                 formatter={value => `${value}%`}
                 parser={value => value.replace('%', '')}
                 onChange={this.onBeneficiariesChanged}
@@ -515,7 +515,7 @@ class PostForm extends Component {
           <FormItem {...formItemLayoutWithOutLabel}>
             {!this.state.beneficiariesValid && (
                 <div className="ant-form-item-control has-error">
-                  <p className="ant-form-explain">Sum of reward values must be less than or equal to 90%</p>
+                  <p className="ant-form-explain">Sum of reward values must be less than or equal to 85%</p>
                 </div>
               )
             }
