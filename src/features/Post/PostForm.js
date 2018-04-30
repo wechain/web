@@ -386,11 +386,9 @@ class PostForm extends Component {
           </ul>
           <h4>5. Plagiarism and Copyright</h4>
           <p>Write a sentence and description with your own words. Do not copy and paste from the product’s website or other sites. You can however quote some content from a site, but you must use quotes and cite the source properly.</p>
-          <h4>6. Do Not Use Upvoting Bot</h4>
-          <p>Using an upvoting bot service may disrupt our daily ranking. This is a product community where &quot;people&quot; actually see the product you’ve hunted, and upvote the products they think are cool.</p>
-          <h4>7. Post &quot;New&quot; Products</h4>
+          <h4>6. Post &quot;New&quot; Products</h4>
           <p>Steemhunt is about cool &quot;new&quot; products. Please make sure that your hunt is about something that’s recently introduced. If the product is not new, there must be strong reason to post. For example, the product must be substantially updated or upgraded in a way that has a positive effect on users. Or, it must be a product that not many people have observed and may be interesting to discover.</p>
-          <h4>8. Quality of the Post</h4>
+          <h4>7. Quality of the Post</h4>
           <p>As a hunter, you need to post a cool product with well-structured comments and screenshots so that the users can see the benefit of the product quickly without checking the products website. Your post will be hidden if you</p>
           <ul>
             <li>use non-related words/descriptions about the product.</li>

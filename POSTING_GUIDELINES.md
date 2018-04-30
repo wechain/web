@@ -29,13 +29,10 @@ All posts must have a valid website. You can only provide an official website of
 ## 5. Plagiarism and Copyright
 Write a sentence and description with your own words. Do not copy and paste from the product’s website or other sites. You can however quote some content from a site, but you must use quotes and cite the source properly.
 
-## 6. Do Not Use Upvoting Bot
-Using an upvoting bot service may disrupt our daily ranking. This is a product community where "people" actually see the product you’ve hunted, and upvote the products they think are cool.
-
-## 7. Post "New" Products
+## 6. Post "New" Products
 Steemhunt is about cool "new" products. Please make sure that your hunt is about something that’s recently introduced. If the product is not new, there must be strong reason to post. For example, the product must be substantially updated or upgraded in a way that has a positive effect on users. Or, it must be a product that not many people have observed and may be interesting to discover.
 
-## 8. Quality of the Post
+## 7. Quality of the Post
 As a hunter, you need to post a cool product with well-structured comments and screenshots so that the users can see the benefit of the product quickly without checking the products website. Your post will be hidden if you:
 * use non-related words/descriptions about the product.
 * attach non-related screenshot images or videos.
