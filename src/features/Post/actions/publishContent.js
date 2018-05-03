@@ -12,7 +12,6 @@ import { extractErrorMessage } from 'utils/errorMessage';
 
 /*--------- CONSTANTS ---------*/
 const MAIN_CATEGORY = 'steemhunt';
-const APP_NAME = 'steemhunt';
 const DEFAULT_BENEFICIARY = [
   { account: 'steemhunt', weight: 900 },
   { account: 'steemhunt.fund', weight: 100 },
@@ -134,7 +133,8 @@ function* publishContent({ props, editMode }) {
       tags: tags,
       image: post.images.map(i => i.link),
       links: [ post.url ],
-      app: APP_NAME,
+      community: 'steemhunt',
+      app: 'steemhunt/1.0.0',
     };
 
     let operations = [
