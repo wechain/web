@@ -1,5 +1,3 @@
-STEEMHUNT FAQ
-
 ## What is Steemhunt?
 
 Steemhunt is a community generated leaderboard running on top of the Steem Blockchain that rewards people for sharing and upvoting cool new products as well as discovering new products. Products shared could be unique IT or hardware products such as web services, mobile apps, games, API, IT solutions, bots, open sources, tech gadgets and unique items.
