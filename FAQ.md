@@ -29,4 +29,7 @@ Steemhunt is running a Steem Power Delegation Program. We are collecting 5% bene
 
 ## Contact Us
 
-If you have any other question, please email steemhunt@gmail.com.
+You can contact us via
+* Discord: https://discord.gg/mWXpgks
+* Telegram: https://t.me/joinchat/AzcqGxCV1FZ8lJHVgHOgGQ
+* Email: steemhunt@gmail.com
