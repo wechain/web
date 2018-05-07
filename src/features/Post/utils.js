@@ -72,3 +72,20 @@ export const getThumbnail = function(url, width, height) {
 
   return `https://steemitimages.com/${width}x${height}/${url}`;
 }
+
+export const isEditable = function(post) {
+  if (post.cashout_time && post.cashout_time !== '1969-12-31T23:59:59') {
+    return true;
+  }
+
+  if (post.created_at) {
+    const created = new Date(post.created_at).getTime();
+    const diffDays = ((new Date()).getTime() - created) / 86400000;
+
+    if (diffDays < 7) {
+      return true;
+    }
+  }
+
+  return false;
+}

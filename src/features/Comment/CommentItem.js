@@ -11,6 +11,7 @@ import CommentReplyForm from './CommentReplyForm';
 import VoteButton from 'features/Vote/VoteButton';
 import { toTimeAgo } from 'utils/date';
 import { selectMe } from 'features/User/selectors';
+import { isEditable } from 'features/Post/utils';
 
 class CommentItem extends PureComponent {
   static propTypes = {
@@ -76,7 +77,7 @@ class CommentItem extends PureComponent {
                     <ContentPayoutAndVotes content={comment} />
                     <span className="separator">|</span>
                     <a className="hover-link" onClick={this.switchReplyForm}>reply</a>
-                    {me === comment.author && comment.cashout_time !== '1969-12-31T23:59:59' &&
+                    {me === comment.author && isEditable(comment) &&
                       <span>
                         <span className="separator">|</span>
                         <a className="hover-link" onClick={this.switchEditForm}>edit</a>

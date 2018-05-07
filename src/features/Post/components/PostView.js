@@ -7,7 +7,7 @@ import IconFacebook from 'react-icons/lib/fa/facebook-square';
 import IconTwitter from 'react-icons/lib/fa/twitter-square';
 import IconLinkedIn from 'react-icons/lib/fa/linkedin-square';
 import { Link } from 'react-router-dom';
-import { getPostPath } from '../utils';
+import { getPostPath, isEditable } from '../utils';
 import VoteButton from 'features/Vote/VoteButton';
 import ResteemButton from './ResteemButton';
 import Author from 'components/Author';
@@ -102,7 +102,7 @@ class PostView extends Component {
       );
     })
 
-    const shouldShowEdit = window.location.pathname !== '/post' && me === post.author;
+    const shouldShowEdit = window.location.pathname !== '/post' && me === post.author && isEditable(post);
 
     return (
       <div className="post-view diagonal-split-view">
