@@ -60,8 +60,11 @@ export default {
   post: (path, params, shouldAuthenticate = false) => request('POST', path, params, shouldAuthenticate),
   put: (path, params, shouldAuthenticate = false) => request('PUT', path, params, shouldAuthenticate),
   delete: (path, params, shouldAuthenticate = false) => request('DELETE', path, params, shouldAuthenticate),
-  hidePost: (post, hide) => request('PATCH', `/posts/hide/@${post.author}/${post.permlink}.json`, {
-    hide: hide,
+  moderatePost: (post, hide, verify) => request('PATCH', `/posts/moderate/@${post.author}/${post.permlink}.json`, {
+    post: {
+      is_active: !hide,
+      is_verified: verify,
+    }
   }, true),
   refreshPost: (post) => request('PATCH', `/posts/refresh/@${post.author}/${post.permlink}.json`, {
     post: {

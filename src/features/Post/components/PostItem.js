@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { Icon } from 'antd';
 import { getPostPath, getThumbnail } from '../utils';
+import { isAdmin } from 'features/User/utils';
 import VoteButton from 'features/Vote/VoteButton';
 import Author from 'components/Author';
 
@@ -17,13 +19,18 @@ export default class PostItem extends Component {
     const activeVotes = post.active_votes.filter(v => v.percent !== 0).length;
 
     return (
-      <div className={`post${rank === 1 ? ' top-border' : ''}`}>
+      <div className={`post${rank === 1 ? ' top-border' : ''}${post.is_active ? '' : ' faded'}`}>
         <div className="rank">{rank}</div>
         <Link to={getPostPath(post)}>
           <img src={post.images && getThumbnail(post.images[0].link, 240, 240)} alt={post.title} className="thumbnail"/>
         </Link>
         <div className="summary">
-          <div className="title"><Link to={getPostPath(post, pathPrefix)}>{post.title}</Link></div>
+          <div className="title">
+            <Link to={getPostPath(post, pathPrefix)}>{post.title}</Link>
+            {isAdmin && post.is_verified &&
+              <Icon type="check-circle" className="verified"/>
+            }
+          </div>
           <div className="tagline">{post.tagline}</div>
           <div className="stats">
             <Author name={post.author} />

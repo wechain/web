@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { Button, Carousel, Icon, Timeline, Tag, Tooltip, Modal, Popconfirm } from 'antd';
+import { Button, Carousel, Icon, Timeline, Tag, Tooltip, Modal } from 'antd';
 import IconFacebook from 'react-icons/lib/fa/facebook-square';
 import IconTwitter from 'react-icons/lib/fa/twitter-square';
 import IconLinkedIn from 'react-icons/lib/fa/linkedin-square';
@@ -15,6 +15,7 @@ import { selectMe } from 'features/User/selectors';
 import { getHtml } from 'components/Body';
 import { shortFormat } from 'utils/date';
 import { isAdmin } from 'features/User/utils';
+import { moderatePostBegin } from 'features/Post/actions/moderatePost';
 import api from 'utils/api';
 
 class PostView extends Component {
@@ -30,6 +31,7 @@ class PostView extends Component {
       payout_value: PropTypes.number.isRequired,
       children: PropTypes.number.isRequired,
       is_active: PropTypes.bool.isRequired,
+      is_verified: PropTypes.bool.isRequired,
       beneficiaries: PropTypes.arrayOf(PropTypes.shape({
         account: PropTypes.string.isRequired,
         weight: PropTypes.number.isRequired,
@@ -38,6 +40,7 @@ class PostView extends Component {
     author: PropTypes.string,
     permlink: PropTypes.string,
     me: PropTypes.string.isRequired,
+    moderatePost: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -46,7 +49,6 @@ class PostView extends Component {
     this.state = {
       previewImage: '',
       previewVisible: false,
-      isHidden: !props.post.is_active,
     };
   }
 
@@ -77,10 +79,8 @@ class PostView extends Component {
     }
   };
 
-  toggleHide = () => {
-    api.hidePost(this.props.post, !this.state.isHidden);
-    this.setState({ isHidden: !this.state.isHidden });
-  };
+  toggleHidden = () => this.props.moderatePost(this.props.post.is_active, true);
+  toggleVerified = () => this.props.moderatePost(!this.props.post.is_active, !this.props.post.is_verified);
 
   render() {
     const { me, post } = this.props;
@@ -109,18 +109,25 @@ class PostView extends Component {
       <div className="post-view diagonal-split-view">
         <div className="top-container primary-gradient">
           <span className="featured-date round-border" data-id={post.id}>Featured on {shortFormat(post.created_at)}</span>
-          {shouldShowEdit &&
-            <Link to={`${getPostPath(post)}/edit`}>
-              <Button icon="edit" size="small" className="edit-button" ghost>Edit</Button>
-            </Link>
-          }
-          {isAdmin(me) &&
-            <Popconfirm title={`Are you sure to ${this.state.isHidden ? 'unhide' : 'hide'} this post?`} onConfirm={this.toggleHide} okText="Yes" cancelText="No">
-              <Button icon="delete" size="small" className={shouldShowEdit ? 'hide-button' : 'edit-button'} ghost>
-                { this.state.isHidden ? 'Unhide' : 'Hide' }
-              </Button>
-            </Popconfirm>
-          }
+
+          <div className="edit-buttons">
+            {shouldShowEdit &&
+              <Link to={`${getPostPath(post)}/edit`}>
+                <Button icon="edit" size="small" ghost>Edit</Button>
+              </Link>
+            }
+            {isAdmin(me) &&
+              <span>
+                <Button icon="delete" size="small" onClick={this.toggleHidden} ghost>
+                  { this.props.post.is_active ? 'Hide' : 'Unhide' }
+                </Button>
+
+                <Button icon="check-circle" size="small" onClick={this.toggleVerified} ghost>
+                  { this.props.post.is_verified ? 'Unverify' : 'Verify' }
+                </Button>
+              </span>
+            }
+          </div>
           <h1>{post.title}</h1>
           <h2>{post.tagline}</h2>
           <Button
@@ -226,9 +233,12 @@ class PostView extends Component {
   }
 }
 
-
-const mapStateToProps = createStructuredSelector({
+const mapStateToProps = () => createStructuredSelector({
   me: selectMe(),
 });
 
-export default connect(mapStateToProps)(PostView);
+const mapDispatchToProps = (dispatch, props) => ({
+  moderatePost: (hide, verify) => dispatch(moderatePostBegin(props.post, hide, verify)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostView);

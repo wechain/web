@@ -209,6 +209,12 @@
         @include responsive(tablet) {
           font-size: 1rem;
         }
+
+        .verified {
+          margin-left: 0.5em;
+          font-size: 0.825em;
+          color: #52c41a;
+        }
       }
 
       .tagline, .stats {
@@ -455,30 +461,29 @@
       padding: 0.125rem 0.9375rem;
     }
 
-    .edit-button, .hide-button {
+    .edit-buttons {
       position: absolute;
       top: 30px;
       right: 30px;
 
+      button {
+        margin-left: 5px;
+      }
+
       @media only screen and (max-width: 460px) {
         right: 14px;
         top: 18px;
-        border: 0;
-        font-size: 1.8rem;
-        height: auto;
-        line-height: 1;
+
+        button {
+          border: 0;
+          font-size: 1.8rem;
+          height: auto;
+          line-height: 1;
+        }
 
         span {
           display: none;
         }
-      }
-    }
-
-    .hide-button {
-      top: 70px;
-
-      @media only screen and (max-width: 460px) {
-        top: 60px;
       }
     }
   }
