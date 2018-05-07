@@ -29,6 +29,7 @@ class PostView extends Component {
       active_votes: PropTypes.arrayOf(PropTypes.object).isRequired,
       payout_value: PropTypes.number.isRequired,
       children: PropTypes.number.isRequired,
+      is_active: PropTypes.bool.isRequired,
       beneficiaries: PropTypes.arrayOf(PropTypes.shape({
         account: PropTypes.string.isRequired,
         weight: PropTypes.number.isRequired,
@@ -45,7 +46,7 @@ class PostView extends Component {
     this.state = {
       previewImage: '',
       previewVisible: false,
-      shouldShowHideButton: true,
+      isHidden: !props.post.is_active,
     };
   }
 
@@ -76,9 +77,9 @@ class PostView extends Component {
     }
   };
 
-  hidePost = (e) => {
-    api.hidePost(this.props.post, true);
-    this.setState({ shouldShowHideButton: false });
+  toggleHide = () => {
+    api.hidePost(this.props.post, !this.state.isHidden);
+    this.setState({ isHidden: !this.state.isHidden });
   };
 
   render() {
@@ -113,9 +114,11 @@ class PostView extends Component {
               <Button icon="edit" size="small" className="edit-button" ghost>Edit</Button>
             </Link>
           }
-          {this.state.shouldShowHideButton && isAdmin(me) &&
-            <Popconfirm title="Are you sure to hide this post?" onConfirm={this.hidePost} okText="Yes" cancelText="No">
-              <Button icon="delete" size="small" className={shouldShowEdit ? 'hide-button' : 'edit-button'} ghost>Hide</Button>
+          {isAdmin(me) &&
+            <Popconfirm title={`Are you sure to ${this.state.isHidden ? 'unhide' : 'hide'} this post?`} onConfirm={this.toggleHide} okText="Yes" cancelText="No">
+              <Button icon="delete" size="small" className={shouldShowEdit ? 'hide-button' : 'edit-button'} ghost>
+                { this.state.isHidden ? 'Unhide' : 'Hide' }
+              </Button>
             </Popconfirm>
           }
           <h1>{post.title}</h1>
