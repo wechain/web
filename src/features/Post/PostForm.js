@@ -78,7 +78,7 @@ class PostForm extends Component {
         this.prepareForEdit(nextProps.draft);
       }
     } else {
-      this.setState({ editMode: false, fileList: [] });
+      this.setState({ editMode: false });
       this.checkAndResetDraft();
     }
 
@@ -101,7 +101,7 @@ class PostForm extends Component {
     if (!this.state.resetted) {
       this.props.setCurrentPostKey(null);
       this.props.resetDraft();
-      this.setState({ resetted: true });
+      this.setState({ resetted: true, fileList: [] });
     }
   };
 

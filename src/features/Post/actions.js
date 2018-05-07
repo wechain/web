@@ -28,6 +28,8 @@ export const initialState = {
     payout_value: 0,
     children: 0,
     beneficiaries: [],
+    is_active: true,
+    is_verified: false,
   },
   posts: {},
   authorPosts: {},
