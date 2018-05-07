@@ -37,6 +37,11 @@
   .submit-button {
     border:0;
   }
+
+  // override for input-group
+  .ant-input-group, .ant-input-group-wrapper {
+    display: inline-table;
+  }
 }
 
 .post-list {
@@ -558,7 +563,7 @@
 
       p {
         margin-top: 0;
-        margin-bottom: 0.5em;
+        margin-bottom: 0.825em;
       }
 
       img {
