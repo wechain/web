@@ -85,8 +85,8 @@ class PostView extends Component {
     const { me, post } = this.props;
     const images = post.images.map((image, index) => {
       return (
-        <div key={index}>
-          <img alt={image.name} src={image.link} onClick={this.showModal} />
+        <div className="slide-container">
+          <img key={index} alt={image.name} src={image.link} onClick={this.showModal} />
         </div>
       );
     });
