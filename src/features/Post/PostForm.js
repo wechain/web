@@ -78,6 +78,7 @@ class PostForm extends Component {
         this.prepareForEdit(nextProps.draft);
       }
     } else {
+      this.setState({ editMode: false, fileList: [] });
       this.checkAndResetDraft();
     }
 
