@@ -1,7 +1,6 @@
-import { put, select, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery } from 'redux-saga/effects';
 import update from 'immutability-helper';
 import api from 'utils/api';
-import { selectPostByKey } from '../selectors';
 import { getPostKey } from '../utils';
 
 /*--------- CONSTANTS ---------*/

@@ -16,7 +16,6 @@ import { getHtml } from 'components/Body';
 import { shortFormat } from 'utils/date';
 import { isAdmin } from 'features/User/utils';
 import { moderatePostBegin } from 'features/Post/actions/moderatePost';
-import api from 'utils/api';
 
 class PostView extends Component {
   static propTypes = {
