@@ -59,7 +59,8 @@ export class RoutesLeft extends Component {
           <Route path="/hall-of-fame/@:author/:permlink" exact component={Post} />
           <Route path="/@:author/:permlink" exact component={Post} />
           <Route path="/@:author/:permlink/edit" exact component={Draft} />
-          <Route path="/@:author" exact component={Profile} />
+          <Route path="/author/@:author" exact component={Profile} />
+          <Route path="/author/@:author/:permlink" exact component={Post} />
           <Route path='*' component={NotFound} />
         </Switch>
       </div>
@@ -106,7 +107,7 @@ class Right extends Component {
           <Route path="/hall-of-fame" component={TopList} />
           <Route path="/@:author/:permlink/edit" exact component={PostForm} />
           <Route path="/@:author/:permlink" exact component={List} />
-          <Route path="/@:author" exact component={AuthorList} />
+          <Route path="/author/@:author" component={AuthorList} />
           <Route path='*' component={List} />
         </Switch>
       </div>

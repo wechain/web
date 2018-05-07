@@ -53,7 +53,7 @@ class HuntedListByAuthor extends Component {
     const { authorStatus, currentUser, authorPosts, posts } = this.props;
 
     const items = (authorPosts[currentUser] || []).map((key, index) =>
-      <PostItem key={index + 1} rank={index + 1} post={posts[key]} />
+      <PostItem key={index + 1} rank={index + 1} post={posts[key]} pathPrefix="/author" />
     )
 
     let hasMore = true;

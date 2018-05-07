@@ -21,7 +21,7 @@ export default class PostItem extends Component {
     return (
       <div className={`post${rank === 1 ? ' top-border' : ''}${post.is_active ? '' : ' faded'}`}>
         <div className="rank">{rank}</div>
-        <Link to={getPostPath(post)}>
+        <Link to={getPostPath(post, pathPrefix)}>
           <img src={post.images && getThumbnail(post.images[0].link, 240, 240)} alt={post.title} className="thumbnail"/>
         </Link>
         <div className="summary">
