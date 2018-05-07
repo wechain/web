@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
+import { selectMe } from 'features/User/selectors';
 import { getPostPath, getThumbnail } from '../utils';
 import { isAdmin } from 'features/User/utils';
 import VoteButton from 'features/Vote/VoteButton';
 import Author from 'components/Author';
 
-export default class PostItem extends Component {
+class PostItem extends Component {
   static propTypes = {
     pathPrefix: PropTypes.string,
     rank: PropTypes.number.isRequired,
@@ -15,7 +18,7 @@ export default class PostItem extends Component {
   };
 
   render() {
-    const { rank, post, pathPrefix } = this.props;
+    const { me, rank, post, pathPrefix } = this.props;
     const activeVotes = post.active_votes.filter(v => v.percent !== 0).length;
 
     return (
@@ -27,7 +30,7 @@ export default class PostItem extends Component {
         <div className="summary">
           <div className="title">
             <Link to={getPostPath(post, pathPrefix)}>{post.title}</Link>
-            {isAdmin && post.is_verified &&
+            {isAdmin(me) && post.is_verified &&
               <Icon type="check-circle" className="verified"/>
             }
           </div>
@@ -45,3 +48,10 @@ export default class PostItem extends Component {
     )
   }
 }
+
+
+const mapStateToProps = () => createStructuredSelector({
+  me: selectMe(),
+});
+
+export default connect(mapStateToProps)(PostItem);
