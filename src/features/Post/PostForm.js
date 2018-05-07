@@ -57,10 +57,16 @@ class PostForm extends Component {
     if (this.props.me) {
       this.props.updateDraft('author', this.props.me);
     }
+
+    window.onbeforeunload = function() {
+      return "Leave site? Changes you made may not be saved.";
+    }
   }
 
   componentWillUnmount() {
     this.checkAndResetDraft();
+
+    window.onbeforeunload = null;
   }
 
   componentWillReceiveProps(nextProps) {
