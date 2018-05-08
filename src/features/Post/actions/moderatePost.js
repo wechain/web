@@ -2,6 +2,7 @@ import { put, takeEvery } from 'redux-saga/effects';
 import update from 'immutability-helper';
 import api from 'utils/api';
 import { getPostKey } from '../utils';
+import { notification } from 'antd';
 
 /*--------- CONSTANTS ---------*/
 const MODERATE_POST_BEGIN = 'MODERATE_POST_BEGIN';
@@ -44,8 +45,10 @@ function* moderatePost({ post, hide, verify }) {
   try {
     yield api.moderatePost(post, hide, verify);
     yield put(moderatePostSuccess(post, hide, verify));
+    yield notification['success']({ message: `Active: ${!hide} / Verified: ${verify}` });
   } catch (e) {
     yield put(moderatePostFailure(e.message));
+    yield notification['error']({ message: e.message });
   }
 }
 
