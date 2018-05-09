@@ -93,12 +93,12 @@ class Header extends Component {
             </Link>
           </Menu.Item>
           <Menu.Item key="2">
-            <Link to={`/@${me}`} onClick={() => this.handleVisibleChange(false)}>
+            <Link to={`/author/@${me}`} onClick={() => this.handleVisibleChange(false)}>
               <Icon type="loading-3-quarters" /> VOTING POWER: {parseInt(myAccount.voting_power / 100, 10)}%
             </Link>
           </Menu.Item>
           <Menu.Item key="3">
-            <Link to={`/@${me}`} onClick={() => this.handleVisibleChange(false)}>
+            <Link to={`/author/@${me}`} onClick={() => this.handleVisibleChange(false)}>
               <Icon type="user" /> MY PROFILE
             </Link>
           </Menu.Item>
