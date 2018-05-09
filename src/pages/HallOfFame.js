@@ -88,7 +88,7 @@ class HallOfFame extends Component {
               </Radio.Group><br/>
             </div>
             <div className="heading-sub">
-              <b>{topStatus[period].total_count}</b> products, <b>{formatAmount(topStatus[period].total_payout)}</b> hunter’s rewards were generated.
+              <b>{topStatus[period].total_count}</b> products, <b>{formatAmount(topStatus[period].total_payout)}</b> SBD hunter’s rewards were generated.
             </div>
           </div>
         }

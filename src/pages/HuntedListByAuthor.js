@@ -80,7 +80,7 @@ class HuntedListByAuthor extends Component {
           <div className="heading" key="header">
             <h3>Hunted by @{currentUser}</h3>
             <div className="heading-sub">
-              <b>{authorStatus[currentUser].total_count}</b> products, <b>{formatAmount(authorStatus[currentUser].total_payout)}</b> hunter’s rewards were generated.
+              <b>{authorStatus[currentUser].total_count}</b> products, <b>{formatAmount(authorStatus[currentUser].total_payout)}</b> SBD hunter’s rewards were generated.
             </div>
             <div className="sort-option">
               <span className="text-small">Sort by: </span>

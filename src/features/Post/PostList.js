@@ -87,7 +87,7 @@ class PostList extends Component {
         <div className="heading">
           <h3>{daysAgoToString(daysAgo)}</h3>
           <div className="heading-sub">
-            <b>{ranking.length}</b> products, <b>{formatAmount(dailyTotalReward)}</b> hunter’s rewards were generated.<br/>
+            <b>{ranking.length}</b> products, <b>{formatAmount(dailyTotalReward)}</b> SBD hunter’s rewards were generated.<br/>
             {daysAgo === 0 && this.state.timer }
           </div>
           {daysAgo === 0 &&
