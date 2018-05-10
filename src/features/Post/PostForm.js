@@ -383,6 +383,7 @@ class PostForm extends Component {
           </ul>
           <h4>3. Language - English Only</h4>
           <p>Steemhunt runs a single ranking board globally, so please post and comment in English.</p>
+          <p>The product website should also be in English.</p>
           <h4>4. Product Link</h4>
           <p>All posts must have a valid website. You can only provide an official website of the product, app download link, or e-commerce site where users can make purchases. The following examples WILL NOT be accepted:</p>
           <ul>

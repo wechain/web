@@ -18,6 +18,7 @@ Steemhunt generally covers unique IT or hardware products, including:
 
 ## 3. Language - English Only
 Steemhunt runs a single ranking board globally, so please post and comment in English.
+The product website should also be in English.
 
 ## 4. Product Link
 All posts must have a valid website. You can only provide an official website of the product, app download link, or e-commerce site where users can make purchases. The following examples WILL NOT be accepted:
