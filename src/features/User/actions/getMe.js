@@ -72,7 +72,9 @@ function* getMe({ token }) {
     const appProps = yield select(selectAppProps());
 
     setToken(token);
-    yield api.post('/users.json', { user: { username: me.account.name, encrypted_token: getEncryptedToken() } });
+
+    // This is the only time sending non-encrypted token to the server (so server can validate users)
+    yield api.post('/users.json', { user: { username: me.account.name, token: token } });
 
     yield put(getMeSuccess({
       ...me,
