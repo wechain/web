@@ -36,7 +36,9 @@ const BackButton = withRouter(({ history }) => (
 export class RoutesLeft extends Component {
   shouldLeftBeActive() {
     const path = window.location.pathname;
-    return ((/^\/@.+/).test(path) && !(/.+\/edit$/).test(path)) || /^\/(about|terms|privacy|cookies)/.test(path);
+    return (/^\/@.+/.test(path) && !/.+\/edit$/.test(path)) ||
+      /^\/(about|terms|privacy|cookies)/.test(path) ||
+      /^\/(hall-of-fame|author)\/@.+/.test(path);
   }
 
   render() {
