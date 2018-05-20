@@ -51,6 +51,7 @@ export function getMeReducer(state, action) {
     case GET_ME_FAILURE: {
       return update(state, {
         isLoading: { $set: false },
+        me: { $set: '' },
       });
     }
     default:
