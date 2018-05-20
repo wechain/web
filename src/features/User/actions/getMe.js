@@ -1,6 +1,6 @@
 import { put, select, takeLatest } from 'redux-saga/effects';
 import update from 'immutability-helper';
-import { setToken, removeToken } from 'utils/token';
+import { setToken } from 'utils/token';
 import { format } from '../utils';
 import { selectAppProps } from 'features/App/selectors';
 import steemConnectAPI from 'utils/steemConnectAPI';
@@ -83,7 +83,7 @@ function* getMe({ token }) {
       account: format(me.account, appProps),
     }));
   } catch(e) {
-    removeToken();
+    // removeToken();
     console.error(e);
     yield put(getMeFailure(e.message));
   }
