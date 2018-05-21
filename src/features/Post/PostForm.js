@@ -388,8 +388,9 @@ class PostForm extends Component {
           <ul>
             <li>Newspaper articles</li>
             <li>Listicles (like &quot;00 cool inventions …&quot;)</li>
-            <li>Blog posts (unless it’s a launching post.)</li>
-            <li>Social media posts such as Facebook, Twitter, Youtube, or Instagram</li>
+            <li>Blog posts (unless it’s a launching post)</li>
+            <li>Affiliate marketing site (e.g. Canopy, Awesome Invention, etc.)</li>
+            <li>Social media posts such as Facebook, Twitter, Youtube, Pinterest or Instagram</li>
           </ul>
           <h4>5. Plagiarism and Copyright</h4>
           <p>Write a sentence and description with your own words. Do not copy and paste from the product’s website or other sites. You can however quote some content from a site, but you must use quotes and cite the source properly.</p>

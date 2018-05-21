@@ -24,8 +24,9 @@ The product website should also be in English.
 All posts must have a valid website. You can only provide an official website of the product, app download link, or e-commerce site where users can make purchases. The following examples WILL NOT be accepted:
 * Newspaper articles
 * Listicles (like '00 cool inventions …')
-* Blog posts (unless it’s a launching post.)
-* Social media posts such as Facebook, Twitter, Youtube, or Instagram
+* Blog posts (unless it’s a launching post)
+* Affiliate marketing site (e.g. Canopy, Awesome Invention, etc.)
+* Social media posts such as Facebook, Twitter, Youtube, Pinterest or Instagram
 
 ## 5. Plagiarism and Copyright
 Write a sentence and description with your own words. Do not copy and paste from the product’s website or other sites. You can however quote some content from a site, but you must use quotes and cite the source properly.
