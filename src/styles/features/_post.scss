@@ -570,6 +570,10 @@
         max-width: 100%;
       }
 
+      iframe {
+        max-width: 100%;
+      }
+
       @include responsive(mobile) {
         padding: 0 20px;
       }
