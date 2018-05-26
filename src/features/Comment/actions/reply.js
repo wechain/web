@@ -105,13 +105,13 @@ function* reply({ parent, body, isModeratorComment }) {
 
     const permlink = createCommentPermlink(parent.author, parent.permlink);
     const tempId = Math.floor((Math.random() * 1000000) + 1);
-    let jsonMetadata = {
+    let json_metadata = {
       tags: [ 'steemhunt' ],
       community: 'steemhunt',
       app: 'steemhunt/1.0.0',
     };
     if (isModeratorComment) {
-      jsonMetadata = Object.assign(jsonMetadata, { verified_by: myAccount.name });
+      json_metadata = Object.assign(json_metadata, { verified_by: myAccount.name });
     }
 
     const now = toCustomISOString(new Date());
@@ -124,7 +124,7 @@ function* reply({ parent, body, isModeratorComment }) {
       parent_permlink:  parent.permlink,
       permlink,
       body,
-      jsonMetadata,
+      json_metadata,
       created: now,
       last_update: now,
       active_votes: [],
@@ -140,7 +140,7 @@ function* reply({ parent, body, isModeratorComment }) {
       permlink,
       '',
       body,
-      jsonMetadata,
+      json_metadata,
     );
 
     // If parent is a post
@@ -162,6 +162,8 @@ function* reply({ parent, body, isModeratorComment }) {
 
 function* editReply({ comment, body }) {
   try {
+    const json_metadata = JSON.parse(comment.json_metadata);
+
     yield steemConnectAPI.comment(
       comment.parent_author,
       comment.parent_permlink,
@@ -169,7 +171,7 @@ function* editReply({ comment, body }) {
       comment.permlink,
       '',
       body,
-      comment.json_metadata,
+      json_metadata,
     );
 
     yield put(replyEditSuccess(comment.id, body));
