@@ -21,6 +21,6 @@ export function format(user, appProps) {
   };
 }
 
-export function isAdmin(username) {
-  return username === 'steemhunt' || username === 'tabris' || username === 'project7';
+export function isModerator(username) {
+  return ['steemhunt', 'tabris', 'project7'].indexOf(username) !== -1;
 }

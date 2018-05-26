@@ -12,7 +12,7 @@ import { updateDraftReducer } from './actions/updateDraft';
 import resteem, { resteemReducer } from './actions/resteem';
 import postReducer from 'features/Post/reducer';
 import postRefresh, { postRefreshReducer } from './actions/refreshPost';
-import moderatePost, { moderatePostReducer } from './actions/moderatePost';
+import { moderatePostManager, setModeratorManager, moderatePostReducer } from './actions/moderatePost';
 
 export const initialState = {
   draft: {
@@ -73,5 +73,6 @@ export default [
   publishContent,
   resteem,
   postRefresh,
-  moderatePost,
+  moderatePostManager,
+  setModeratorManager,
 ];

@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { Button, Carousel, Icon, Timeline, Tag, Tooltip, Modal } from 'antd';
+import { Button, Carousel, Icon, Timeline, Tag, Tooltip, Modal, Input, Form } from 'antd';
 import IconFacebook from 'react-icons/lib/fa/facebook-square';
 import IconTwitter from 'react-icons/lib/fa/twitter-square';
 import IconLinkedIn from 'react-icons/lib/fa/linkedin-square';
 import { Link } from 'react-router-dom';
+import isEmpty from 'lodash/isEmpty';
 import { getPostPath, isEditable } from '../utils';
 import VoteButton from 'features/Vote/VoteButton';
 import ResteemButton from './ResteemButton';
@@ -14,8 +15,12 @@ import Author from 'components/Author';
 import { selectMe } from 'features/User/selectors';
 import { getHtml } from 'components/Body';
 import { shortFormat } from 'utils/date';
-import { isAdmin } from 'features/User/utils';
-import { moderatePostBegin } from 'features/Post/actions/moderatePost';
+import { isModerator } from 'features/User/utils';
+import { setModeratorBegin, moderatePostBegin } from 'features/Post/actions/moderatePost';
+import { replyBegin } from 'features/Comment/actions/reply';
+import { selectIsCommentPublishing, selectHasCommentSucceeded } from 'features/Comment/selectors';
+
+const FormItem = Form.Item;
 
 class PostView extends Component {
   static propTypes = {
@@ -31,6 +36,7 @@ class PostView extends Component {
       children: PropTypes.number.isRequired,
       is_active: PropTypes.bool.isRequired,
       is_verified: PropTypes.bool.isRequired,
+      verified_by: PropTypes.string,
       beneficiaries: PropTypes.arrayOf(PropTypes.shape({
         account: PropTypes.string.isRequired,
         weight: PropTypes.number.isRequired,
@@ -39,7 +45,11 @@ class PostView extends Component {
     author: PropTypes.string,
     permlink: PropTypes.string,
     me: PropTypes.string.isRequired,
+    isCommentPublishing: PropTypes.bool.isRequired,
+    hasCommentSucceeded: PropTypes.bool.isRequired,
+    setModerator: PropTypes.func.isRequired,
     moderatePost: PropTypes.func.isRequired,
+    moderatorReply: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -48,10 +58,25 @@ class PostView extends Component {
     this.state = {
       previewImage: '',
       previewVisible: false,
+      moderationVisible: false,
+      moderationComment: '',
     };
   }
 
-  // MARK: - Handle image preview
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.post.verified_by !== this.props.me) {
+      this.setState({ moderationVisible: false });
+    }
+
+    if (nextProps.hasCommentSucceeded &&
+      this.props.hasCommentSucceeded !== nextProps.hasCommentSucceeded &&
+      !isEmpty(this.state.moderationComment)) {
+      this.setState({ moderationComment: '' });
+      this.hideModeration();
+    }
+  }
+
+  // MARK: - Handle modals
 
   hideModal = () => this.setState({ previewVisible: false });
   showModal = (e) => {
@@ -60,6 +85,12 @@ class PostView extends Component {
       previewVisible: true,
     });
   };
+  hideModeration = () => this.setState({ moderationVisible: false });
+  showModeration = () => {
+    this.setState({ moderationVisible: true });
+    this.props.setModerator();
+  };
+
   changePreview = (diff) => {
     const images = this.props.post.images;
 
@@ -78,15 +109,26 @@ class PostView extends Component {
     }
   };
 
-  toggleHidden = () => this.props.moderatePost(this.props.post.is_active, true);
-  toggleVerified = () => this.props.moderatePost(!this.props.post.is_active, !this.props.post.is_verified);
+  toggleHidden = () => {
+    this.props.moderatePost(!this.props.post.is_active, true);
+  };
+  toggleVerified = () => {
+    this.props.moderatePost(this.props.post.is_active, !this.props.post.is_verified);
+  };
+  handleModerationCommentChange = (e) => this.setState({ moderationComment: e.target.value });
+  commentModeration = () => {
+      const comment = this.state.moderationComment.trim();
+      if (comment) {
+        this.props.moderatorReply(comment);
+      }
+  };
 
   render() {
     const { me, post } = this.props;
     const images = post.images.map((image, index) => {
       return (
-        <div className="slide-container">
-          <img key={index} alt={image.name} src={image.link} onClick={this.showModal} />
+        <div key={index} className="slide-container">
+          <img alt={image.name} src={image.link} onClick={this.showModal} />
         </div>
       );
     });
@@ -115,15 +157,29 @@ class PostView extends Component {
                 <Button icon="edit" size="small" ghost>Edit</Button>
               </Link>
             }
-            {isAdmin(me) &&
+            {isModerator(me) &&
               <span>
-                <Button icon="delete" size="small" onClick={this.toggleHidden} ghost>
-                  { this.props.post.is_active ? 'Hide' : 'Unhide' }
-                </Button>
-
-                <Button icon="check-circle" size="small" onClick={this.toggleVerified} ghost>
-                  { this.props.post.is_verified ? 'Unverify' : 'Verify' }
-                </Button>
+                {(post.verified_by === me || post.verified_by === null) ?
+                    (post.author === me ?
+                      <Button icon="check-circle" size="small" ghost disabled>
+                        Own Content
+                      </Button>
+                    :
+                      <Button icon="check-circle" size="small" onClick={this.showModeration} ghost>
+                        { !post.is_active ? 'Unhide' : post.is_verified ? 'Unverify' : 'Verify' }
+                      </Button>
+                    )
+                  :
+                    (post.is_verified ?
+                      <Button icon="check-circle" size="small" ghost disabled>
+                        <span>Reviewed by @{post.verified_by}</span>
+                      </Button>
+                    :
+                      <Button loading={true} size="small" ghost disabled>
+                        <span>In review by @{post.verified_by}</span>
+                      </Button>
+                    )
+                }
               </span>
             }
           </div>
@@ -133,7 +189,7 @@ class PostView extends Component {
             href={post.url}
             type="primary"
             htmlType="submit"
-              className="round-border inversed-color padded-button checkitout-button"
+            className="round-border inversed-color padded-button checkitout-button"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -227,6 +283,49 @@ class PostView extends Component {
             <Icon type="right" />
           </div>
         </Modal>
+        {isModerator(me) &&
+          <Modal visible={this.state.moderationVisible} footer={null} onCancel={this.hideModeration}>
+            <Form>
+              <FormItem label="Moderation Comment:">
+                <Input.TextArea
+                  placeholder="Pinned messages on #moderation channel for examples"
+                  value={this.state.moderationComment}
+                  onChange={this.handleModerationCommentChange}
+                  autosize
+                />
+              </FormItem>
+              <FormItem style={{marginBottom: 0}}>
+                <Button
+                  icon="delete"
+                  type="danger"
+                  loading={this.props.isModerating}
+                  onClick={this.toggleHidden}
+                >
+                  { post.is_active ? 'Hide' : 'Unhide' }
+                </Button>
+
+                <Button
+                  icon="check-circle"
+                  type="primary"
+                  className="pull-right"
+                  loading={this.props.isModerating}
+                  onClick={this.toggleVerified}
+                >
+                  { post.is_verified ? 'Unverify' : 'Verify' }
+                </Button>
+                <Button
+                  icon="message"
+                  className="pull-right"
+                  loading={this.props.isCommentPublishing}
+                  onClick={this.commentModeration}
+                  style={{ marginRight: '0.5em' }}
+                >
+                  Comment
+                </Button>
+              </FormItem>
+            </Form>
+          </Modal>
+        }
       </div>
     )
   }
@@ -234,10 +333,14 @@ class PostView extends Component {
 
 const mapStateToProps = () => createStructuredSelector({
   me: selectMe(),
+  isCommentPublishing: selectIsCommentPublishing(),
+  hasCommentSucceeded: selectHasCommentSucceeded(),
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
-  moderatePost: (hide, verify) => dispatch(moderatePostBegin(props.post, hide, verify)),
+  setModerator: () => dispatch(setModeratorBegin(props.post)),
+  moderatePost: (is_active, is_verified, comment) => dispatch(moderatePostBegin(props.post, is_active, is_verified, comment)),
+  moderatorReply: (body) => dispatch(replyBegin(props.post, body, true)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostView);

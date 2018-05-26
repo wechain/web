@@ -4,14 +4,6 @@ import { calculateContentPayout } from 'utils/helpers/steemitHelpers';
 
 const API_ROOT = process.env.REACT_APP_API_ROOT;
 
-function checkStatus(res) {
-  if ((res.status >= 200 && res.status < 300) || res.status === 422) {
-    return res;
-  }
-
-  throw new Error(res.statusText + '. Please try again later.');
-}
-
 function parseJSON(res) {
   return res.json();
 }
@@ -50,7 +42,6 @@ function request(method, path, params, shouldAuthenticate) {
   var url = API_ROOT + path + qs;
 
   return fetch(url, { method, headers, body })
-    .then(checkStatus)
     .then(parseJSON)
     .then(checkError);
 }
@@ -60,10 +51,11 @@ export default {
   post: (path, params, shouldAuthenticate = false) => request('POST', path, params, shouldAuthenticate),
   put: (path, params, shouldAuthenticate = false) => request('PUT', path, params, shouldAuthenticate),
   delete: (path, params, shouldAuthenticate = false) => request('DELETE', path, params, shouldAuthenticate),
-  moderatePost: (post, hide, verify) => request('PATCH', `/posts/moderate/@${post.author}/${post.permlink}.json`, {
+  setModerator: (post) => request('PATCH', `/posts/set_moderator/@${post.author}/${post.permlink}.json`, null , true),
+  moderatePost: (post, is_active, is_verified) => request('PATCH', `/posts/moderate/@${post.author}/${post.permlink}.json`, {
     post: {
-      is_active: !hide,
-      is_verified: verify,
+      is_active: is_active,
+      is_verified: is_verified,
     }
   }, true),
   refreshPost: (post) => request('PATCH', `/posts/refresh/@${post.author}/${post.permlink}.json`, {

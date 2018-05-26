@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Input } from 'antd';
 import { isEmpty } from 'lodash';
-import { replyBegin } from './actions/reply';
+import { replyBegin, editReplyBegin } from './actions/reply';
 import { selectIsCommentPublishing, selectHasCommentSucceeded } from './selectors';
 import { scrollTo } from 'utils/scroller';
 
@@ -52,7 +52,13 @@ class CommentReplyForm extends Component {
 
   onChange = e => this.setState({ body: e.target.value });
 
-  reply = () => this.props.reply(this.state.body);
+  reply = () => {
+    if (this.props.editMode) {
+      this.props.editReply(this.state.body);
+    } else {
+      this.props.reply(this.state.body);
+    }
+  };
 
   render() {
     const { editMode, closeForm } = this.props;
@@ -83,12 +89,13 @@ class CommentReplyForm extends Component {
 }
 
 const mapStateToProps = () => createStructuredSelector({
-  hasCommentSucceeded: selectHasCommentSucceeded(),
   isCommentPublishing: selectIsCommentPublishing(),
+  hasCommentSucceeded: selectHasCommentSucceeded(),
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
-  reply: (body) => dispatch(replyBegin(props.content, body, props.editMode)),
+  reply: (body) => dispatch(replyBegin(props.content, body, null)),
+  editReply: (body) => dispatch(editReplyBegin(props.content, body)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentReplyForm);

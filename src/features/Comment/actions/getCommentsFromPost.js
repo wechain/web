@@ -5,7 +5,7 @@ import { getRootCommentsList, mapCommentsBasedOnId } from '../utils/comments';
 import { sortCommentsFromSteem } from 'utils/helpers/stateHelpers';
 import { selectPosts } from 'features/Post/selectors';
 import { getPostKey, hasUpdated } from 'features/Post/utils';
-import { getPostSuccess } from 'features/Post/actions/getPost';
+import { postRefreshSuccess } from 'features/Post/actions/refreshPost';
 import { calculateContentPayout } from 'utils/helpers/steemitHelpers';
 import { postRefreshBegin } from 'features/Post/actions/refreshPost';
 
@@ -74,7 +74,7 @@ function* getCommentsFromPost({ category, author, permlink }) {
         yield put(postRefreshBegin(content));
 
         // Update local posts cache
-        yield put(getPostSuccess(content));
+        yield put(postRefreshSuccess(content));
       }
     }
 

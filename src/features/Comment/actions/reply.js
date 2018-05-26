@@ -12,14 +12,19 @@ import { extractErrorMessage } from 'utils/errorMessage';
 
 /*--------- CONSTANTS ---------*/
 const REPLY_BEGIN = 'REPLY_BEGIN';
+const EDIT_REPLY_BEGIN = 'EDIT_REPLY_BEGIN';
 const REPLY_SUCCESS = 'REPLY_SUCCESS';
 const REPLY_EDIT_SUCCESS = 'REPLY_EDIT_SUCCESS';
 const REPLY_FAILURE = 'REPLY_FAILURE';
 const ADD_COMMENTS_FROM_POST = 'ADD_COMMENTS_FROM_POST';
 
 /*--------- ACTIONS ---------*/
-export function replyBegin(parent, body, editMode) {
-  return { type: REPLY_BEGIN, parent, body, editMode };
+export function replyBegin(parent, body, isModeratorComment = false) {
+  return { type: REPLY_BEGIN, parent, body, isModeratorComment };
+}
+
+export function editReplyBegin(comment, body) {
+  return { type: EDIT_REPLY_BEGIN, comment, body };
 }
 
 function replySuccess(parent, tempId, replyObj) {
@@ -41,7 +46,8 @@ function addCommentsFromPosts(parent, tempId) {
 /*--------- REDUCER ---------*/
 export function replyReducer(state, action) {
   switch (action.type) {
-    case REPLY_BEGIN: {
+    case REPLY_BEGIN:
+    case EDIT_REPLY_BEGIN: {
       return update(state, {
         isPublishing: { $set: true },
         hasSucceeded: { $set: false },
@@ -93,77 +99,90 @@ export function replyReducer(state, action) {
 }
 
 /*--------- SAGAS ---------*/
-function* reply({ parent, body, editMode }) {
+function* reply({ parent, body, isModeratorComment }) {
   try {
     const myAccount = yield select(selectMyAccount());
 
-    if (editMode) {
-      yield steemConnectAPI.comment(
-        parent.parent_author,
-        parent.parent_permlink,
-        parent.author,
-        parent.permlink,
-        '',
-        body,
-        parent.json_metadata,
-      );
-
-      yield put(replyEditSuccess(parent.id, body));
-    } else {
-      const permlink = createCommentPermlink(parent.author, parent.permlink);
-      const tempId = Math.floor((Math.random() * 1000000) + 1);
-      const json_metadata = {
-        tags: [ 'steemhunt' ],
-        community: 'steemhunt',
-        app: 'steemhunt/1.0.0',
-      };
-      const now = toCustomISOString(new Date());
-      const cashoutTime = toCustomISOString(new Date(Date.now() + 604800));
-
-      const replyObj = {
-        id: tempId,
-        author: myAccount.name,
-        parent_author: parent.author,
-        parent_permlink:  parent.permlink,
-        permlink,
-        body,
-        json_metadata,
-        created: now,
-        last_update: now,
-        active_votes: [],
-        cashout_time: cashoutTime,
-        net_votes: 0,
-        author_reputation: myAccount.reputation,
-      };
-
-      yield steemConnectAPI.comment(
-        parent.author,
-        parent.permlink,
-        myAccount.name,
-        permlink,
-        '',
-        body,
-        json_metadata,
-      );
-
-      // If parent is a post
-      if (!parent.parent_author) {
-        yield put(addCommentsFromPosts(parent, tempId));
-      }
-
-      // Update children counter on local & DB
-      const post = yield select(selectCurrentPost());
-      yield api.increaseCommentCount(post);
-      yield put(postIncreaseCommentCount(post));
-
-      yield put(replySuccess(parent, tempId, replyObj));
+    const permlink = createCommentPermlink(parent.author, parent.permlink);
+    const tempId = Math.floor((Math.random() * 1000000) + 1);
+    let jsonMetadata = {
+      tags: [ 'steemhunt' ],
+      community: 'steemhunt',
+      app: 'steemhunt/1.0.0',
+    };
+    if (isModeratorComment) {
+      jsonMetadata = Object.assign(jsonMetadata, { verified_by: myAccount.name });
     }
+
+    const now = toCustomISOString(new Date());
+    const cashoutTime = toCustomISOString(new Date(Date.now() + 604800));
+
+    const replyObj = {
+      id: tempId,
+      author: myAccount.name,
+      parent_author: parent.author,
+      parent_permlink:  parent.permlink,
+      permlink,
+      body,
+      jsonMetadata,
+      created: now,
+      last_update: now,
+      active_votes: [],
+      cashout_time: cashoutTime,
+      net_votes: 0,
+      author_reputation: myAccount.reputation,
+    };
+
+    yield steemConnectAPI.comment(
+      parent.author,
+      parent.permlink,
+      myAccount.name,
+      permlink,
+      '',
+      body,
+      jsonMetadata,
+    );
+
+    // If parent is a post
+    if (!parent.parent_author) {
+      yield put(addCommentsFromPosts(parent, tempId));
+    }
+
+    // Update children counter on local & DB
+    const post = yield select(selectCurrentPost());
+    yield api.increaseCommentCount(post);
+    yield put(postIncreaseCommentCount(post));
+
+    yield put(replySuccess(parent, tempId, replyObj));
   } catch (e) {
     yield notification['error']({ message: extractErrorMessage(e) });
     yield put(replyFailure(e.message));
   }
 }
 
-export default function* replyManager() {
+function* editReply({ comment, body }) {
+  try {
+    yield steemConnectAPI.comment(
+      comment.parent_author,
+      comment.parent_permlink,
+      comment.author,
+      comment.permlink,
+      '',
+      body,
+      comment.json_metadata,
+    );
+
+    yield put(replyEditSuccess(comment.id, body));
+  } catch (e) {
+    yield notification['error']({ message: extractErrorMessage(e) });
+    yield put(replyFailure(e.message));
+  }
+}
+
+export function* replyManager() {
   yield takeLatest(REPLY_BEGIN, reply);
+}
+
+export function* editReplyManager() {
+  yield takeLatest(EDIT_REPLY_BEGIN, editReply);
 }

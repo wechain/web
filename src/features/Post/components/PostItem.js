@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
 import { selectMe } from 'features/User/selectors';
 import { getPostPath, getThumbnail } from '../utils';
-import { isAdmin } from 'features/User/utils';
+import { isModerator } from 'features/User/utils';
 import VoteButton from 'features/Vote/VoteButton';
 import Author from 'components/Author';
 
@@ -30,7 +30,7 @@ class PostItem extends Component {
         <div className="summary">
           <div className="title">
             <Link to={getPostPath(post, pathPrefix)}>{post.title}</Link>
-            {isAdmin(me) && post.is_verified &&
+            {isModerator(me) && post.is_verified &&
               <Icon type="check-circle" className="verified"/>
             }
           </div>

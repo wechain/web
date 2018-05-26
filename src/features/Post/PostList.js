@@ -11,9 +11,12 @@ import PostItem from './components/PostItem';
 import { formatAmount } from "utils/helpers/steemitHelpers";
 import { timeUntilMidnightSeoul } from 'utils/date';
 import { getSortOption, setSortOption } from 'utils/sortOptions';
+import { isModerator } from 'features/User/utils';
+import { selectMe } from 'features/User/selectors';
 
 class PostList extends Component {
   static propTypes = {
+    me: PropTypes.string.isRequired,
     daysAgo: PropTypes.number.isRequired,
     getPosts: PropTypes.func.isRequired,
     posts: PropTypes.object.isRequired,
@@ -61,7 +64,7 @@ class PostList extends Component {
   }
 
   render() {
-    const { posts, dailyRanking, daysAgo } = this.props;
+    const { me, posts, dailyRanking, daysAgo } = this.props;
 
     let ranking = dailyRanking[daysAgo] || [];
     if (isEmpty(ranking) && daysAgo !== 0) {
@@ -98,6 +101,9 @@ class PostList extends Component {
                 <Select.Option value="created">New</Select.Option>
                 <Select.Option value="vote_count">Vote Count</Select.Option>
                 <Select.Option value="comment_count">Comment Count</Select.Option>
+                {isModerator(me) &&
+                  <Select.Option value="unverified">Unverified</Select.Option>
+                }
               </Select>
             </div>
           }
@@ -115,6 +121,7 @@ class PostList extends Component {
 }
 
 const mapStateToProps = () => createStructuredSelector({
+  me: selectMe(),
   posts: selectPosts(),
   dailyRanking: selectDailyRanking(),
 });

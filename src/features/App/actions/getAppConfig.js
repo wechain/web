@@ -55,7 +55,7 @@ export function getAppConfigReducer(state, action) {
 function* getAppConfig() {
   try {
     const [steemhunt, rewardFund] = yield all([
-      steem.api.getStateAsync(`trending/steemhunt`),
+      steem.api.getStateAsync(`trending/steemhunt-state`),
       steem.api.getRewardFundAsync('post'),
     ]);
     const rate = parseFloat(steemhunt.feed_price.base);

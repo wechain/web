@@ -4,7 +4,7 @@ import { setToken } from 'utils/token';
 import { format } from '../utils';
 import { selectAppProps } from 'features/App/selectors';
 import steemConnectAPI from 'utils/steemConnectAPI';
-import { getToken, getEncryptedToken } from 'utils/token';
+import { getToken } from 'utils/token';
 import api from 'utils/api';
 
 /*--------- CONSTANTS ---------*/

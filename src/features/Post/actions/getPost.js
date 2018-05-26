@@ -12,15 +12,15 @@ const GET_POST_FAILURE = 'GET_POST_FAILURE';
 const SET_CURRENT_POST_KEY = 'SET_CURRENT_POST_KEY';
 
 /*--------- ACTIONS ---------*/
-export function getPostBegin(author, permlink, updateDraft = false) {
-  return { type: GET_POST_BEGIN, author, permlink, updateDraft };
+export function getPostBegin(author, permlink, updateDraft = false, forceFetch = false) {
+  return { type: GET_POST_BEGIN, author, permlink, updateDraft, forceFetch };
 }
 
-export function getPostSuccess(post, updateDraft) {
+function getPostSuccess(post, updateDraft) {
   return { type: GET_POST_SUCCESS, post, updateDraft };
 }
 
-export function getPostFailure(message) {
+function getPostFailure(message) {
   return { type: GET_POST_FAILURE, message };
 }
 
@@ -41,6 +41,9 @@ export function getPostReducer(state, action) {
             active_votes: { $set: post.active_votes },
             payout_value: { $set: post.payout_value },
             children: { $set: post.children },
+            is_active: { $set: post.is_active },
+            is_verified: { $set: post.is_verified },
+            verified_by: { $set: post.verified_by },
           }},
         };
         if (updateDraft) {
@@ -68,12 +71,12 @@ export function getPostReducer(state, action) {
 }
 
 /*--------- SAGAS ---------*/
-function* getPost({ author, permlink, updateDraft }) {
+function* getPost({ author, permlink, updateDraft, forceFetch }) {
   try {
     // Try retrieving from state first
     const key = generatePostKey(author, permlink);
     let post = yield select(selectPostByKey(key));
-    if (isEmpty(post)) {
+    if (isEmpty(post) || forceFetch) {
       // Retrieve from API when user accessed to a product page directly
       post = yield api.get(`/posts/@${key}.json`);
     }
