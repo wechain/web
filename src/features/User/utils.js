@@ -22,5 +22,9 @@ export function format(user, appProps) {
 }
 
 export function isModerator(username) {
-  return ['steemhunt', 'tabris', 'project7'].indexOf(username) !== -1;
+  const moderators = [
+    'tabris', 'project7',
+    'teamhumble', 'folken', 'urbangladiator', 'chronocrypto', 'dayleeo', 'fknmayhem'
+  ];
+  return moderators.indexOf(username) !== -1;
 }
