@@ -165,9 +165,15 @@ class PostView extends Component {
                         Own Content
                       </Button>
                     :
-                      <Button icon="check-circle" size="small" onClick={this.showModeration} ghost>
-                        { !post.is_active ? 'Unhide' : post.is_verified ? 'Unverify' : 'Verify' }
-                      </Button>
+                      (post.verified_by === me ?
+                        <Button icon="loading" size="small" onClick={this.showModeration} ghost>
+                          You're reviewing
+                        </Button>
+                      :
+                        <Button icon="check-circle" size="small" onClick={this.showModeration} ghost>
+                          { !post.is_active ? 'Unhide' : post.is_verified ? 'Unverify' : 'Verify' }
+                        </Button>
+                      )
                     )
                   :
                     (post.is_verified ?
