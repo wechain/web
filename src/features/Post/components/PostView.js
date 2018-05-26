@@ -294,7 +294,7 @@ class PostView extends Component {
             <Form>
               <FormItem label="Moderation Comment:">
                 <Input.TextArea
-                  placeholder="Pinned messages on #moderation channel for examples"
+                  placeholder="You must leave a comment to receive the moderator’s upvoting."
                   value={this.state.moderationComment}
                   onChange={this.handleModerationCommentChange}
                   autosize
