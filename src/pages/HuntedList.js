@@ -6,6 +6,7 @@ import { Spin } from 'antd';
 import PostList from 'features/Post/PostList';
 import InfiniteScroll from 'components/InfiniteScroll';
 import { selectIsLoading } from 'features/Post/selectors';
+import { getSortOption } from 'utils/sortOptions';
 
 class HuntedList extends Component {
   constructor() {
@@ -27,7 +28,11 @@ class HuntedList extends Component {
 
     const genesis = (new Date('2018-02-16')).getTime();
     const oldest = Date.now() - last(daysAgoArray) * 86400000;
-    const hasMore = oldest > genesis;
+    let hasMore = oldest > genesis;
+
+    if (this.state.daysAgoArray.length > 3 && getSortOption('daily') == 'unverified') {
+      hasMore = false;
+    }
 
     const items = daysAgoArray.map((daysAgo) =>
       <PostList key={daysAgo} daysAgo={daysAgo} />
