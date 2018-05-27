@@ -39,6 +39,8 @@ As a hunter, you need to post a cool product with well-structured comments and s
 * use non-related words/descriptions about the product.
 * attach non-related screenshot images or videos.
 * share any scams or highly suspicious cryptocurrency/fin-tech products.
+* porns
+* illegal products
 
 ---
 

@@ -402,6 +402,8 @@ class PostForm extends Component {
             <li>use non-related words/descriptions about the product.</li>
             <li>attach non-related screenshot images or videos.</li>
             <li>share any scams or highly suspicious cryptocurrency/fin-tech products.</li>
+            <li>porns</li>
+            <li>illegal products</li>
           </ul>
           <hr/>
           <p>These posting guidelines are being continuously developed by our community. Feel free to suggest any opinions on how to make Steemhunt a cooler ranking community. You can join our <a href="https://discord.gg/mWXpgks" target="_blank" rel="noopener noreferrer">Discord Chat</a> and make any suggestions.</p>
