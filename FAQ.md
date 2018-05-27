@@ -27,6 +27,22 @@ We only accept private key generated on Steemit.com. If by any case you forget o
 
 Steemhunt is running a Steem Power Delegation Program. We are collecting 5% beneficiary from the author rewards via the Steemhunt platform, and we will distribute it among sponsors who delegate Steem Power (SP) to @steemhunt. The amount of the rewards will be proportional to the delegated SP. Please read this article to see more details - Introducing Incentives for Steemhunt Sponsors.
 
+## What is "Review Comments" (Pros / Cons)
+
+Review comments is a special type of comment that includes commeter's review (pros and cons) of other users' hunts.
+Our upvoting bot will read the content automatically and give them upvotes as well as the hunt posts.
+
+It should follow this format:
+```
+Pros:
+- blah blah
+- blah blah blah
+
+Cons:
+- blah blah
+```
+
+
 ## Contact Us
 
 You can contact us via
