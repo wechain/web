@@ -30,8 +30,14 @@ class PostItem extends Component {
         <div className="summary">
           <div className="title">
             <Link to={getPostPath(post, pathPrefix)}>{post.title}</Link>
-            {isModerator(me) && post.is_verified &&
-              <Icon type="check-circle" className="verified"/>
+            {isModerator(me) &&
+              (post.is_verified ?
+                <Icon type="check-circle" className="verified"/>
+              :
+                (post.verified_by &&
+                  <Icon type="loading" className="verified"/>
+                )
+              )
             }
           </div>
           <div className="tagline">{post.tagline}</div>
