@@ -30,6 +30,7 @@ export const initialState = {
     beneficiaries: [],
     is_active: true,
     is_verified: false,
+    verified_by: null,
   },
   posts: {},
   authorPosts: {},
