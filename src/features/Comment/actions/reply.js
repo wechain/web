@@ -162,8 +162,12 @@ function* reply({ parent, body, isModeratorComment }) {
 
 function* editReply({ comment, body }) {
   try {
-    const json_metadata = JSON.parse(comment.json_metadata);
-
+    let json_metadata = null;
+    try {
+      json_metadata = JSON.parse(comment.json_metadata);
+    } catch(e) {
+      json_metadata = comment.json_metadata;
+    }
     yield steemConnectAPI.comment(
       comment.parent_author,
       comment.parent_permlink,
@@ -175,7 +179,7 @@ function* editReply({ comment, body }) {
     );
 
     yield put(replyEditSuccess(comment.id, body));
-  } catch (e) {
+  } catch(e) {
     yield notification['error']({ message: extractErrorMessage(e) });
     yield put(replyFailure(e.message));
   }
