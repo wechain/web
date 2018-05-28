@@ -30,7 +30,7 @@ class HuntedList extends Component {
     const oldest = Date.now() - last(daysAgoArray) * 86400000;
     let hasMore = oldest > genesis;
 
-    if (this.state.daysAgoArray.length > 3 && getSortOption('daily') == 'unverified') {
+    if (this.state.daysAgoArray.length > 3 && getSortOption('daily') === 'unverified') {
       hasMore = false;
     }
 
