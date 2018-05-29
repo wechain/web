@@ -131,6 +131,14 @@ hr {
   background-color: rgba(252, 111, 111, 0.5);
 }
 
+.red-filled {
+  background-color: $red;
+}
+
+.green-filled {
+  background-color: $green;
+}
+
 .split-container {
   left: 0;
   right: 0;

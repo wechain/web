@@ -1,24 +1,16 @@
 import combine from 'utils/combine';
-import getCommentsFromPost, { getCommentsFromPostReducer } from './actions/getCommentsFromPost';
-import { replyManager, editReplyManager, replyReducer } from './actions/reply';
-import commentsReducer from './reducer';
+import getTransactions, { getTransactionsReducer } from './actions/getTransactions';
 
 export const initialState = {
-  commentsChild: {},
-  commentsData: {},
-  commentsFromPost: {},
-  commentsFromUser: {},
-  repliesToUser: {},
+  balance: '',
+  ethAddress: null,
+  transactions: [],
   isLoading: false,
-  isPublishing: false,
-  hasSucceeded: false,
 };
 
 export const reducer = (state = initialState, action) => combine(
   [
-    getCommentsFromPostReducer,
-    commentsReducer,
-    replyReducer,
+    getTransactionsReducer,
   ],
   state,
   action,
@@ -26,7 +18,5 @@ export const reducer = (state = initialState, action) => combine(
 
 // All sagas to be loaded
 export default [
-  getCommentsFromPost,
-  replyManager,
-  editReplyManager,
+  getTransactions,
 ];
