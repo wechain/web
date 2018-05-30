@@ -78,7 +78,7 @@ class HallOfFame extends Component {
         useWindow={false}
         className="post-list"
         header={topStatus[period] &&
-          <div className="heading" key="header">
+          <div className="heading left-padded" key="header">
             <h3>Hall of Fame</h3>
             <div className="radio-option">
               <Radio.Group onChange={this.handlePeriodChanged} defaultValue={period} size="small">

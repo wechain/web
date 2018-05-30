@@ -1,0 +1,20 @@
+.balance {
+  h1 {
+    font-size: 3rem;
+    color: $primary;
+    margin-bottom: 0.2em;
+
+    small {
+      font-size: 1rem;
+      color: $text_dark;
+    }
+  }
+
+  button {
+    margin-bottom: 2.5rem;
+  }
+}
+
+.transaction-heading {
+  margin-bottom: 1rem;
+}

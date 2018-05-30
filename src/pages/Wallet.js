@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { List, Icon, Avatar } from 'antd';
+import isEmpty from 'lodash/isEmpty';
+import { List, Avatar, Button, Tooltip } from 'antd';
+import { formatNumber } from "utils/helpers/steemitHelpers";
 import { selectBalance, selectTransactions, selectIsLoading } from 'features/Wallet/selectors';
 import { getTransactionsBegin } from 'features/Wallet/actions/getTransactions';
 import CircularProgress from 'components/CircularProgress';
@@ -26,10 +28,9 @@ class Wallet extends Component {
   render() {
     const { me, balance, isLoading, transactions } = this.props;
 
-    if (isLoading) {
+    if (isLoading || isEmpty(me)) {
       return <CircularProgress />;
     }
-
 
     return (
       <div className="wallet">
@@ -37,25 +38,42 @@ class Wallet extends Component {
           <title>Wallet - Steemhunt</title>
         </Helmet>
 
-        <h1>Your balance</h1>
-        {balance} HUNT
+        <div className="heading left-padded">
+          <h3>Balance</h3>
+        </div>
+        <div className="balance left-padded">
+          <h1 className="sans">{formatNumber(balance)}<small>HUNT</small></h1>
 
-        <h1>Transactions</h1>
+          <Tooltip title="External ETH wallet withdrawal feature is currently under development.">
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="submit-button"
+              ghost
+            >
+              WITHDRAW
+            </Button>
+          </Tooltip>
+        </div>
+
+        <div className="heading left-padded transaction-heading">
+          <h3>Transactions</h3>
+        </div>
         <List
           itemLayout="horizontal"
           dataSource={transactions}
           renderItem={t => (
-            <List.Item>
+            <List.Item className="left-padded">
               <List.Item.Meta
                 avatar={me === t.sender ?
-                  <Avatar size="large" icon="arrow-right" className="red-filled"/>
+                  <Avatar icon="arrow-right" className="red-filled"/>
                 :
-                  <Avatar size="large" icon="arrow-left" className="green-filled" />
+                  <Avatar icon="arrow-left" className="green-filled" />
                 }
                 title={me === t.sender ?
-                  `Sent ${t.amount} to ` + (t.receiver ? `@${t.receiver}` : `ETH Wallet (${t.eth_address})`)
+                  `Sent ${formatNumber(t.amount)} to ` + (t.receiver ? `@${t.receiver}` : `ETH Wallet (${t.eth_address})`)
                 :
-                  `Received ${t.amount} from ` + (t.sender ? `@${t.sender}` : `ETH Wallet (${t.eth_address})`)
+                  `Received ${formatNumber(t.amount)} from ` + (t.sender ? `@${t.sender}` : `ETH Wallet (${t.eth_address})`)
                 }
                 description={t.memo}
               />
