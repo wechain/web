@@ -53,7 +53,7 @@ As a hunter, you need to post a cool product with well-structured comments and s
 ## 9. No Duplication Allowed
 Steemhunt does not allow the same product to be posted twice. The website automatically checks the URL, but it is still your responsibility to check that the product has not been posted earlier.
 
-## 10. Game
+## 10. Games
 There are countless games worldwide, and many of them have narrow target customers. If we accept all new games in Steemhunt, our ranking board may be dominated by games. So, Steemhunt will only accept games that are:
 * downloadable/purchasable from major app stores or console game markets
 * run on their own website
