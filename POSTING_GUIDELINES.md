@@ -18,9 +18,9 @@ Steemhunt generally covers unique IT or hardware products, including:
 ## 3. Product Link
 We only accept these four product links:
 1. Official product website
-2. App store link (iOS, Android, and Amazon App Stores)
-3. Kickstarter
-4. Indiegogo
+2. Major app store link (AppStore, PlayStore, etc)
+3. Crowdfunding sites (Kickstarter, Indiegogo, etc)
+4. Github, Bitbucket repositories for open source proejcts
 
 We do not accept any other product links including e-commerce sites ( e.g. Amazon, ebay, etc.), affiliate marketing sites (e.g. Canopy, Awesome Invention, etc.), newspaper or blog articles, and social media posts, etc.
 
