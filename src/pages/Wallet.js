@@ -38,11 +38,16 @@ class Wallet extends Component {
           <title>Wallet - Steemhunt</title>
         </Helmet>
 
+        <div className="balance-bar">
+          <
+          <div className="sans">{formatNumber(balance)}<small>HUNT</small></h1>
+        </div>
+
         <div className="heading left-padded">
           <h3>Balance</h3>
         </div>
         <div className="balance left-padded">
-          <h1 className="sans">{formatNumber(balance)}<small>HUNT</small></h1>
+          
 
           <Tooltip title="External ETH wallet withdrawal feature is currently under development.">
             <Button

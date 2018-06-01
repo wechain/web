@@ -44,7 +44,7 @@ export function getTransactionsReducer(state, action) {
 /*--------- SAGAS ---------*/
 function* getTransactions() {
   try {
-    const transactions = yield api.get(`/hunt_transactions.json`);
+    const transactions = yield api.get(`/hunt_transactions.json`, null, true);
 
     yield put(getTransactionsSuccess(transactions));
   } catch(e) {
