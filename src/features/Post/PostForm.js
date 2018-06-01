@@ -40,7 +40,6 @@ class PostForm extends Component {
       fileList: [],
       beneficiariesValid: true,
       shouldRecalculateBeneficiary: false,
-      guidelineVisible: false,
     };
     this.beneficiaryInput = {};
   }
@@ -97,10 +96,6 @@ class PostForm extends Component {
     if (this.state.shouldRecalculateBeneficiary) {
       this.onBeneficiariesChanged();
     }
-  }
-
-  setGuidelineVisible(guidelineVisible) {
-    this.setState({ guidelineVisible });
   }
 
   checkAndResetDraft = () => {
@@ -358,56 +353,7 @@ class PostForm extends Component {
 
     return (
       <Form onSubmit={this.handleSubmit} className="post-form">
-        <div className="guideline"><a onClick={() => this.setGuidelineVisible(true)}>Posting Guidelines</a></div>
-        <Modal
-          title="Posting Guidelines"
-          visible={this.state.guidelineVisible}
-          width={800}
-          footer={null}
-          onOk={() => this.setGuidelineVisible(false)}
-          onCancel={() => this.setGuidelineVisible(false)}
-        >
-          <p>Steemhunt is a ranking community run by early-adopters who hunt &quot;effortlessly cool products.&quot; Please follow these guidelines when making a post. If your post fails to follow the guidelines, it may be excluded from the ranking.</p>
-          <hr/>
-          <h4>1. Post a &quot;Product,&quot; not a &quot;Business.&quot;</h4>
-          <p>A business is larger and more vague than a product. For example, you may post a new Samsung Galaxy S9 phone - this is a product. You can’t post &quot;Samsung&quot; itself - this is a business. Also, you can’t post a local product. Steemhunt is a global community, so you should bring something that everyone can enjoy.</p>
-          <h4>2. Types of Products to Post</h4>
-          <p>Steemhunt generally covers unique IT or hardware products, including:</p>
-          <ul>
-            <li>Web services</li>
-            <li>Mobile apps</li>
-            <li>Games</li>
-            <li>API, IT solutions, bots, open sources or other types of software</li>
-            <li>Tech gadgets</li>
-            <li>Unique items</li>
-          </ul>
-          <h4>3. Language - English Only</h4>
-          <p>Steemhunt runs a single ranking board globally, so please post and comment in English. The product website should also be in English.</p>
-          <h4>4. Product Link</h4>
-          <p>All posts must have a valid website. You can only provide an official website of the product, app download link, or e-commerce site where users can make purchases. The following examples WILL NOT be accepted:</p>
-          <ul>
-            <li>Newspaper articles</li>
-            <li>Listicles (like &quot;00 cool inventions …&quot;)</li>
-            <li>Blog posts (unless it’s a launching post)</li>
-            <li>Affiliate marketing site (e.g. Canopy, Awesome Invention, etc.)</li>
-            <li>Social media posts such as Facebook, Twitter, Youtube, Pinterest or Instagram</li>
-          </ul>
-          <h4>5. Plagiarism and Copyright</h4>
-          <p>Write a sentence and description with your own words. Do not copy and paste from the product’s website or other sites. You can however quote some content from a site, but you must use quotes and cite the source properly.</p>
-          <h4>6. Post &quot;New&quot; Products</h4>
-          <p>Steemhunt is about cool &quot;new&quot; products. Please make sure that your hunt is about something that’s recently introduced. If the product is not new, there must be strong reason to post. For example, the product must be substantially updated or upgraded in a way that has a positive effect on users. Or, it must be a product that not many people have observed and may be interesting to discover.</p>
-          <h4>7. Quality of the Post</h4>
-          <p>As a hunter, you need to post a cool product with well-structured comments and screenshots so that the users can see the benefit of the product quickly without checking the products website. Your post will be hidden if you</p>
-          <ul>
-            <li>use non-related words/descriptions about the product.</li>
-            <li>attach non-related screenshot images or videos.</li>
-            <li>share any scams or highly suspicious cryptocurrency/fin-tech products.</li>
-            <li>porns</li>
-            <li>illegal products</li>
-          </ul>
-          <hr/>
-          <p>These posting guidelines are being continuously developed by our community. Feel free to suggest any opinions on how to make Steemhunt a cooler ranking community. You can join our <a href="https://discord.gg/mWXpgks" target="_blank" rel="noopener noreferrer">Discord Chat</a> and make any suggestions.</p>
-        </Modal>
+        <div className="guideline"><a href="https://github.com/Steemhunt/web/blob/master/POSTING_GUIDELINES.md" target="_blank" rel="noopener noreferrer">Posting Guidelines</a></div>
         <FormItem
           {...formItemLayout}
           label="Product Link"
