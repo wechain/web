@@ -38,6 +38,7 @@ export const initialState = {
   topPosts: {},
   topStatus: {},
   dailyRanking: {},
+  isPostLoading: false,
   isLoading: false,
   isPublishing: false,
   currentPostKey: null,

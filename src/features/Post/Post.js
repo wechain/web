@@ -15,12 +15,13 @@ import {
 } from 'features/Comment/selectors';
 import { getLoginURL } from 'utils/token';
 import { selectIsConnected } from 'features/User/selectors';
-import { selectCurrentComments, selectCurrentPost } from './selectors';
+import { selectCurrentComments, selectCurrentPost, selectIsPostLoading } from './selectors';
 import { getPostBegin, setCurrentPostKey } from './actions/getPost';
 import PostView from './components/PostView';
 import CommentReplyForm from 'features/Comment/CommentReplyForm';
 import { scrollTop } from 'utils/scroller';
 import NotFound from 'components/NotFound';
+import CircularProgress from 'components/CircularProgress';
 
 class Post extends Component {
   static propTypes = {
@@ -33,6 +34,7 @@ class Post extends Component {
     commentsChild: PropTypes.object.isRequired,
     currentComments: PropTypes.object,
     commentsIsLoading: PropTypes.bool.isRequired,
+    isPostLoading: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -63,9 +65,11 @@ class Post extends Component {
   }
 
   render() {
-    const { post, currentComments, commentsData, commentsChild, commentsIsLoading, isConnected } = this.props;
+    const { post, currentComments, commentsData, commentsChild, commentsIsLoading, isConnected, isPostLoading } = this.props;
 
-    if (isEmpty(post)) {
+    if (isPostLoading) {
+      return <CircularProgress />;
+    } else if (isEmpty(post)) {
       return <NotFound/>;
     }
 
@@ -140,6 +144,7 @@ const mapStateToProps = () => createStructuredSelector({
   currentComments: selectCurrentComments(),
   commentsIsLoading: selectCommentsIsLoading(),
   isConnected: selectIsConnected(),
+  isPostLoading: selectIsPostLoading(),
 });
 
 const mapDispatchToProps = dispatch => ({

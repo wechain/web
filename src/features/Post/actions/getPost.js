@@ -31,6 +31,10 @@ export function setCurrentPostKey(key) {
 /*--------- REDUCER ---------*/
 export function getPostReducer(state, action) {
   switch (action.type) {
+    case GET_POST_BEGIN:
+      return update(state, {
+        isPostLoading: { $set: true },
+      });
     case GET_POST_SUCCESS:
       const { post, updateDraft } = action;
       const key = getPostKey(post);
@@ -45,6 +49,7 @@ export function getPostReducer(state, action) {
             is_verified: { $set: post.is_verified },
             verified_by: { $set: post.verified_by },
           }},
+          isPostLoading: { $set: false },
         };
         if (updateDraft) {
           updateParams['draft'] = { $set: post };
@@ -54,6 +59,7 @@ export function getPostReducer(state, action) {
       } else {
         const updateParams = {
           posts: { [key]: { $set: post } },
+          isPostLoading: { $set: false },
         };
         if (updateDraft) {
           updateParams['draft'] = { $set: post };

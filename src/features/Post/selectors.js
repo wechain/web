@@ -34,6 +34,11 @@ export const selectTopPosts = () => createSelector(
   state => state.topPosts,
 );
 
+export const selectIsPostLoading = () => createSelector(
+  selectPostDomain(),
+  state => state.isPostLoading,
+);
+
 export const selectIsLoading = () => createSelector(
   selectPostDomain(),
   state => state.isLoading,
