@@ -39,8 +39,8 @@ class Wallet extends Component {
         </Helmet>
 
         <div className="balance-bar">
-          <
-          <div className="sans">{formatNumber(balance)}<small>HUNT</small></h1>
+          
+          <div className="sans">{formatNumber(balance)}<small>HUNT</small></div>
         </div>
 
         <div className="heading left-padded">
