@@ -20,6 +20,7 @@ import { getPostBegin, setCurrentPostKey } from './actions/getPost';
 import PostView from './components/PostView';
 import CommentReplyForm from 'features/Comment/CommentReplyForm';
 import { scrollTop } from 'utils/scroller';
+import NotFound from 'components/NotFound';
 
 class Post extends Component {
   static propTypes = {
@@ -65,7 +66,7 @@ class Post extends Component {
     const { post, currentComments, commentsData, commentsChild, commentsIsLoading, isConnected } = this.props;
 
     if (isEmpty(post)) {
-      return null;
+      return <NotFound/>;
     }
 
     return (
