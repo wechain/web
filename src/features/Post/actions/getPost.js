@@ -67,6 +67,10 @@ export function getPostReducer(state, action) {
 
         return update(state, updateParams);
       }
+    case GET_POST_FAILURE:
+      return update(state, {
+        isPostLoading: { $set: false },
+      });
     case SET_CURRENT_POST_KEY:
       return update(state, {
         currentPostKey: { $set: action.key },
