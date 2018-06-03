@@ -28,3 +28,10 @@ export function isModerator(username) {
   ];
   return moderators.indexOf(username) !== -1;
 }
+
+export function isAdmin(username) {
+  const admins = [
+    'tabris', 'project7',
+  ];
+  return admins.indexOf(username) !== -1;
+}
