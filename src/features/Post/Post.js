@@ -4,7 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import { Helmet } from 'react-helmet';
-import { List, Button } from 'antd';
+import { List, Button, Icon } from 'antd';
 import ContentPayoutAndVotes from 'components/ContentPayoutAndVotes';
 import CommentItem from 'features/Comment/CommentItem';
 import { getCommentsFromPostBegin } from 'features/Comment/actions/getCommentsFromPost';
@@ -87,11 +87,13 @@ class Post extends Component {
           <h3>
             <ContentPayoutAndVotes content={post} />
             <span className="separator">&middot;</span>
-            {currentComments && (
+            {currentComments ?
               <span>
                 {post.children} comments
               </span>
-            )}
+            :
+              <Icon type="loading" />
+            }
           </h3>
 
           {!isConnected && (
@@ -116,11 +118,11 @@ class Post extends Component {
             <CommentReplyForm content={post} closeForm={null} />
           )}
 
-          {currentComments && (
+          {currentComments ?
             <List
               loading={commentsIsLoading}
               itemLayout="horizontal"
-              dataSource={currentComments.list}
+              dataSource={currentComments  && currentComments.list}
               renderItem={commentId => (
                 <CommentItem
                   key={commentId}
@@ -130,7 +132,9 @@ class Post extends Component {
                 />
               )}
             />
-          )}
+          :
+            <Icon type="loading" spin="true" className="center-loading" style={{ fontSize: 40 }} />
+          }
         </div>
       </div>
     );
