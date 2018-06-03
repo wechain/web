@@ -27,3 +27,9 @@ REACT_APP_STEEMCONNECT_IMG_HOST="https://img.busy.org"
 4. Once you finish setting up `api` directory, type:
 ```rails start```
 to start both API (back-end) and Node server (front-end) on local port 3000 and 3001 respectively.
+
+
+## Deploy
+```
+git push && npm run build && cd ../api && git push && bundle exec cap production deploy
+```
