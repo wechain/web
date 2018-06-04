@@ -66,7 +66,10 @@ These specific types of games will not be acceptable:
 * A single flash / HTML game
 * A generic gambling game
 
+<hr>
 
+## Moderation
+All hunts posted on Steemhunt.com are verified by Steemhunt moderators first. Once our moderators check that your hunt meets all the criteria in the posting guidelines, your hunt will be approved and considered for the ranking competition and @steemhunt's upvote. Your post will be hidden by the moderators if it does not meet the posting guidelines, in which case your hunt will be delisted from the ranking board. Posts may not be processed before the cutoff time. In this scenario your post will automatically roll over to the next day's competition and will be verified that day.
 
 These posting guidelines were updated on June 4, 2018, and are being continuously developed by our community. Feel free to suggest any opinions on how to make Steemhunt a cooler ranking community. You can join our [Discord Chat](https://discord.gg/mWXpgks) and make suggestions.
 
