@@ -50,6 +50,7 @@ As a hunter, you need to post a cool product with well-structured comments and s
 * share porn or anything under the #nsfw category.
 * share illegal products.
 * share an ICO which currently has no live product.
+* share a product that is no longer available (except for pre-order stage in the crowdfunding platform).
 
 ## 9. No Duplication Allowed
 Steemhunt does not allow the same product to be posted twice. The website automatically checks the URL, but it is still your responsibility to check that the product has not been posted earlier.
@@ -67,5 +68,5 @@ These specific types of games will not be acceptable:
 
 
 
-These posting guidelines were updated on June 1, 2018, and are being continuously developed by our community. Feel free to suggest any opinions on how to make Steemhunt a cooler ranking community. You can join our [Discord Chat](https://discord.gg/mWXpgks) and make suggestions.
+These posting guidelines were updated on June 4, 2018, and are being continuously developed by our community. Feel free to suggest any opinions on how to make Steemhunt a cooler ranking community. You can join our [Discord Chat](https://discord.gg/mWXpgks) and make suggestions.
 
