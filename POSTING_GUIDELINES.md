@@ -53,9 +53,14 @@ As a hunter, you need to post a cool product with well-structured comments and s
 * share a product that is no longer available (except for pre-order stage in the crowdfunding platform).
 
 ## 9. No Duplication Allowed
-Steemhunt does not allow the same product to be posted twice. The website automatically checks the URL, but it is still your responsibility to check that the product has not been posted earlier.
+Steemhunt does not allow the same product to be posted twice. The website automatically checks the URL, but it is still your responsibility to check that the product has not been posted earlier. If your product has already been featured from the same brand, the duplication is allowed only when:
+1. The product is a newer model (V2) or has been majorly updated from the original one.
+2. They are both main products (not accessories or sub-products).
 
-## 10. Games
+## 10. Post Only Main Products
+When it comes to a maker/brand, they usually have main and sub product. Steemhunt allows only the main product lines from the maker. For example, you cannot post an iPad Smart Cover because it is not from its main product line. However, you may be able to post an innovative iPad Smart Cover from a renowned accessory brand like Belkin because it is the brand's main product line (but in this case your product may not be under "cool product" in section 7).
+
+## 11. Games
 There are countless games worldwide, and many of them have narrow target customers. If we accept all new games in Steemhunt, our ranking board may be dominated by games. So, Steemhunt will only accept games that are:
 * downloadable/purchasable from major app stores or console game markets
 * run on their own website
