@@ -1,11 +1,117 @@
 .airdrops {
-  padding: 180px 100px;
+  padding: 80px;
   color: #fff;
   text-align: center;
 
   h1 {
     font-size: 3rem;
+    line-height: 3.7rem;
     color: #fff;
     letter-spacing: -1px;
   }
-}
+
+  a {
+    color: #fff !important;
+  }
+
+  .thin {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 0.9375rem;
+  }
+
+  .icon-num {
+    display: block;
+    margin-top: 5rem;
+    margin-bottom: 0.875rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 39px;
+    height: 39px;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+
+    &.margin-top {
+      margin-top: 5rem;
+    }
+  }
+
+  .action {
+    display: block;
+    margin: 3rem 0;
+
+    &.less-margin {
+      margin: 1rem 0 1.5rem 0;
+    }
+
+    .anticon {
+      margin-left: 0.25rem;
+    }
+  }
+
+  .image {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    &.token {
+      max-width: 590px;
+    }
+    &.sp-swap {
+      max-width: 398px;
+      margin-top: 3rem;
+      margin-bottom: 5rem;
+    }
+    &.hunt-platform {
+      max-width: 578px;
+    }
+  }
+
+  .grid {
+    padding-top: 4rem;
+
+    .icon {
+      display: block;
+
+      &.sponsors {
+        width: 54px;
+        height: 46px;
+        margin: 2px auto;
+      }
+
+      &.upvote {
+        width: 48px;
+        height: 48px;
+        margin: 0 auto 2px auto;
+      }
+
+      &.referrals {
+        width: 51px;
+        height: 46px;
+        margin: 2px auto;
+      }
+
+      &.posting {
+        width: 52px;
+        height: 38px;
+        margin: 6px auto;
+      }
+    } // .icon
+
+    h3 {
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 0.875rem;
+      padding: 0 10%;
+    }
+  } // .grid
+} // .airdrops

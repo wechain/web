@@ -38,27 +38,33 @@ class Wallet extends Component {
           <title>Wallet - Steemhunt</title>
         </Helmet>
 
-        <div className="balance-bar">
-          
-          <div className="sans">{formatNumber(balance)}<small>HUNT</small></div>
-        </div>
-
-        <div className="heading left-padded">
-          <h3>Balance</h3>
-        </div>
-        <div className="balance left-padded">
-          
-
-          <Tooltip title="External ETH wallet withdrawal feature is currently under development.">
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="submit-button"
-              ghost
-            >
-              WITHDRAW
-            </Button>
-          </Tooltip>
+        <div className="balance-bar left-padded right-padded">
+          <div className="left">
+            <div className="sans small">Token Balance</div>
+            <div className="sans balance">{formatNumber(balance)} HUNT</div>
+          </div>
+          <div className="right">
+            <Tooltip title="SP holder airdrop is not available yet. We'll announce it when it becomes available.">
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="submit-button"
+                ghost
+              >
+                SP CLAIM
+              </Button>
+            </Tooltip>
+            <Tooltip title="External ETH wallet withdrawal feature is currently under development.">
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="submit-button"
+                ghost
+              >
+                WITHDRAW
+              </Button>
+            </Tooltip>
+          </div>
         </div>
 
         <div className="heading left-padded transaction-heading">
@@ -67,13 +73,14 @@ class Wallet extends Component {
         <List
           itemLayout="horizontal"
           dataSource={transactions}
+          className="transactions"
           renderItem={t => (
-            <List.Item className="left-padded">
+            <List.Item className="left-padded transaction-item">
               <List.Item.Meta
                 avatar={me === t.sender ?
-                  <Avatar icon="arrow-right" className="red-filled"/>
+                  <Avatar icon="arrow-right" className="out-icon"/>
                 :
-                  <Avatar icon="arrow-left" className="green-filled" />
+                  <Avatar icon="arrow-left" className="in-icon" />
                 }
                 title={me === t.sender ?
                   `Sent ${formatNumber(t.amount)} to ` + (t.receiver ? `@${t.receiver}` : `ETH Wallet (${t.eth_address})`)
