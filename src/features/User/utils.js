@@ -24,7 +24,7 @@ export function format(user, appProps) {
 export function isModerator(username) {
   const moderators = [
     'tabris', 'project7',
-    'teamhumble', 'folken', 'urbangladiator', 'chronocrypto', 'dayleeo', 'fknmayhem'
+    'teamhumble', 'folken', 'urbangladiator', 'chronocrypto', 'dayleeo', 'fknmayhem', 'jayplayco'
   ];
   return moderators.indexOf(username) !== -1;
 }
