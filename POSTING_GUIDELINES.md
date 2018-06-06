@@ -14,6 +14,7 @@ Steemhunt generally covers unique IT or hardware products, including:
 * API, IT solutions, bots, open sources or other types of software
 * Tech gadgets, hardware, IoT/connected/wearable devices
 * Games
+* Innovative engineering inventions
 
 ## 3. Product Link
 We only accept these four product links:
