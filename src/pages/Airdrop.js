@@ -21,7 +21,7 @@ export default class Airdrop extends Component {
           largest-ever airdrop for Steemit users. SMT-based HUNT tokens are to be distributed in a 1:1 ratio
           to the ERC20 tokens held by Steemhunt off-chain wallet owners and registered Ether addresses
 
-          <a href="https://steemit.com/steemit/@steemhunt/hunt-token-airdrop-manual" className="action" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/Steemhunt/web/wiki/HUNT-Token-Airdrop-Manual" className="action" target="_blank" rel="noopener noreferrer">
             Check out Airdrop Manual <Icon type="right-circle-o" />
           </a>
         </div>
