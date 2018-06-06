@@ -76,6 +76,7 @@ export const calculateContentPayout = content => {
 
 export const hasVoted = (content, name) => content.active_votes && !!content.active_votes.find(vote => vote.voter === name && vote.percent > 0);
 export const formatAmount = amount => numeral(amount).format('$0,0.00');
+export const formatNumber = amount => numeral(amount).format('0,0.00');
 
 export const createCommentPermlink = (parentAuthor, parentPermlink) => {
   let permlink;

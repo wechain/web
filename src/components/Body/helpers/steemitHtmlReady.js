@@ -214,7 +214,7 @@ function linkify(content, mutate, hashtags, usertags, images, links) {
     if (valid && usertags) usertags.add(userLower);
     if (!mutate) return user;
     return space + (valid ?
-      `<a href="/@${userLower}">@${user2}</a>` :
+      `<a href="/author/@${userLower}">@${user2}</a>` :
       `@${user2}`
     );
   });

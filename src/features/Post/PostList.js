@@ -87,7 +87,7 @@ class PostList extends Component {
 
     return (
       <div className={`post-list day-ago-${daysAgo}`}>
-        <div className="heading">
+        <div className="heading left-padded">
           <h3>{daysAgoToString(daysAgo)}</h3>
           <div className="heading-sub">
             <b>{ranking.length}</b> products, <b>{formatAmount(dailyTotalReward)}</b> SBD hunter’s rewards were generated.<br/>

@@ -49,7 +49,7 @@ export default class ContentPayoutAndVotes extends PureComponent {
     ));
     if (activeVotes.length > NB_SHOW_VOTES) lastVotesTooltipMsg.push(
       <div key="...">
-        ... and <strong>{activeVotes.length - 5}</strong> more votes.
+        ... and <strong>{activeVotes.length - NB_SHOW_VOTES}</strong> more votes.
       </div>
     );
 

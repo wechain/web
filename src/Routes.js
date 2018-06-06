@@ -25,6 +25,8 @@ const Profile = asyncComponent(() => import('pages/Profile'));
 const HuntedListByAuthor = asyncComponent(() => import('pages/HuntedListByAuthor'));
 const HallOfFame = asyncComponent(() => import('pages/HallOfFame'));
 const Search = asyncComponent(() => import('pages/Search'));
+const Airdrop = asyncComponent(() => import('pages/Airdrop'));
+const Wallet = asyncComponent(() => import('pages/Wallet'));
 
 const BackButton = withRouter(({ history }) => (
   <Icon
@@ -63,6 +65,7 @@ export class RoutesLeft extends Component {
           <Route path="/@:author/:permlink/edit" exact component={Draft} />
           <Route path="/author/@:author" exact component={Profile} />
           <Route path="/author/@:author/:permlink" exact component={Post} />
+          <Route path="/wallet" exact component={Airdrop} />
           <Route path='*' component={NotFound} />
         </Switch>
       </div>
@@ -110,6 +113,7 @@ class Right extends Component {
           <Route path="/@:author/:permlink/edit" exact component={PostForm} />
           <Route path="/@:author/:permlink" exact component={List} />
           <Route path="/author/@:author" component={AuthorList} />
+          <Route path="/wallet" exact component={Wallet} />
           <Route path='*' component={List} />
         </Switch>
       </div>

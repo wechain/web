@@ -44,6 +44,10 @@ hr {
   box-sizing: border-box;
 }
 
+.sans {
+  font-family: 'Open Sans', sans-serif;
+}
+
 .mobile-hidden {
   @include responsive(mobile) { // max-width: 1023
     display: none !important;
@@ -192,7 +196,7 @@ hr {
   }
 
   .panel-right {
-    padding-top: 180px;
+    padding-top: $header_height;
     z-index: 0;
 
     @include responsive(tablet) {
@@ -264,6 +268,10 @@ hr {
     height: 100vh;
     line-height: 100vh;
   }
+}
+
+.panel-right .center-loading.full-page {
+  line-height: calc(100vh - #{$header_height} * 2);
 }
 
 .diagonal-split-view {
@@ -371,7 +379,6 @@ hr {
     padding-right: 20px;
   }
 }
-
 
 .heading {
   position: relative;

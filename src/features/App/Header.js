@@ -46,7 +46,7 @@ class Header extends Component {
     }
   }
 
-  handleVisibleChange = (visible) => this.setState({ menuVisible: visible });
+  changeVisibility = (visible) => this.setState({ menuVisible: visible });
 
   setSearchVisible = (bool) => {
     this.setState({ searchVisible: bool }, () => {
@@ -88,21 +88,26 @@ class Header extends Component {
           }
 
           <Menu.Item key="1">
-            <Link to="/hall-of-fame" onClick={() => this.handleVisibleChange(false)}>
+            <Link to="/hall-of-fame" onClick={() => this.changeVisibility(false)}>
               <Icon type="trophy" /> HALL OF FAME
             </Link>
           </Menu.Item>
           <Menu.Item key="2">
-            <Link to={`/author/@${me}`} onClick={() => this.handleVisibleChange(false)}>
-              <Icon type="loading-3-quarters" /> VOTING POWER: {parseInt(myAccount.voting_power / 100, 10)}%
+            <Link to={`/wallet`} onClick={() => this.changeVisibility(false)}>
+              <Icon type="wallet" /> WALLET <sup>beta</sup>
             </Link>
           </Menu.Item>
           <Menu.Item key="3">
-            <Link to={`/author/@${me}`} onClick={() => this.handleVisibleChange(false)}>
+            <Link to={`/author/@${me}`} onClick={() => this.changeVisibility(false)}>
               <Icon type="user" /> MY PROFILE
             </Link>
           </Menu.Item>
           <Menu.Item key="4">
+            <Link to={`/author/@${me}`} onClick={() => this.changeVisibility(false)}>
+              <Icon type="loading-3-quarters" /> VOTING POWER: {parseInt(myAccount.voting_power / 100, 10)}%
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="5">
             <span onClick={this.props.logout}>
               <Icon type="poweroff" /> LOGOUT
             </span>
@@ -113,12 +118,12 @@ class Header extends Component {
       menu = (
         <Menu theme="dark">
           <Menu.Item key="0" className="two-column-hidden">
-            <Link to="/about" onClick={() => this.handleVisibleChange(false)}>
+            <Link to="/about" onClick={() => this.changeVisibility(false)}>
               <Icon type="question-circle-o" /> ABOUT STEEMHUNT
             </Link>
           </Menu.Item>
           <Menu.Item key="1">
-            <Link to="/hall-of-fame" onClick={() => this.handleVisibleChange(false)}>
+            <Link to="/hall-of-fame" onClick={() => this.changeVisibility(false)}>
               <Icon type="trophy" /> HALL OF FAME
             </Link>
           </Menu.Item>
@@ -148,7 +153,7 @@ class Header extends Component {
               trigger="click"
               placement="bottomRight"
               visible={this.state.menuVisible}
-              onVisibleChange={this.handleVisibleChange}
+              onVisibleChange={this.changeVisibility}
               overlayClassName="menu-popover"
             >
               <span className="ant-dropdown-link header-button" role="button">
@@ -168,7 +173,7 @@ class Header extends Component {
               trigger="click"
               placement="bottom"
               visible={this.state.menuVisible}
-              onVisibleChange={this.handleVisibleChange}
+              onVisibleChange={this.changeVisibility}
               overlayClassName="menu-popover"
             >
               <span className="right-margin header-button smaller">

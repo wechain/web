@@ -1,0 +1,81 @@
+.wallet {
+  .balance-bar {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    color: $primary;
+    background-color: #001529;
+    overflow: hidden;
+
+    .left {
+      float: left;
+      .small {
+        font-size: 0.875rem;
+        font-weight: 200;
+      }
+
+      .balance {
+        margin-top: -0.3125rem;
+        font-size: 1.75rem;
+      }
+    }
+
+    .right {
+      float: right;
+      margin-top: 0.6875rem;
+
+      button {
+        font-weight: 200;
+        margin-left: 0.5rem;
+      }
+    }
+  } // .balance-bar
+
+  .transaction-heading {
+    margin-top: 50px;
+    margin-bottom: 0.75rem;
+  }
+
+  .transactions {
+    border-top: 1px solid #e8e8e8;
+
+    .transaction-item {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+
+      .icon {
+        margin-top: 1rem;
+        &.sent {
+          background-color: #bd10e0;
+        }
+        &.received {
+          background-color: $primary;
+        }
+      }
+
+      .title {
+        &.sent {
+          color: #bd10e0
+        }
+
+        &.received {
+          color: $primary;
+        }
+      }
+
+      // override
+      .ant-list-item-meta-title {
+        margin: 0;
+      }
+
+      .memo {
+        color: $text_dark;
+      }
+
+      .date {
+        color: $text_grey;
+        font-size: 0.8125rem;
+      }
+    }
+  }
+} // .wallet
+

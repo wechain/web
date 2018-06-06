@@ -77,7 +77,7 @@ class HuntedListByAuthor extends Component {
         useWindow={false}
         className="post-list"
         header={authorStatus[currentUser] &&
-          <div className="heading" key="header">
+          <div className="heading left-padded" key="header">
             <h3>Hunted by @{currentUser}</h3>
             <div className="heading-sub">
               <b>{authorStatus[currentUser].total_count}</b> products, <b>{formatAmount(authorStatus[currentUser].total_payout)}</b> SBD hunter’s rewards were generated.
