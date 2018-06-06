@@ -72,6 +72,8 @@ These specific types of games will not be acceptable:
 * A single flash / HTML game
 * A generic gambling game
 
+With respect to “new” games we will consider them based on the original title’s release date. No other release dates based on additions of new platforms or newly released patches will be considered.
+
 <hr>
 
 ## Moderation
