@@ -35,6 +35,22 @@
     margin-bottom: 0.75rem;
   }
 
+  .placeholder {
+    text-align: center;
+
+    img {
+      width: 253px;
+      height: 253px;
+      display: block;
+      margin: 8rem auto 1rem auto;
+    }
+
+    p {
+      font-size: 1.5rem;
+      color: $light_grey;
+    }
+  }
+
   .transactions {
     border-top: 1px solid #e8e8e8;
 

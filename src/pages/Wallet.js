@@ -11,6 +11,7 @@ import { getTransactionsBegin } from 'features/Wallet/actions/getTransactions';
 import CircularProgress from 'components/CircularProgress';
 import { selectMe } from 'features/User/selectors';
 import { shortFormat } from 'utils/date';
+import tokenPlaceholder from 'assets/images/wallet/token-placeholder@2x.png';
 
 class Wallet extends Component {
   static propTypes = {
@@ -67,40 +68,49 @@ class Wallet extends Component {
           </div>
         </div>
 
-        <div className="heading left-padded transaction-heading">
-          <h3>Transactions</h3>
-        </div>
-        <List
-          itemLayout="horizontal"
-          dataSource={transactions}
-          className="transactions"
-          renderItem={t => (
-            <List.Item className="left-padded transaction-item">
-              <List.Item.Meta
-                avatar={me === t.sender ?
-                  <Avatar icon="arrow-right" className="icon sent"/>
-                :
-                  <Avatar icon="arrow-left" className="icon received" />
-                }
-                title={me === t.sender ?
-                  <div className="title sent">
-                    {`Sent ${formatNumber(t.amount)} to ` + (t.receiver ? `@${t.receiver}` : `ETH Wallet (${t.eth_address})`)}
-                  </div>
-                :
-                  <div className="title received">
-                    {`Received ${formatNumber(t.amount)} from ` + (t.sender ? `@${t.sender}` : `ETH Wallet (${t.eth_address})`)}
-                  </div>
-                }
-                description={
-                  <div>
-                    <div className="memo">{t.memo}</div>
-                    <div className="date">{shortFormat(t.created_at)}</div>
-                  </div>
-                }
-              />
-            </List.Item>
-          )}
-        />
+        {transactions.length === 0 ?
+          <div className="placeholder">
+            <img src={tokenPlaceholder} alt="No transactions" />
+            <p>No Transactions Yet</p>
+          </div>
+        :
+          <div>
+            <div className="heading left-padded transaction-heading">
+              <h3>Transactions</h3>
+            </div>
+            <List
+              itemLayout="horizontal"
+              dataSource={transactions}
+              className="transactions"
+              renderItem={t => (
+                <List.Item className="left-padded transaction-item">
+                  <List.Item.Meta
+                    avatar={me === t.sender ?
+                      <Avatar icon="arrow-right" className="icon sent"/>
+                    :
+                      <Avatar icon="arrow-left" className="icon received" />
+                    }
+                    title={me === t.sender ?
+                      <div className="title sent">
+                        {`Sent ${formatNumber(t.amount)} to ` + (t.receiver ? `@${t.receiver}` : `ETH Wallet (${t.eth_address})`)}
+                      </div>
+                    :
+                      <div className="title received">
+                        {`Received ${formatNumber(t.amount)} from ` + (t.sender ? `@${t.sender}` : `ETH Wallet (${t.eth_address})`)}
+                      </div>
+                    }
+                    description={
+                      <div>
+                        <div className="memo">{t.memo}</div>
+                        <div className="date">{shortFormat(t.created_at)}</div>
+                      </div>
+                    }
+                  />
+                </List.Item>
+              )}
+            />
+          </div>
+        }
       </div>
     );
   }
