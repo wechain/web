@@ -54,7 +54,7 @@ class Wallet extends Component {
                 SP CLAIM
               </Button>
             </Tooltip>
-            <Tooltip title="External ETH wallet withdrawal feature is currently under development.">
+            <Tooltip title="ERC-20 wallet withdrawal feature is currently under development.">
               <Button
                 type="primary"
                 htmlType="submit"

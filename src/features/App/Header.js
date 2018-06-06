@@ -94,7 +94,7 @@ class Header extends Component {
           </Menu.Item>
           <Menu.Item key="2">
             <Link to={`/wallet`} onClick={() => this.changeVisibility(false)}>
-              <Icon type="wallet" /> WALLET
+              <Icon type="wallet" /> WALLET <sup>beta</sup>
             </Link>
           </Menu.Item>
           <Menu.Item key="3">
