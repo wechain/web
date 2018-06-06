@@ -10,7 +10,7 @@ import { selectBalance, selectTransactions, selectIsLoading } from 'features/Wal
 import { getTransactionsBegin } from 'features/Wallet/actions/getTransactions';
 import CircularProgress from 'components/CircularProgress';
 import { selectMe } from 'features/User/selectors';
-// import { toTimeAgo } from 'utils/date';
+import { shortFormat } from 'utils/date';
 
 class Wallet extends Component {
   static propTypes = {
@@ -78,16 +78,25 @@ class Wallet extends Component {
             <List.Item className="left-padded transaction-item">
               <List.Item.Meta
                 avatar={me === t.sender ?
-                  <Avatar icon="arrow-right" className="out-icon"/>
+                  <Avatar icon="arrow-right" className="icon sent"/>
                 :
-                  <Avatar icon="arrow-left" className="in-icon" />
+                  <Avatar icon="arrow-left" className="icon received" />
                 }
                 title={me === t.sender ?
-                  `Sent ${formatNumber(t.amount)} to ` + (t.receiver ? `@${t.receiver}` : `ETH Wallet (${t.eth_address})`)
+                  <div className="title sent">
+                    {`Sent ${formatNumber(t.amount)} to ` + (t.receiver ? `@${t.receiver}` : `ETH Wallet (${t.eth_address})`)}
+                  </div>
                 :
-                  `Received ${formatNumber(t.amount)} from ` + (t.sender ? `@${t.sender}` : `ETH Wallet (${t.eth_address})`)
+                  <div className="title received">
+                    {`Received ${formatNumber(t.amount)} from ` + (t.sender ? `@${t.sender}` : `ETH Wallet (${t.eth_address})`)}
+                  </div>
                 }
-                description={t.memo}
+                description={
+                  <div>
+                    <div className="memo">{t.memo}</div>
+                    <div className="date">{shortFormat(t.created_at)}</div>
+                  </div>
+                }
               />
             </List.Item>
           )}

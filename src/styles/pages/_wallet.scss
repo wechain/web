@@ -1,5 +1,4 @@
 .wallet {
-
   .balance-bar {
     padding-top: 30px;
     padding-bottom: 30px;
@@ -43,12 +42,38 @@
       padding-top: 0.75rem;
       padding-bottom: 0.75rem;
 
-      .in-icon {
-        background-color: $primary;
+      .icon {
+        margin-top: 1rem;
+        &.sent {
+          background-color: #bd10e0;
+        }
+        &.received {
+          background-color: $primary;
+        }
       }
 
-      .out-icon {
-        background-color: #bd10e0;
+      .title {
+        &.sent {
+          color: #bd10e0
+        }
+
+        &.received {
+          color: $primary;
+        }
+      }
+
+      // override
+      .ant-list-item-meta-title {
+        margin: 0;
+      }
+
+      .memo {
+        color: $text_dark;
+      }
+
+      .date {
+        color: $text_grey;
+        font-size: 0.8125rem;
       }
     }
   }
