@@ -37,7 +37,7 @@ class Search extends Component {
 
     return (
       <div className="post-list">
-        <div className="heading">
+        <div className="heading left-padded">
           <h3>
             Results for &quot;{searchTerm}&quot;
             <Icon type="close-circle-o" className="close-button" onClick={this.handleClose} />

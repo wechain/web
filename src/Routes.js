@@ -104,7 +104,7 @@ class Right extends Component {
     return (
       <div className="panel-right">
         {this.props.location.search && <Redirect to="/" /> /* Authentication redirection */ }
-        <Header/>
+        <Header path={this.props.location.pathname}/>
         <Switch>
           <Route path="/" exact component={List} />
           <Route path="/about" exact component={List} />

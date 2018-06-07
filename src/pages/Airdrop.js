@@ -73,7 +73,7 @@ export default class Airdrop extends Component {
         </Row>
 
         <h2 className="margin-top">HUNT Platform</h2>
-        <div class="thin">
+        <div className="thin">
           We are going to create a HUNT Token Economy,
           a decentralised token system to reward product influencers,
           help them buy innovative products, and help makers reach out to product influencers.

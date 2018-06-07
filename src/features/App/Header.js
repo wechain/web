@@ -73,6 +73,7 @@ class Header extends Component {
     const { me, myAccount, myFollowingsList, myFollowingsLoadStatus, isLoading, follow, searchTerm } = this.props;
     const isFollowing = myFollowingsList.find(following => following.following === 'steemhunt');
     const isFollowLoading = isLoading || myFollowingsLoadStatus['steemhunt'];
+    const searchBarHidden = this.props.path === '/wallet';
 
     let menu;
     if(me) {
@@ -196,16 +197,18 @@ class Header extends Component {
         }
 
         <div className="pull-right">
-          <Input.Search
-            ref={node => this.searchInput = node}
-            value={searchTerm}
-            placeholder="Search products"
-            onSearch={value => this.props.setSearchTerm(value)}
-            onChange={this.handleSearch}
-            onKeyDown={this.handleKeyPress}
-            onBlur={() => this.setSearchVisible(false)}
-            className={`header-button smaller one-column-hidden right-margin${this.state.searchVisible ? ' active' : ''}`}
-          />
+          {!searchBarHidden &&
+            <Input.Search
+              ref={node => this.searchInput = node}
+              value={searchTerm}
+              placeholder="Search products"
+              onSearch={value => this.props.setSearchTerm(value)}
+              onChange={this.handleSearch}
+              onKeyDown={this.handleKeyPress}
+              onBlur={() => this.setSearchVisible(false)}
+              className={`header-button smaller one-column-hidden right-margin${this.state.searchVisible ? ' active' : ''}`}
+            />
+          }
           <Button
             shape="circle"
             icon="search"
