@@ -27,6 +27,8 @@ We do not accept any other product links including e-commerce sites ( e.g. Amazo
 
 Also, hunters must put the official product website as a main priority. If you’ve listed an app store or Kickstarter link when the product has an official website, moderators can ask you to change it.
 
+Regarding KickStarter & Indiegogo: if the project was not funded, it won't be accepted on SteemHunt.
+
 Lastly, the product link website must be written in proper English, and use modern website standards like HTML5. Older standards (like HTML 4 or Adobe flash) will be checked and may be hidden by moderators.
 
 ## 4. Language - English Only
