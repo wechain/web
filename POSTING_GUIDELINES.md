@@ -16,9 +16,6 @@ Steemhunt generally covers unique IT or hardware products, including:
 * Games
 * Innovative engineering inventions
 
-A NOTE ABOUT PRODUCTS THAT FALL INTO THE "CRYPTO MINING SERVICES & ACCESSORIES" CATEGORY:
-Because of the prevalence of scams and dishonest business practices in this area, we will NOT be accepting products in this category. While we recognize that not all services are scams, we simply can not devote the mod-power and hours into researching each individual case.
-
 ## 3. Product Link
 We only accept these four product links:
 1. Official product website
@@ -45,7 +42,6 @@ Steemhunt is about cool "new" products. Please make sure that your hunt is somet
 
 ## 7. Post “Cool” Products
 In Steemhunt, the coolness is decided by hunter’s upvotes. If many people think that a product is really cool, then the ranking is likely to be higher than other products. However, all products that are hunted in the first place should be somewhat cooler than other products. When a hunter decides to introduce the product to our community, it must not be a generic product. It should have some killer features that make people say “wow.” If your product is considered to be ordinary, the moderators may hide your hunt.
-
 
 ## 8. Quality of the Post
 As a hunter, you need to post a cool product with well-structured comments and screenshots so that the users can see the benefit of the product quickly without needing to check the products website. Your post will be hidden if you:
