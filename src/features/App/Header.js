@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { getLoginURL } from 'utils/token';
-import { Menu, Popover, Icon, Button, Spin, Input } from 'antd';
+import { Menu, Popover, Icon, Button, Spin, Input, Tooltip } from 'antd';
 import {
   selectMe,
   selectMyAccount,
@@ -13,7 +13,7 @@ import {
   selectMyFollowingsList,
   selectMyFollowingsListLoaded
 } from 'features/User/selectors';
-import { selectSearchTerm } from 'features/Post/selectors';
+import { selectSearchTerm, selectMyPostsCountToday } from 'features/Post/selectors';
 import { getFollowingsBegin } from 'features/User/actions/getFollowings';
 import { followBegin } from 'features/User/actions/follow';
 import { logoutBegin } from 'features/User/actions/logout';
@@ -33,6 +33,7 @@ class Header extends Component {
     logout: PropTypes.func.isRequired,
     getFollowings: PropTypes.func.isRequired,
     setSearchTerm: PropTypes.func.isRequired,
+    myPostsCountToday: PropTypes.number.isRequired,
   };
 
   state = {
@@ -70,7 +71,7 @@ class Header extends Component {
   };
 
   render() {
-    const { me, myAccount, myFollowingsList, myFollowingsLoadStatus, isLoading, follow, searchTerm } = this.props;
+    const { me, myAccount, myFollowingsList, myFollowingsLoadStatus, isLoading, follow, searchTerm, myPostsCountToday } = this.props;
     const isFollowing = myFollowingsList.find(following => following.following === 'steemhunt');
     const isFollowLoading = isLoading || myFollowingsLoadStatus['steemhunt'];
     const searchBarHidden = this.props.path === '/wallet';
@@ -146,9 +147,15 @@ class Header extends Component {
 
         {!isLoading && me &&
           <div className="pull-right">
-            <Link to="/post" className="right-margin header-button smaller">
-              <Button shape="circle" icon="plus" />
-            </Link>
+            { myPostsCountToday >= 2 ?
+              <Tooltip title="You have already posted 2 products today. Please hunt more tomorrow :)">
+                <Button shape="circle" icon="plus"  className="right-margin header-button smaller"/>
+              </Tooltip>
+            :
+              <Link to="/post" className="right-margin header-button smaller">
+                <Button shape="circle" icon="plus" />
+              </Link>
+            }
             <Popover
               content={menu}
               trigger="click"
@@ -233,6 +240,7 @@ const mapStateToProps = createStructuredSelector({
   myFollowingsList: selectMyFollowingsList(),
   myFollowingsListLoaded: selectMyFollowingsListLoaded(),
   searchTerm: selectSearchTerm(),
+  myPostsCountToday: selectMyPostsCountToday(),
 });
 
 const mapDispatchToProps = (dispatch, props) => ({

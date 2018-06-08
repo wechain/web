@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { selectCommentsDomain } from 'features/Comment/selectors';
 import { generatePostKey } from './utils';
+import { selectMe } from 'features/User/selectors';
 
 const selectPostDomain = () => state => state.post;
 
@@ -22,6 +23,18 @@ export const selectPosts = () => createSelector(
 export const selectDailyRanking = () => createSelector(
   selectPostDomain(),
   state => state.dailyRanking,
+);
+
+export const selectMyPostsCountToday = () => createSelector(
+  [selectMe(), selectDailyRanking()],
+  (me, dailyRanking) => {
+    if (!dailyRanking[0]) {
+      return 0;
+    }
+
+    const regex = new RegExp(`^${me}/`);
+    return dailyRanking[0].filter(permlink => permlink.match(regex)).length
+  }
 );
 
 export const selectAuthorPosts = () => createSelector(
