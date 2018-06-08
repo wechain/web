@@ -7,7 +7,7 @@ import InfiniteScroll from 'components/InfiniteScroll';
 import { selectTopStatus, selectTopPosts, selectPosts } from 'features/Post/selectors';
 import { getTopPostsBegin } from 'features/Post/actions/getTopPosts';
 import PostItem from 'features/Post/components/PostItem';
-import { formatAmount } from "utils/helpers/steemitHelpers";
+import { formatAmount, formatNumber } from "utils/helpers/steemitHelpers";
 
 class HallOfFame extends Component {
   static propTypes = {
@@ -88,7 +88,7 @@ class HallOfFame extends Component {
               </Radio.Group><br/>
             </div>
             <div className="heading-sub">
-              <b>{topStatus[period].total_count}</b> products, <b>{formatAmount(topStatus[period].total_payout)}</b> SBD hunter’s rewards were generated.
+              <b>{formatNumber(topStatus[period].total_count)}</b> products, <b>{formatAmount(topStatus[period].total_payout)}</b> SBD hunter’s rewards were generated.
             </div>
           </div>
         }
