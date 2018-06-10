@@ -14,7 +14,7 @@ Steemhunt generally covers unique IT or hardware products, including:
 * API, IT solutions, bots, open sources or other types of software
 * Tech gadgets, hardware, IoT/connected/wearable devices
 * Games
-* Innovative engineering inventions
+* Innovative Engineering/Design Products
 
 ## 3. Product Link
 We only accept these four product links:
@@ -84,5 +84,5 @@ Please note that since we can not predict every possible product, category, and/
 
 <hr>
 
-These posting guidelines were updated on June 9, 2018, and are being continuously developed by our community. Feel free to suggest any opinions on how to make Steemhunt a cooler ranking community. You can join our [Discord Chat](https://discord.gg/mWXpgks) and make suggestions.
+These posting guidelines were updated on June 10, 2018, and are being continuously developed by our community. Feel free to suggest any opinions on how to make Steemhunt a cooler ranking community. You can join our [Discord Chat](https://discord.gg/mWXpgks) and make suggestions.
 
