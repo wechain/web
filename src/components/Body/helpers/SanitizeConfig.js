@@ -39,11 +39,11 @@ const iframeWhitelist = [
     fn: src => src // handled by embedjs
   },
   {
-    re: /^(https?:)?\/\/emb.d.tube\/\#\!\/.*/i,
+    re: /^(https?:)?\/\/emb.d.tube\/#!\/.*/i,
     fn: src => {
       if (!src) return null;
       // <iframe width="560" height="315" src="https://emb.d.tube/#!/johnquake/lwltoj1t" frameborder="0" allowfullscreen></iframe>
-      const m = src.match(/\#\!\/(.+?)$/)
+      const m = src.match(/#!\/(.+?)$/)
       if(!m || m.length !== 2) return null
       return `https://emb.d.tube/#!/${m[1]}`
     }
