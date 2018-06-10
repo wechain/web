@@ -37,6 +37,16 @@ const iframeWhitelist = [
   {
     re: /^(https?:)?\/\/(?:www\.)?(?:(player.)?twitch.tv\/)(.*)?$/i,
     fn: src => src // handled by embedjs
+  },
+  {
+    re: /^(https?:)?\/\/emb.d.tube\/\#\!\/.*/i,
+    fn: src => {
+      if (!src) return null;
+      // <iframe width="560" height="315" src="https://emb.d.tube/#!/johnquake/lwltoj1t" frameborder="0" allowfullscreen></iframe>
+      const m = src.match(/\#\!\/(.+?)$/)
+      if(!m || m.length !== 2) return null
+      return `https://emb.d.tube/#!/${m[1]}`
+    }
   }
 ];
 export const noImageText = '(Image not shown due to low ratings)';
