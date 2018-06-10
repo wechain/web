@@ -30,23 +30,6 @@ class HallOfFame extends Component {
     this.props.getTopPosts(this.state.period, nextPage);
   };
 
-  // NOTE: Disabled due to UI complexity
-  /*
-  import { getSortOption, setSortOption } from 'utils/sortOptions';
-
-  handleSortOption = (value) => {
-    setSortOption('hall-of-fame', value);
-    this.props.getTopPosts(this.state.period, 1);
-  };
-
-  <span className="text-small">Sort by: </span>
-  <Select size="small" defaultValue={getSortOption('hall-of-fame')} onChange={this.handleSortOption}>
-    <Select.Option value="payout">Payout</Select.Option>
-    <Select.Option value="vote_count">Vote Count</Select.Option>
-    <Select.Option value="comment_count">Comment Count</Select.Option>
-  </Select>
-  */
-
   handlePeriodChanged = (e) => this.setState({ period: e.target.value },  () => this.props.getTopPosts(this.state.period, 1));
 
   render() {

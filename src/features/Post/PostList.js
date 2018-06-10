@@ -97,6 +97,7 @@ class PostList extends Component {
             <div className="sort-option">
               <span className="text-small">Sort by: </span>
               <Select size="small" defaultValue={getSortOption('daily')} onChange={this.handleSortOption}>
+                <Select.Option value="hunt_score">Hunt Score</Select.Option>
                 <Select.Option value="payout">Payout</Select.Option>
                 <Select.Option value="created">New</Select.Option>
                 <Select.Option value="vote_count">Vote Count</Select.Option>
