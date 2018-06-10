@@ -8,7 +8,7 @@ import IconTwitter from 'react-icons/lib/fa/twitter-square';
 import IconLinkedIn from 'react-icons/lib/fa/linkedin-square';
 import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
-import { getPostPath, isEditable } from '../utils';
+import { getPostPath, isEditable, addReferral } from '../utils';
 import VoteButton from 'features/Vote/VoteButton';
 import ResteemButton from './ResteemButton';
 import Author from 'components/Author';
@@ -186,7 +186,7 @@ class PostView extends Component {
           <h1>{post.title}</h1>
           <h2>{post.tagline}</h2>
           <Button
-            href={post.url}
+            href={addReferral(post.url)}
             type="primary"
             htmlType="submit"
             className="round-border inversed-color padded-button checkitout-button"

@@ -58,10 +58,6 @@ function updateQueryStringParameter(uri, key, value) {
 export const addReferral = function(url) {
   url = updateQueryStringParameter(url, 'ref', 'steemhunt');
 
-  if (url.match(/^https?:\/\/(www\.)?amazon\.com/)) {
-    url = updateQueryStringParameter(url, 'tag', 'steemhunt-20');
-  }
-
   return url;
 }
 
