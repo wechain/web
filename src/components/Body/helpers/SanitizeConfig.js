@@ -4,7 +4,7 @@ This function is extracted from steemit.com source code and does the same tasks 
  * https://raw.githubusercontent.com/steemit/steemit.com/354c08a10cf88e0828a70dbf7ed9082698aea20d/app/utils/SanitizeConfig.js
  *
  */
-const iframeWhitelist = [
+export const iframeWhitelist = [
   {
     re: /^(https?:)?\/\/player.vimeo.com\/video\/.*/i,
     fn: (src) => {
@@ -39,11 +39,11 @@ const iframeWhitelist = [
     fn: src => src // handled by embedjs
   },
   {
-    re: /^(https?:)?\/\/emb.d.tube\/\#\!\/.*/i,
+    re: /^(https?:)?\/\/emb.d.tube\/#!\/.*/i,
     fn: src => {
       if (!src) return null;
       // <iframe width="560" height="315" src="https://emb.d.tube/#!/johnquake/lwltoj1t" frameborder="0" allowfullscreen></iframe>
-      const m = src.match(/\#\!\/(.+?)$/)
+      const m = src.match(/#!\/(.+?)$/)
       if(!m || m.length !== 2) return null
       return `https://emb.d.tube/#!/${m[1]}`
     }
