@@ -48,6 +48,10 @@
   margin-bottom: 4.375rem;
 
   .heading {
+    @include responsive(tablet) {
+      padding-right: 20px;
+    }
+
     .radio-option {
       text-align: right;
       position: absolute;
@@ -166,14 +170,6 @@
         min-height: 80px;
       }
 
-      @include responsive(mobile) {
-        padding-right: 42px;
-
-        .author, .spacer {
-          display: none;
-        }
-      }
-
       .title {
         font-size: 1.125rem;
 
@@ -198,14 +194,32 @@
 
       .stats {
         color: $text_grey;
-        font-weight: 200;
+        font-weight: 300;
+        font-size: 0.8125rem;
+        margin-top: 0.25rem;
+
+        @include responsive(tablet) {
+          margin-top: 0.125rem;
+        }
 
         .payout {
           color: $primary;
-          font-weight: 400;
+          font-weight: 500;
         }
       }
-    }
+
+      @include responsive(mobile) {
+        padding-right: 0;
+
+        .title, .tagline {
+          padding-right: 42px;
+        }
+
+        .stats {
+          font-size: 0.75rem;
+        }
+      }
+    } // .summary
 
     .vote-section {
       position: absolute;
@@ -552,7 +566,8 @@
       }
 
       @include responsive(mobile) {
-        padding: 0 20px;
+        border-left: 0;
+        padding: 0 5px;
       }
     }
 

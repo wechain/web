@@ -44,7 +44,9 @@ class PostItem extends Component {
           <div className="stats">
             <span className="payout">{formatAmount(post.payout_value)}</span>
             <span className="spacer">&middot;</span>
-            {activeVotes} votes and {post.children} comments
+            {activeVotes} votes
+            <span className="spacer">&middot;</span>
+            {post.children} comments
           </div>
         </div>
         <div className="vote-section">

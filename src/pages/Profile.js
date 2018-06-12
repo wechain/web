@@ -15,7 +15,6 @@ import FollowButton from 'features/User/components/FollowButton';
 import { shortFormat } from 'utils/date';
 import CircularProgress from 'components/CircularProgress';
 import { scrollTop } from 'utils/scroller';
-import { formatNumber } from "utils/helpers/steemitHelpers";
 
 class Profile extends Component {
   static propTypes = {
@@ -97,18 +96,16 @@ class Profile extends Component {
           <div className="profile-picture" style={profileStyle}></div>
           <div className="timeline-container">
             <ul className="left">
-              <li>Hunt Curation Score</li>
+              <li>Reputation</li>
               <li>Followers</li>
-              <li>Reputation Score</li>
               <li>Steem Power</li>
               <li>Current Voting Power</li>
               <li>Estimated Value</li>
             </ul>
 
             <Timeline>
-              <Timeline.Item>{formatNumber(account.hc_score, '0,0') || 0} (Level {account.level || 0})</Timeline.Item>
+              <Timeline.Item>{account.reputation} (voting weight: x{account.voting_weight * 100 || 0})</Timeline.Item>
               <Timeline.Item><FollowerCount author={account.name} unit="followers" /></Timeline.Item>
-              <Timeline.Item>{account.reputation}</Timeline.Item>
               <Timeline.Item><UserSteemPower account={account} /></Timeline.Item>
               <Timeline.Item>{parseInt(account.voting_power / 100, 10)}%</Timeline.Item>
               <Timeline.Item><UserEstimatedValue account={account} /></Timeline.Item>

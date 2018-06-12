@@ -15,8 +15,8 @@ export function postRefreshBegin(post) {
   return { type: POST_REFRESH_BEGIN, post };
 }
 
-export function postRefreshSuccess(post) {
-  return { type: POST_REFRESH_SUCCESS, post };
+export function postRefreshSuccess(post, hunt_score) {
+  return { type: POST_REFRESH_SUCCESS, post, hunt_score };
 }
 
 export function postRefreshFailure(message) {
@@ -31,11 +31,12 @@ export function postIncreaseCommentCount(post) {
 export function postRefreshReducer(state, action) {
   switch (action.type) {
     case POST_REFRESH_SUCCESS: {
-      const { post } = action;
+      const { post, hunt_score } = action;
       return update(state, {
         posts: { [getPostKey(post)]: {
           payout_value: { $set: calculateContentPayout(post) || post.payout_value },
           active_votes: { $set: post.active_votes },
+          hunt_score: { $set: hunt_score },
           isUpdating: { $set: false },
         }},
       });
@@ -56,8 +57,8 @@ export function postRefreshReducer(state, action) {
 /*--------- SAGAS ---------*/
 function* postRefresh({ post }) {
   try {
-    yield api.refreshPost(post);
-    yield put(postRefreshSuccess(post));
+    const res = yield api.refreshPost(post);
+    yield put(postRefreshSuccess(post, res['hunt_score']));
   } catch (e) {
     yield put(postRefreshFailure(e.message));
   }

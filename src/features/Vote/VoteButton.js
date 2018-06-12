@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import numeral from 'numeral';
 import { Button, Slider, Popover, Popconfirm, notification } from 'antd';
 import { selectIsConnected, selectMyAccount } from 'features/User/selectors';
 import { selectAppProps, selectAppRate, selectAppRewardFund } from 'features/App/selectors';
@@ -96,7 +95,7 @@ class VoteButton extends PureComponent {
         />
         <div className="weight">
           {voteWeight}%
-          ({numeral(this.votingValueCalculator(voteWeight)).format('$0,0.00')})
+          (+{formatNumber(voteWeight * myAccount.voting_weight)}, {formatAmount(this.votingValueCalculator(voteWeight))})
         </div>
         <Button
           type="primary"

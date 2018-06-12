@@ -22,6 +22,7 @@ import CommentReplyForm from 'features/Comment/CommentReplyForm';
 import { scrollTop } from 'utils/scroller';
 import NotFound from 'components/NotFound';
 import CircularProgress from 'components/CircularProgress';
+import { formatAmount } from 'utils/helpers/steemitHelpers';
 
 class Post extends Component {
   static propTypes = {
@@ -85,6 +86,8 @@ class Post extends Component {
           <hr />
 
           <h3>
+            <span className="payout">{formatAmount(post.payout_value)}</span>
+            <span className="separator">&middot;</span>
             <ContentPayoutAndVotes content={post} />
             <span className="separator">&middot;</span>
             {currentComments ?

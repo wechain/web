@@ -16,10 +16,7 @@ class FollowerCount extends Component {
     author: PropTypes.string.isRequired,
     unit: PropTypes.oneOf(['followers', 'followings']).isRequired,
     getFollowerCount: PropTypes.func.isRequired,
-    count: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.oneOf([undefined]),
-    ]),
+    count: PropTypes.number,
   };
 
   componentDidMount() {
