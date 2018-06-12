@@ -199,6 +199,11 @@
       .stats {
         color: $text_grey;
         font-weight: 200;
+
+        .payout {
+          color: $primary;
+          font-weight: 400;
+        }
       }
     }
 
