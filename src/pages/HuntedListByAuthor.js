@@ -86,7 +86,7 @@ class HuntedListByAuthor extends Component {
               <span className="text-small">Sort by: </span>
               <Select size="small" defaultValue={getSortOption('profile')} onChange={this.handleSortOption}>
                 <Select.Option value="hunt_score">Hunt Score</Select.Option>
-                <Select.Option value="payout">Payout</Select.Option>
+                <Select.Option value="payout" disable>Payout (Temporarily Unavailble)</Select.Option>
                 <Select.Option value="created">New</Select.Option>
                 <Select.Option value="vote_count">Vote Count</Select.Option>
                 <Select.Option value="comment_count">Comment Count</Select.Option>
