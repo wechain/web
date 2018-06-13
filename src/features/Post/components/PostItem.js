@@ -8,7 +8,7 @@ import { selectMe } from 'features/User/selectors';
 import { getPostPath, getThumbnail } from '../utils';
 import { isModerator } from 'features/User/utils';
 import VoteButton from 'features/Vote/VoteButton';
-import Author from 'components/Author';
+import { formatAmount } from 'utils/helpers/steemitHelpers';
 
 class PostItem extends Component {
   static propTypes = {
@@ -42,9 +42,13 @@ class PostItem extends Component {
           </div>
           <div className="tagline">{post.tagline}</div>
           <div className="stats">
-            <Author name={post.author} />
+            <span className="payout">{formatAmount(post.payout_value)}</span>
             <span className="spacer">&middot;</span>
-            {activeVotes} votes and {post.children} comments
+            <Icon type="up" />&nbsp;
+            {activeVotes}
+            <span className="spacer">&middot;</span>
+            <Icon type="message" />&nbsp;
+            {post.children}
           </div>
         </div>
         <div className="vote-section">

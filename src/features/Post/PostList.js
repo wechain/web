@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import isEmpty from 'lodash/isEmpty';
-import { Button, Select } from 'antd';
+import { Button, Select, Icon, Tooltip } from 'antd';
 import { selectPosts, selectDailyRanking } from './selectors';
 import { getPostsBegin } from './actions/getPosts';
 import { daysAgoToString } from 'utils/date';
@@ -97,6 +97,7 @@ class PostList extends Component {
             <div className="sort-option">
               <span className="text-small">Sort by: </span>
               <Select size="small" defaultValue={getSortOption('daily')} onChange={this.handleSortOption}>
+                <Select.Option value="hunt_score">Hunt Score</Select.Option>
                 <Select.Option value="payout">Payout</Select.Option>
                 <Select.Option value="created">New</Select.Option>
                 <Select.Option value="vote_count">Vote Count</Select.Option>
@@ -105,6 +106,10 @@ class PostList extends Component {
                   <Select.Option value="unverified">Unverified</Select.Option>
                 }
               </Select>
+
+              <Tooltip placement="left" title="Hunt score is calculated by upvoting counts that are weighted by Steem reputation in order to avoid spamming attempts.">
+                <Icon type="question-circle-o" className="help-hunt-score" />
+              </Tooltip>
             </div>
           }
         </div>

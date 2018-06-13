@@ -12,7 +12,7 @@ import UserSteemPower from 'features/User/components/UserSteemPower';
 import UserEstimatedValue from 'features/User/components/UserEstimatedValue';
 import FollowerCount from 'features/User/components/FollowerCount';
 import FollowButton from 'features/User/components/FollowButton';
-import { toTimeAgo } from 'utils/date';
+import { shortFormat } from 'utils/date';
 import CircularProgress from 'components/CircularProgress';
 import { scrollTop } from 'utils/scroller';
 
@@ -96,16 +96,16 @@ class Profile extends Component {
           <div className="profile-picture" style={profileStyle}></div>
           <div className="timeline-container">
             <ul className="left">
+              <li>Reputation</li>
               <li>Followers</li>
-              <li>Reputation Score</li>
               <li>Steem Power</li>
               <li>Current Voting Power</li>
               <li>Estimated Value</li>
             </ul>
 
             <Timeline>
+              <Timeline.Item>{account.reputation} (voting weight: x{account.voting_weight * 100 || 0})</Timeline.Item>
               <Timeline.Item><FollowerCount author={account.name} unit="followers" /></Timeline.Item>
-              <Timeline.Item>{account.reputation}</Timeline.Item>
               <Timeline.Item><UserSteemPower account={account} /></Timeline.Item>
               <Timeline.Item>{parseInt(account.voting_power / 100, 10)}%</Timeline.Item>
               <Timeline.Item><UserEstimatedValue account={account} /></Timeline.Item>
@@ -116,7 +116,7 @@ class Profile extends Component {
             { profile.website &&
               <p><a href={profile.website} target="_blank"><Icon type="link" /> {profile.website.replace(/^https?:\/\//, '')}</a></p>
             }
-            <p><Icon type="calendar" /> Joined {toTimeAgo(account.created)}</p>
+            <p><Icon type="calendar" /> Joined {shortFormat(account.created_at || 0)}</p>
             <p><Icon type="book" /> <a href={`https://steemit.com/@${account.name}`} target="_blank" rel="noopener noreferrer">View Steemit blog</a></p>
           </div>
         </div>

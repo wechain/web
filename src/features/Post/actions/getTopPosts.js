@@ -2,7 +2,6 @@ import { put, takeEvery } from 'redux-saga/effects';
 import update from 'immutability-helper';
 import api from 'utils/api';
 import { getPostKey } from '../utils';
-import { getSortOption } from 'utils/sortOptions';
 
 /*--------- CONSTANTS ---------*/
 const GET_TOP_POSTS_BEGIN = 'GET_TOP_POSTS_BEGIN';
@@ -91,7 +90,7 @@ export function getTopPostsReducer(state, action) {
 /*--------- SAGAS ---------*/
 function* getTopPosts({ period, page }) {
   try {
-    const result = yield api.get(`/posts/top.json`, { period: period, page: page, sort: getSortOption('hall-of-fame') });
+    const result = yield api.get(`/posts/top.json`, { period: period, page: page, sort: 'hunt_score' });
 
     yield put(getTopPostsSuccess(period, page, result));
   } catch(e) {

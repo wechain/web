@@ -4,6 +4,7 @@ import { Popover } from 'antd';
 import { sortVotes } from 'utils/helpers/voteHelpers';
 import VotePayout from 'features/Vote/VotePayout';
 import Author from 'components/Author';
+import { formatAmount } from 'utils/helpers/steemitHelpers';
 
 const NB_SHOW_VOTES = 15;
 
@@ -56,7 +57,9 @@ export default class ContentPayoutAndVotes extends PureComponent {
     return (
       <span className="vote-count">
         <Popover content={lastVotesTooltipMsg} placement="bottom">
-          <span className="fake-link hover-link">{`${activeVotes.length} votes`}</span>
+          <span className="payout fake-link">{formatAmount(content.payout_value)}</span>
+          <span className="separator">&middot;</span>
+          <span className="fake-link">{`${activeVotes.length} votes`}</span>
         </Popover>
       </span>
     )

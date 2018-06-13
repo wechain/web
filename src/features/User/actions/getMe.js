@@ -76,11 +76,11 @@ function* getMe({ token }) {
 
     // This is the only time sending non-encrypted token to the server (so server can validate users)
     // Make sure tokens must be filtered from all the logs and should not be saved in a raw format
-    yield api.post('/users.json', { user: { username: me.account.name, token: token } });
+    const info = yield api.post('/users.json', { user: { username: me.account.name, token: token } });
 
     yield put(getMeSuccess({
       ...me,
-      account: format(me.account, appProps),
+      account: Object.assign({}, format(me.account, appProps), info),
     }));
   } catch(e) {
     // removeToken();

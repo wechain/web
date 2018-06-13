@@ -2,13 +2,12 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import numeral from 'numeral';
 import { Button, Slider, Popover, Popconfirm, notification } from 'antd';
 import { selectIsConnected, selectMyAccount } from 'features/User/selectors';
 import { selectAppProps, selectAppRate, selectAppRewardFund } from 'features/App/selectors';
 import { voteBegin } from './actions/vote';
 import { hasVoted, calculateVotingValue } from 'utils/helpers/steemitHelpers';
-import { formatAmount } from 'utils/helpers/steemitHelpers';
+import { formatAmount, formatNumber } from 'utils/helpers/steemitHelpers';
 import { getLoginURL } from 'utils/token';
 
 class VoteButton extends PureComponent {
@@ -96,7 +95,7 @@ class VoteButton extends PureComponent {
         />
         <div className="weight">
           {voteWeight}%
-          ({numeral(this.votingValueCalculator(voteWeight)).format('$0,0.00')})
+          (+{formatNumber(voteWeight * myAccount.voting_weight)}, {formatAmount(this.votingValueCalculator(voteWeight))})
         </div>
         <Button
           type="primary"
@@ -142,7 +141,7 @@ class VoteButton extends PureComponent {
               />
             </Popover>
           }
-          <div className="payout-value">{formatAmount(post.payout_value)}</div>
+          <div className="payout-value">{formatNumber(post.hunt_score)}</div>
         </div>
       );
     } else if (layout ==='detail-page') {
@@ -163,7 +162,7 @@ class VoteButton extends PureComponent {
                 loading={post.isUpdating}
               >
                 UNVOTE
-                <div className="payout-value">{formatAmount(post.payout_value)}</div>
+                <div className="payout-value">{formatNumber(post.hunt_score)}</div>
               </Button>
             </Popconfirm>
           :
@@ -182,7 +181,7 @@ class VoteButton extends PureComponent {
                 loading={post.isUpdating}
               >
                 UPVOTE
-                <div className="payout-value">{formatAmount(post.payout_value)}</div>
+                <div className="payout-value">{formatNumber(post.hunt_score)}</div>
               </Button>
             </Popover>
           }
