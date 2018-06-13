@@ -20,6 +20,7 @@ import { logoutBegin } from 'features/User/actions/logout';
 import { setSearchTerm } from 'features/Post/actions/searchPost';
 import logo from 'assets/images/logo-nav-pink@2x.png'
 import AvatarSteemit from 'components/AvatarSteemit';
+import { formatNumber } from 'utils/helpers/steemitHelpers';
 
 class Header extends Component {
   static propTypes = {
@@ -106,7 +107,9 @@ class Header extends Component {
           </Menu.Item>
           <Menu.Item key="4">
             <Link to={`/author/@${me}`} onClick={() => this.changeVisibility(false)}>
-              <Icon type="loading-3-quarters" /> VOTING POWER: {parseInt(myAccount.voting_power / 100, 10)}%
+              <Icon type="loading-3-quarters" />
+              WEIGHT: x{formatNumber(myAccount.voting_weight * 100, '0,0.0')} /
+              VP: {parseInt(myAccount.voting_power / 100, 10)}%
             </Link>
           </Menu.Item>
           <Menu.Item key="5">
