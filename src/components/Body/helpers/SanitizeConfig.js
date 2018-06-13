@@ -4,7 +4,7 @@ This function is extracted from steemit.com source code and does the same tasks 
  * https://raw.githubusercontent.com/steemit/steemit.com/354c08a10cf88e0828a70dbf7ed9082698aea20d/app/utils/SanitizeConfig.js
  *
  */
-const iframeWhitelist = [
+export const iframeWhitelist = [
   {
     re: /^(https?:)?\/\/player.vimeo.com\/video\/.*/i,
     fn: (src) => {
