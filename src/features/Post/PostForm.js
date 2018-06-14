@@ -40,6 +40,7 @@ class PostForm extends Component {
       fileList: [],
       beneficiariesValid: true,
       shouldRecalculateBeneficiary: false,
+      duplicatedUrl: null,
     };
     this.beneficiaryInput = {};
   }
@@ -206,6 +207,8 @@ class PostForm extends Component {
   };
 
   checkUrl = (_, value, callback) => {
+    this.setState({ duplicatedUrl: null });
+
     if (!value || value.length === 0) {
       return callback();
     }
@@ -221,7 +224,12 @@ class PostForm extends Component {
         callback();
       } else {
         this.props.updateDraft('url', '#');
-        callback(res.result);
+        if (res.url) {
+          this.setState({ duplicatedUrl: res.url });
+          callback('');
+        } else {
+          callback(res.result);
+        }
       }
     }).catch(msg => {
       this.props.updateDraft('url', '#');
@@ -364,6 +372,12 @@ class PostForm extends Component {
           })(
             <Input placeholder="https://steemit.com" />
           )}
+          {this.state.duplicatedUrl &&
+            <div className="ant-form-explain">
+              The product link already exists&nbsp;
+              <a href={this.state.duplicatedUrl} target="_blank" rel="noopener noreferrer">(Link)</a>.
+            </div>
+          }
         </FormItem>
 
         <FormItem
