@@ -104,7 +104,10 @@ class Profile extends Component {
             </ul>
 
             <Timeline>
-              <Timeline.Item>{account.reputation} (voting weight: x{account.voting_weight * 100 || 0})</Timeline.Item>
+              <Timeline.Item>
+                {account.reputation}
+                {account.voting_weight && `(voting weight: x{account.voting_weight})` }
+              </Timeline.Item>
               <Timeline.Item><FollowerCount author={account.name} unit="followers" /></Timeline.Item>
               <Timeline.Item><UserSteemPower account={account} /></Timeline.Item>
               <Timeline.Item>{parseInt(account.voting_power / 100, 10)}%</Timeline.Item>
