@@ -106,7 +106,7 @@ class Profile extends Component {
             <Timeline>
               <Timeline.Item>
                 {account.reputation}
-                {account.voting_weight && `(voting weight: x${account.voting_weight * 100})` }
+                {account.voting_weight && ` (voting weight: x${account.voting_weight * 100})` }
               </Timeline.Item>
               <Timeline.Item><FollowerCount author={account.name} unit="followers" /></Timeline.Item>
               <Timeline.Item><UserSteemPower account={account} /></Timeline.Item>
@@ -119,7 +119,6 @@ class Profile extends Component {
             { profile.website &&
               <p><a href={profile.website} target="_blank"><Icon type="link" /> {profile.website.replace(/^https?:\/\//, '')}</a></p>
             }
-            <p><Icon type="calendar" /> Joined {shortFormat(account.created_at || 0)}</p>
             <p><Icon type="book" /> <a href={`https://steemit.com/@${account.name}`} target="_blank" rel="noopener noreferrer">View Steemit blog</a></p>
           </div>
         </div>
