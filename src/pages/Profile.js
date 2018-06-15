@@ -12,7 +12,6 @@ import UserSteemPower from 'features/User/components/UserSteemPower';
 import UserEstimatedValue from 'features/User/components/UserEstimatedValue';
 import FollowerCount from 'features/User/components/FollowerCount';
 import FollowButton from 'features/User/components/FollowButton';
-import { shortFormat } from 'utils/date';
 import CircularProgress from 'components/CircularProgress';
 import { scrollTop } from 'utils/scroller';
 

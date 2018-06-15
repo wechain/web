@@ -32,13 +32,18 @@ export function postRefreshReducer(state, action) {
   switch (action.type) {
     case POST_REFRESH_SUCCESS: {
       const { post, hunt_score } = action;
+
+      const updated = { [getPostKey(post)]: {
+        payout_value: { $set: calculateContentPayout(post) || post.payout_value },
+        active_votes: { $set: post.active_votes },
+        isUpdating: { $set: false },
+      }};
+      if (hunt_score) { // only when API update
+        update['hunt_score'] = hunt_score;
+      }
+
       return update(state, {
-        posts: { [getPostKey(post)]: {
-          payout_value: { $set: calculateContentPayout(post) || post.payout_value },
-          active_votes: { $set: post.active_votes },
-          hunt_score: { $set: hunt_score },
-          isUpdating: { $set: false },
-        }},
+        posts: updated,
       });
     }
     case POST_INCREASE_COMMENT_COUNT: {
