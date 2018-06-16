@@ -11,16 +11,24 @@ const NB_SHOW_VOTES = 15;
 export default class ContentPayoutAndVotes extends PureComponent {
   static propTypes = {
     content: PropTypes.object.isRequired,
+    type: PropTypes.string.isRequired,
   };
 
   render() {
-    const { content } = this.props;
+    const { content, type} = this.props;
 
     let activeVotes = content.active_votes || [];
     if (activeVotes.length === 0) {
       return (
         <span className="vote-count">
-          <span className="fake-link hover-link"><Icon type="loading" /> votes</span>
+          <span className="fake-link hover-link">
+            {content.active_votes === undefined ?
+              <Icon type="loading" />
+            :
+              '0'
+            }
+            &nbsp;votes
+          </span>
         </span>
       );
     }
@@ -51,33 +59,45 @@ export default class ContentPayoutAndVotes extends PureComponent {
       </div>
     );
 
-    const validVotes = content.valid_votes || [];
-    const lastValidVotes = sortVotes(validVotes, 'score').reverse().slice(0, NB_SHOW_VOTES);
-    const lastValidVotesTooltipMsg = lastValidVotes.map(vote => (
-      <div className="voting-list" key={vote.voter}>
-        <Author name={vote.voter} />
-        <span className="weight">({vote.percent / 100}%)</span>
-        <span className="value">+{formatNumber(vote.score)}</span>
-      </div>
-    ));
-    if (validVotes.length > NB_SHOW_VOTES) lastValidVotesTooltipMsg.push(
-      <div key="...">
-        ... and <strong>{validVotes.length - NB_SHOW_VOTES}</strong> more votes.
-      </div>
-    );
+    let validVotes = [];
+    let lastValidVotesTooltipMsg = '';
+    if (type === 'post') {
+      validVotes = content.valid_votes || [];
+      const lastValidVotes = sortVotes(validVotes, 'score').reverse().slice(0, NB_SHOW_VOTES);
+      lastValidVotesTooltipMsg = lastValidVotes.map(vote => (
+        <div className="voting-list" key={vote.voter}>
+          <Author name={vote.voter} />
+          <span className="weight">({vote.percent / 100}%)</span>
+          <span className="value">+{formatNumber(vote.score)}</span>
+        </div>
+      ));
+      if (validVotes.length > NB_SHOW_VOTES) lastValidVotesTooltipMsg.push(
+        <div key="...">
+          ... and <strong>{validVotes.length - NB_SHOW_VOTES}</strong> more votes.
+        </div>
+      );
+    }
 
-
-    return (
-      <span className="vote-count">
-        <Popover content={lastVotesTooltipMsg} placement="bottom">
-          <span className="payout fake-link">{formatAmount(content.payout_value)}</span>
-        </Popover>
-        <span className="separator">&middot;</span>
-
-        <Popover content={lastValidVotesTooltipMsg} placement="bottom">
-          <span className="fake-link">{`${validVotes.length} votes`}</span>
-        </Popover>
-      </span>
-    )
+    if (type === 'post') {
+      return (
+        <span className="vote-count">
+          <Popover content={lastVotesTooltipMsg} placement="bottom">
+            <span className="payout fake-link">{formatAmount(content.payout_value)}</span>
+          </Popover>
+          <span className="separator">&middot;</span>
+          <Popover content={lastValidVotesTooltipMsg} placement="bottom">
+            <span className="fake-link">{`${validVotes.length} votes`}</span>
+          </Popover>
+        </span>
+      );
+    } else { // comment
+      return (
+        <span className="vote-count">
+          <Popover content={lastVotesTooltipMsg} placement="bottom">
+            <span className="fake-link hover-link">{activeVotes.length} votes</span>
+          </Popover>
+        </span>
+      );
+    }
   }
 }

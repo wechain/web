@@ -74,7 +74,7 @@ class CommentItem extends PureComponent {
                   <div className="actions">
                     <VoteButton post={comment} type="comment" layout="comment" />
                     <span className="separator">|</span>
-                    <ContentPayoutAndVotes content={comment} />
+                    <ContentPayoutAndVotes content={comment} type="comment" />
                     <span className="separator">|</span>
                     <a className="hover-link" onClick={this.switchReplyForm}>reply</a>
                     {me === comment.author && isEditable(comment) &&
