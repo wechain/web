@@ -15,8 +15,8 @@ export function postRefreshBegin(post) {
   return { type: POST_REFRESH_BEGIN, post };
 }
 
-export function postRefreshSuccess(post, hunt_score) {
-  return { type: POST_REFRESH_SUCCESS, post, hunt_score };
+export function postRefreshSuccess(post, hunt_score, valid_votes) {
+  return { type: POST_REFRESH_SUCCESS, post, hunt_score, valid_votes };
 }
 
 export function postRefreshFailure(message) {
@@ -31,7 +31,7 @@ export function postIncreaseCommentCount(post) {
 export function postRefreshReducer(state, action) {
   switch (action.type) {
     case POST_REFRESH_SUCCESS: {
-      const { post, hunt_score } = action;
+      const { post, hunt_score, valid_votes } = action;
 
       let updated = {
         payout_value: { $set: calculateContentPayout(post) || post.payout_value },
@@ -40,6 +40,7 @@ export function postRefreshReducer(state, action) {
       };
       if (hunt_score) { // only when API update
         updated['hunt_score'] = { $set: hunt_score };
+        updated['valid_votes'] = { $set: valid_votes };
       }
 
       return update(state, {
@@ -63,7 +64,7 @@ export function postRefreshReducer(state, action) {
 function* postRefresh({ post }) {
   try {
     const res = yield api.refreshPost(post);
-    yield put(postRefreshSuccess(post, res['hunt_score']));
+    yield put(postRefreshSuccess(post, res['hunt_score'], res['valid_votes']));
   } catch (e) {
     yield put(postRefreshFailure(e.message));
   }

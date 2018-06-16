@@ -19,7 +19,7 @@ class PostItem extends Component {
 
   render() {
     const { me, rank, post, pathPrefix } = this.props;
-    const activeVotes = post.active_votes.filter(v => v.percent !== 0).length;
+    // const activeVotes = post.active_votes.filter(v => v.percent !== 0).length;
 
     return (
       <div className={`post${rank === 1 ? ' top-border' : ''}${post.is_active ? '' : ' faded'}`}>
@@ -45,7 +45,7 @@ class PostItem extends Component {
             <span className="payout">{formatAmount(post.payout_value)}</span>
             <span className="spacer">&middot;</span>
             <Icon type="up" />&nbsp;
-            {activeVotes}
+            <span alt="Valid voting count">{post.valid_votes.length}</span>
             <span className="spacer">&middot;</span>
             <Icon type="message" />&nbsp;
             {post.children}
