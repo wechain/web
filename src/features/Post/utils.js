@@ -11,7 +11,8 @@ export const generatePostKey = function(author, permlink) {
 }
 
 export const hasUpdated = function(oldPost, newPost) {
-  return oldPost.active_votes.length !== newPost.active_votes.length ||
+  return !oldPost.active_votes ||
+    oldPost.active_votes.length !== newPost.active_votes.length ||
     Math.abs(oldPost.payout_value - newPost.payout_value) > 0.00001 ||
     oldPost.children !== newPost.children;
 }

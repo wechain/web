@@ -88,11 +88,9 @@ class Post extends Component {
             <ContentPayoutAndVotes content={post} />
             <span className="separator">&middot;</span>
             {currentComments ?
-              <span>
-                {post.children} comments
-              </span>
+              <span>{post.children} comments</span>
             :
-              <Icon type="loading" />
+              <span><Icon type="loading" /> comments</span>
             }
           </h3>
 

@@ -31,7 +31,7 @@ class PostView extends Component {
       tags: PropTypes.arrayOf(PropTypes.string).isRequired,
       images: PropTypes.arrayOf(PropTypes.object).isRequired,
       author: PropTypes.string,
-      active_votes: PropTypes.arrayOf(PropTypes.object).isRequired,
+      active_votes: PropTypes.arrayOf(PropTypes.object),
       payout_value: PropTypes.number.isRequired,
       children: PropTypes.number.isRequired,
       is_active: PropTypes.bool.isRequired,
