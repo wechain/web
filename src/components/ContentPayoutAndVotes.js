@@ -4,7 +4,7 @@ import { Popover } from 'antd';
 import { sortVotes } from 'utils/helpers/voteHelpers';
 import VotePayout from 'features/Vote/VotePayout';
 import Author from 'components/Author';
-import { formatAmount } from 'utils/helpers/steemitHelpers';
+import { formatNumber, formatAmount } from 'utils/helpers/steemitHelpers';
 
 const NB_SHOW_VOTES = 15;
 
@@ -56,7 +56,7 @@ export default class ContentPayoutAndVotes extends PureComponent {
       <div className="voting-list" key={vote.voter}>
         <Author name={vote.voter} />
         <span className="weight">({vote.percent / 100}%)</span>
-        <span className="value">+{vote.score}</span>
+        <span className="value">+{formatNumber(vote.score)}</span>
       </div>
     ));
     if (validVotes.length > NB_SHOW_VOTES) lastValidVotesTooltipMsg.push(
