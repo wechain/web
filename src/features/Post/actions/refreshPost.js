@@ -36,6 +36,7 @@ export function postRefreshReducer(state, action) {
       let updated = {
         payout_value: { $set: calculateContentPayout(post) || post.payout_value },
         active_votes: { $set: post.active_votes },
+        children: { $set: post.children },
         isUpdating: { $set: false },
       };
       if (hunt_score) { // only when API update

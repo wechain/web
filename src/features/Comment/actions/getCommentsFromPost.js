@@ -5,9 +5,8 @@ import { getRootCommentsList, mapCommentsBasedOnId } from '../utils/comments';
 import { sortCommentsFromSteem } from 'utils/helpers/stateHelpers';
 import { selectPosts } from 'features/Post/selectors';
 import { getPostKey, hasUpdated } from 'features/Post/utils';
-import { postRefreshSuccess } from 'features/Post/actions/refreshPost';
+import { postRefreshBegin, postRefreshSuccess } from 'features/Post/actions/refreshPost';
 import { calculateContentPayout } from 'utils/helpers/steemitHelpers';
-import { postRefreshBegin } from 'features/Post/actions/refreshPost';
 
 /*--------- CONSTANTS ---------*/
 const GET_COMMENTS_FROM_POST_BEGIN = 'GET_COMMENTS_FROM_POST_BEGIN';
@@ -60,22 +59,20 @@ export function getCommentsFromPostReducer(state, action) {
 function* getCommentsFromPost({ category, author, permlink }) {
   try {
     const state = yield steem.api.getStateAsync(`/${category}/@${author}/${permlink}`);
-
-    // Update posts dictionary with the fresh blockchain data
     const posts = yield select(selectPosts());
+
+    // Update payout_value
     const commentsData = mapCommentsBasedOnId(state.content);
-
     for (const content of Object.values(commentsData)) {
-      const postKey = getPostKey(content);
       content.payout_value = calculateContentPayout(content); // Sync with local format
+    }
 
-      if (posts && posts[postKey] && hasUpdated(posts[postKey], content) && !posts[postKey].isUpdating) {
-        // Update posts cache with the fresh blockchain data
-        yield put(postRefreshBegin(content));
-
-        // Update local posts cache
-        yield put(postRefreshSuccess(content));
-      }
+    // Refresh post if necessary
+    const postKey = `${author}/${permlink}`;
+    const post = state.content[postKey];
+    if (posts && posts[postKey] && hasUpdated(posts[postKey], post) && !posts[postKey].isUpdating) {
+      // Update posts cache (on api) with the fresh blockchain data
+      yield put(postRefreshBegin(post));
     }
 
     yield put(getCommentsFromPostSuccess(`${author}/${permlink}`, state));
