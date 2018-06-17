@@ -1,8 +1,5 @@
 import update from 'immutability-helper';
-import {
-  VOTE_FAILURE,
-  VOTE_OPTIMISTIC,
-} from 'features/Vote/actions/vote';
+import { VOTE_FAILURE, VOTE_OPTIMISTIC } from 'features/Vote/actions/vote';
 import { manageContentVote } from 'features/Vote/utils';
 import { getPostKey } from './utils';
 

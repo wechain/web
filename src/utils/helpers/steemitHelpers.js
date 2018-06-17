@@ -74,7 +74,12 @@ export const calculateContentPayout = content => {
   return totalPayoutValue + pendingPayoutValue + curatorPayoutValue;
 };
 
-export const hasVoted = (content, name) => content.active_votes && !!content.active_votes.find(vote => vote.voter === name && vote.percent > 0);
+export const hasVoted = (content, name) => {
+  return (
+    (content.valid_votes && !!content.valid_votes.find(vote => vote.voter === name && vote.percent > 0)) ||
+    (content.active_votes && !!content.active_votes.find(vote => vote.voter === name && vote.percent > 0))
+  );
+}
 export const formatAmount = amount => numeral(amount).format('$0,0.00');
 export const formatNumber = (amount, format = '0,0.00') => numeral(amount).format(format);
 

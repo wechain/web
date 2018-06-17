@@ -6,13 +6,24 @@ export const manageContentVote = (content, weight, accountName) => {
       voter: accountName,
       percent: weight,
     });
-    // content.net_votes++;
+
+    if (!content.parent_author) {
+      content.valid_votes.push({
+        voter: accountName,
+        percent: weight,
+      });
+    }
   } else {
     // UNVOTE
     content.active_votes = content.active_votes.filter(vote => {
       return vote.voter !== accountName && vote.percent > 0;
     });
-    // content.net_votes--;
+
+    if (!content.parent_author) {
+      content.valid_votes = content.valid_votes.filter(vote => {
+        return vote.voter !== accountName && vote.percent > 0;
+      });
+    }
   }
   return content;
 };
