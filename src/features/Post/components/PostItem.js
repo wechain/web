@@ -42,10 +42,10 @@ class PostItem extends Component {
           </div>
           <div className="tagline">{post.tagline}</div>
           <div className="stats">
-            <span className="payout">{formatAmount(post.payout_value)}</span>
+            <span className="payout">{formatAmount(post.payout_value || 0)}</span>
             <span className="spacer">&middot;</span>
             <Icon type="up" />&nbsp;
-            <span alt="Valid voting count">{post.valid_votes.length}</span>
+            <span alt="Valid voting count">{post.valid_votes ? post.valid_votes.length : 0}</span>
             <span className="spacer">&middot;</span>
             <Icon type="message" />&nbsp;
             {post.children}
