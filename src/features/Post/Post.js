@@ -87,10 +87,10 @@ class Post extends Component {
           <h3>
             <ContentPayoutAndVotes content={post} type="post" />
             <span className="separator">&middot;</span>
-            {currentComments ?
-              <span>{post.children} comments</span>
-            :
+            {commentsIsLoading ?
               <span><Icon type="loading" /> comments</span>
+            :
+              <span>{post.children} comments</span>
             }
           </h3>
 
@@ -116,7 +116,9 @@ class Post extends Component {
             <CommentReplyForm content={post} closeForm={null} />
           )}
 
-          {currentComments ?
+          {commentsIsLoading ?
+            <Icon type="loading" spin="true" className="center-loading" style={{ fontSize: 40 }} />
+          :
             <List
               loading={commentsIsLoading}
               itemLayout="horizontal"
@@ -130,8 +132,6 @@ class Post extends Component {
                 />
               )}
             />
-          :
-            <Icon type="loading" spin="true" className="center-loading" style={{ fontSize: 40 }} />
           }
         </div>
       </div>

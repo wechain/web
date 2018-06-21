@@ -1,6 +1,7 @@
 import { put, select, takeEvery } from 'redux-saga/effects';
 import steem from 'steem';
 import update from 'immutability-helper';
+import { notification } from 'antd';
 import { getRootCommentsList, mapCommentsBasedOnId } from '../utils/comments';
 import { sortCommentsFromSteem } from 'utils/helpers/stateHelpers';
 import { selectPosts } from 'features/Post/selectors';
@@ -31,23 +32,23 @@ export function getCommentsFromPostReducer(state, action) {
   switch (action.type) {
     case GET_COMMENTS_FROM_POST_BEGIN: {
       return update(state, {
-        isLoading: {$set: true},
+        isLoading: { $set: true },
       });
     }
     case GET_COMMENTS_FROM_POST_SUCCESS: {
       return update(state, {
-        isLoading: {$set: false},
+        isLoading: { $set: false },
         commentsFromPost: {
           [action.postKey]: {$auto: {
             // SORTS COMMENTS HERE TO AVOID JUMPS WHEN VOTING
-            list: {$set: sortCommentsFromSteem(getRootCommentsList(action.state), mapCommentsBasedOnId(action.state.content), 'trending')},
+            list: { $set: sortCommentsFromSteem(getRootCommentsList(action.state), mapCommentsBasedOnId(action.state.content), 'trending') },
           }},
         }
       });
     }
     case GET_COMMENTS_FROM_POST_FAILURE: {
       return update(state, {
-        isLoading: {$set: false},
+        isLoading: { $set: false },
       });
     }
     default:
@@ -70,6 +71,14 @@ function* getCommentsFromPost({ category, author, permlink }) {
     // Refresh post if necessary
     const postKey = `${author}/${permlink}`;
     const post = state.content[postKey];
+
+    if (!post || post.id === 0) {
+      const msg = 'No content found on Steem Blockchain';
+      yield notification['error']({ message: msg });
+      yield put(getCommentsFromPostFailure(msg));
+      return;
+    }
+
     if (posts && posts[postKey] && hasUpdated(posts[postKey], post) && !posts[postKey].isUpdating) {
       // Update posts cache (on api) with the fresh blockchain data
       yield put(postRefreshBegin(post));
