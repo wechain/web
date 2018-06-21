@@ -29,6 +29,13 @@ export function isModerator(username) {
   return moderators.indexOf(username) !== -1;
 }
 
+export function isGuardian(username) {
+  const guardians = [
+    'folken', 'fknmayhem',
+  ];
+  return guardians.indexOf(username) !== -1;
+}
+
 export function isAdmin(username) {
   const admins = [
     'tabris', 'project7',

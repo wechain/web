@@ -15,7 +15,7 @@ import Author from 'components/Author';
 import { selectMe } from 'features/User/selectors';
 import { getHtml } from 'components/Body';
 import { shortFormat } from 'utils/date';
-import { isModerator, isAdmin } from 'features/User/utils';
+import { isModerator, isAdmin, isGuardian } from 'features/User/utils';
 import { setModeratorBegin, moderatePostBegin } from 'features/Post/actions/moderatePost';
 import { replyBegin } from 'features/Comment/actions/reply';
 import { selectIsCommentPublishing, selectHasCommentSucceeded } from 'features/Comment/selectors';
@@ -159,14 +159,17 @@ class PostView extends Component {
             }
             {isModerator(me) &&
               <span>
-                {(post.verified_by === me || post.verified_by === null || isAdmin(me)) ?
+                {(post.verified_by === me || post.verified_by === null || isAdmin(me) || isGuardian(me)) ?
                     (post.author === me ?
                       <Button icon="check-circle" size="small" ghost disabled>
                         Own Content
                       </Button>
                     :
-                      <Button icon={post.verified_by === me && !post.is_verified ? 'loading' : 'check-circle'} size="small" onClick={this.showModeration} ghost>
-                        { !post.is_active ? 'Unhide' : post.is_verified ? 'Unverify' : (post.verified_by === me ? "You're reviewing" : 'Verify') }
+                      <Button icon={post.verified_by && !post.is_verified ? 'loading' : 'check-circle'} size="small" onClick={this.showModeration} ghost>
+                        { !post.is_active ? 'Unhide' : post.is_verified ? "Unverify" : (post.verified_by === me ? "Reviewing" : 'Verify') }
+                        {post.verified_by &&
+                          <span> (@{post.verified_by})</span>
+                        }
                       </Button>
                     )
                   :
