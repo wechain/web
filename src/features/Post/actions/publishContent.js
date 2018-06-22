@@ -45,6 +45,8 @@ export function publishContentReducer(state, action) {
       });
     }
     case PUBLISH_CONTENT_SUCCESS: {
+      // clear localStorage 'draft'
+      localStorage.removeItem('draft');
       return update(state, {
         posts: { [getPostKey(action.post)]: { $set: action.post } },
         isPublishing: { $set: false },
