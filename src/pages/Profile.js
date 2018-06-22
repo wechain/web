@@ -14,6 +14,7 @@ import FollowerCount from 'features/User/components/FollowerCount';
 import FollowButton from 'features/User/components/FollowButton';
 import CircularProgress from 'components/CircularProgress';
 import { scrollTop } from 'utils/scroller';
+import { formatNumber } from 'utils/helpers/steemitHelpers';
 
 class Profile extends Component {
   static propTypes = {
@@ -96,6 +97,9 @@ class Profile extends Component {
           <div className="timeline-container">
             <ul className="left">
               <li>Reputation</li>
+              {account.voting_weight &&
+                <li>Voting Weight</li>
+              }
               <li>Followers</li>
               <li>Steem Power</li>
               <li>Current Voting Power</li>
@@ -105,8 +109,10 @@ class Profile extends Component {
             <Timeline>
               <Timeline.Item>
                 {account.reputation}
-                {account.voting_weight && ` (voting weight: x${account.voting_weight * 100})` }
               </Timeline.Item>
+              {account.voting_weight &&
+                <Timeline.Item>x{formatNumber(account.voting_weight * 100)} (Diverity Score: {formatNumber(account.diversity_score)})</Timeline.Item>
+              }
               <Timeline.Item><FollowerCount author={account.name} unit="followers" /></Timeline.Item>
               <Timeline.Item><UserSteemPower account={account} /></Timeline.Item>
               <Timeline.Item>{parseInt(account.voting_power / 100, 10)}%</Timeline.Item>
