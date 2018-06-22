@@ -2,13 +2,28 @@ import { createSelector } from 'reselect';
 import { selectCommentsDomain } from 'features/Comment/selectors';
 import { generatePostKey } from './utils';
 import { selectMe } from 'features/User/selectors';
+import { updateDraft } from './actions/updateDraft';
+import store from '../../store';
 
 const selectPostDomain = () => state => state.post;
 
-export const selectDraft = () => createSelector(
-  selectPostDomain(),
-  state => state.draft,
-);
+export const selectDraft = () => {
+  const draftString = localStorage.getItem('draft');
+  if(!!draftString) {
+    const draft = JSON.parse(draftString);
+    store.dispatch(updateDraft('url', draft.url || '#'));
+    store.dispatch(updateDraft('title', draft.title || 'Title'));
+    store.dispatch(updateDraft('tagline', draft.tagline || 'Short Description'));
+    store.dispatch(updateDraft('description', draft.description || ''));
+    store.dispatch(updateDraft('images', draft.images || []));
+    store.dispatch(updateDraft('tags', draft.tags || []));
+    store.dispatch(updateDraft('beneficiaries', draft.beneficiaries || []))
+  }
+  return createSelector(
+    selectPostDomain(),
+    state => state.draft,
+  )
+};
 
 export const selectIsPublishing = () => createSelector(
   selectPostDomain(),

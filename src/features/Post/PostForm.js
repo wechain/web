@@ -50,6 +50,8 @@ class PostForm extends Component {
     if (author && permlink) {
       this.props.getPost(author, permlink);
       this.setState({ editMode: true, resetted: false });
+    } else if (!!localStorage.getItem('draft')) {
+      // if localStorageExist
     } else {
       this.checkAndResetDraft();
     }
@@ -83,7 +85,9 @@ class PostForm extends Component {
       if (this.props.draft.permlink !== nextProps.draft.permlink) {
         this.prepareForEdit(nextProps.draft);
       }
-    } else {
+    } else if(!!localStorage.getItem('draft')) {
+      // if localStorage exist
+    }else {
       this.setState({ editMode: false });
       this.checkAndResetDraft();
     }
