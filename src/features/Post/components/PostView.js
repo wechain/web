@@ -128,7 +128,7 @@ class PostView extends Component {
     const images = post.images.map((image, index) => {
       return (
         <div key={index} className="slide-container">
-          <img alt={image.name} src={image.link} onClick={this.showModal} />
+          <img alt={image.name} src={`https://steemitimages.com/0x0/${image.link}`} onClick={this.showModal} />
         </div>
       );
     });
