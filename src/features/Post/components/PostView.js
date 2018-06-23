@@ -96,7 +96,7 @@ class PostView extends Component {
     const images = this.props.post.images;
 
     for (let i in images) {
-      if (images[i].link === this.state.previewImage) {
+      if (getCachedImage(images[i].link) === this.state.previewImage) {
         let newIndex = parseInt(i, 10) + diff;
         if (newIndex < 0) {
           newIndex = images.length + newIndex;
@@ -105,7 +105,7 @@ class PostView extends Component {
           newIndex = newIndex - images.length;
         }
 
-        return this.setState({ previewImage: images[newIndex].link });
+        return this.setState({ previewImage: getCachedImage(images[newIndex].link) });
       }
     }
   };
