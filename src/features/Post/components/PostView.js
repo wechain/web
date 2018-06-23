@@ -19,6 +19,7 @@ import { isModerator, isAdmin, isGuardian } from 'features/User/utils';
 import { setModeratorBegin, moderatePostBegin } from 'features/Post/actions/moderatePost';
 import { replyBegin } from 'features/Comment/actions/reply';
 import { selectIsCommentPublishing, selectHasCommentSucceeded } from 'features/Comment/selectors';
+import { getCachedImage } from 'features/Post/utils';
 
 const FormItem = Form.Item;
 
@@ -128,7 +129,7 @@ class PostView extends Component {
     const images = post.images.map((image, index) => {
       return (
         <div key={index} className="slide-container">
-          <img alt={image.name} src={`https://steemitimages.com/0x0/${image.link}`} onClick={this.showModal} />
+          <img alt={image.name} src={getCachedImage(image.link)} onClick={this.showModal} />
         </div>
       );
     });

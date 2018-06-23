@@ -15,6 +15,7 @@ import FollowButton from 'features/User/components/FollowButton';
 import CircularProgress from 'components/CircularProgress';
 import { scrollTop } from 'utils/scroller';
 import { formatNumber } from 'utils/helpers/steemitHelpers';
+import { getCachedImage } from 'features/Post/utils';
 
 class Profile extends Component {
   static propTypes = {
@@ -69,7 +70,7 @@ class Profile extends Component {
     if (profile.cover_image) {
       coverStyle = {
         backgroundColor: COLOR_PRIMARY,
-        backgroundImage: 'url(https://steemitimages.com/1600x800/' + profile.cover_image + ')',
+        backgroundImage: `url(${getCachedImage(profile.cover_image, 1600, 800)})`,
         backgroundSize: 'cover',
       };
     }

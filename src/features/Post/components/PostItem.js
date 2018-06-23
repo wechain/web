@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
 import { selectMe } from 'features/User/selectors';
-import { getPostPath, getThumbnail } from '../utils';
+import { getPostPath, getCachedImage } from '../utils';
 import { isModerator } from 'features/User/utils';
 import VoteButton from 'features/Vote/VoteButton';
 import { formatAmount } from 'utils/helpers/steemitHelpers';
@@ -25,7 +25,7 @@ class PostItem extends Component {
       <div className={`post${rank === 1 ? ' top-border' : ''}${post.is_active ? '' : ' faded'}`}>
         <div className="rank">{rank}</div>
         <Link to={getPostPath(post, pathPrefix)}>
-          <img src={post.images && getThumbnail(post.images[0].link, 240, 240)} alt={post.title} className="thumbnail"/>
+          <img src={post.images && getCachedImage(post.images[0].link, 240, 240)} alt={post.title} className="thumbnail"/>
         </Link>
         <div className="summary">
           <div className="title">
