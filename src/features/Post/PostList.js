@@ -38,15 +38,11 @@ class PostList extends Component {
     this.props.getPosts(this.props.daysAgo);
   }
 
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
-
   showAll = () => this.setState({ showAll: true });
 
   handleSortOption = (value) => {
-    setSortOption('daily', value);
-    window.location.reload();
+    setSortOption(`daily-${this.props.daysAgo}`, value);
+    this.props.getPosts(this.props.daysAgo);
   }
 
   render() {
@@ -71,6 +67,8 @@ class PostList extends Component {
       buttonClass += ' hide';
     }
 
+    const currentSortOption = getSortOption('daily-' + daysAgo);
+
     return (
       <div className={`post-list day-ago-${daysAgo}`}>
         <div className="heading left-padded">
@@ -78,25 +76,27 @@ class PostList extends Component {
             {daysAgoToString(daysAgo)}
           </h3>
           <SubHeading huntsCount={ranking.length} dailyTotalReward={dailyTotalReward} daysAgo={daysAgo}  />
-          {daysAgo === 0 &&
-            <div className="sort-option">
-              <span className="text-small">Sort by: </span>
-              <Select size="small" defaultValue={getSortOption('daily')} onChange={this.handleSortOption}>
-                <Select.Option value="hunt_score">Hunt Score</Select.Option>
-                <Select.Option value="payout">Payout Value</Select.Option>
-                <Select.Option value="created">New</Select.Option>
-                <Select.Option value="vote_count">Vote Count</Select.Option>
-                <Select.Option value="comment_count">Comment Count</Select.Option>
-                {isModerator(me) &&
-                  <Select.Option value="unverified">Unverified</Select.Option>
-                }
-              </Select>
-
+          <div className="sort-option">
+            <span className="text-small">Sort by: </span>
+            <Select size="small" defaultValue={currentSortOption} onChange={this.handleSortOption}>
+              {daysAgo === 0 &&
+                <Select.Option value="random">Random</Select.Option>
+              }
+              <Select.Option value="hunt_score">Hunt Score</Select.Option>
+              <Select.Option value="payout">Payout Value</Select.Option>
+              <Select.Option value="created">New</Select.Option>
+              <Select.Option value="vote_count">Vote Count</Select.Option>
+              <Select.Option value="comment_count">Comment Count</Select.Option>
+              {isModerator(me) &&
+                <Select.Option value="unverified">Unverified</Select.Option>
+              }
+            </Select>
+            {currentSortOption === 'hunt_score' &&
               <Tooltip placement="left" title="Hunt score is calculated by upvoting counts that are weighted by Steem reputation in order to avoid spamming attempts.">
                 <Icon type="question-circle-o" className="help-hunt-score" />
               </Tooltip>
-            </div>
-          }
+            }
+          </div>
         </div>
         <div className="daily-posts">
           {rankingItems.slice(0,10)}

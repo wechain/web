@@ -21,6 +21,10 @@ export class SubHeading extends PureComponent {
     this.interval = setInterval(this.tick, 1000);
   }
 
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
   tick = () => {
     const timeLeft = timeUntilMidnightSeoul(true)
 

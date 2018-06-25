@@ -1,7 +1,13 @@
 export function getSortOption(key) {
-  return localStorage.getItem(key) || 'hunt_score';
+  const defaultOption = key === 'daily-0' ? 'random' : 'hunt_score';
+  if (window.sortOption && window.sortOption[key]) {
+    return window.sortOption[key];
+  }
+
+  return defaultOption;
 }
 export function setSortOption(key, value) {
-  return localStorage.setItem(key, value);
+  window.sortOption = window.sortOption || {};
+  window.sortOption[key] = value;
 }
 
