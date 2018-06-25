@@ -112,7 +112,7 @@ class Profile extends Component {
                 {account.reputation}
               </Timeline.Item>
               {account.voting_weight &&
-                <Timeline.Item>x{formatNumber(account.voting_weight * 100)} (Diverity Score: {formatNumber(account.diversity_score)})</Timeline.Item>
+                <Timeline.Item>x{formatNumber(account.voting_weight * 100)} (Diversity Score: {formatNumber(account.diversity_score)})</Timeline.Item>
               }
               <Timeline.Item><FollowerCount author={account.name} unit="followers" /></Timeline.Item>
               <Timeline.Item><UserSteemPower account={account} /></Timeline.Item>
