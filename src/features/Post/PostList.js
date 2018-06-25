@@ -8,11 +8,10 @@ import { selectPosts, selectDailyRanking } from './selectors';
 import { getPostsBegin } from './actions/getPosts';
 import { daysAgoToString } from 'utils/date';
 import PostItem from './components/PostItem';
-import { formatAmount } from "utils/helpers/steemitHelpers";
-import { timeUntilMidnightSeoul } from 'utils/date';
 import { getSortOption, setSortOption } from 'utils/sortOptions';
 import { isModerator } from 'features/User/utils';
 import { selectMe } from 'features/User/selectors';
+import { SubHeading } from './components/SubHeading';
 
 class PostList extends Component {
   static propTypes = {
@@ -27,7 +26,6 @@ class PostList extends Component {
     super();
 
     this.state = {
-      timer: null,
       showAll: false,
     }
 
@@ -38,22 +36,10 @@ class PostList extends Component {
 
   componentDidMount() {
     this.props.getPosts(this.props.daysAgo);
-    this.interval = setInterval(this.tick, 1000);
   }
 
   componentWillUnmount() {
     clearInterval(this.interval);
-  }
-
-  tick = () => {
-    const timeLeft = timeUntilMidnightSeoul(true)
-
-    if (timeLeft === '00:00:00') {
-      this.setState({ timer: (<div>Today's ranking competition is finished. Please <a onClick={() => window.location.reload()}>refresh your page.</a></div>) });
-      clearInterval(this.interval);
-    } else {
-      this.setState({ timer: (<div><b>{timeLeft}</b> left till midnight (KST)</div>) });
-    }
   }
 
   showAll = () => this.setState({ showAll: true });
@@ -72,7 +58,7 @@ class PostList extends Component {
     }
 
     let dailyTotalReward = 0;
-    const rankingItems = ranking.map((postKey, index) => {
+    let rankingItems = ranking.map((postKey, index) => {
       const post = posts[postKey];
       dailyTotalReward += post.payout_value;
       return (
@@ -88,11 +74,10 @@ class PostList extends Component {
     return (
       <div className={`post-list day-ago-${daysAgo}`}>
         <div className="heading left-padded">
-          <h3>{daysAgoToString(daysAgo)}</h3>
-          <div className="heading-sub">
-            <b>{ranking.length}</b> products, <b>{formatAmount(dailyTotalReward)}</b> SBD hunter’s rewards were generated.<br/>
-            {daysAgo === 0 && this.state.timer }
-          </div>
+          <h3>
+            {daysAgoToString(daysAgo)}
+          </h3>
+          <SubHeading huntsCount={ranking.length} dailyTotalReward={dailyTotalReward} daysAgo={daysAgo}  />
           {daysAgo === 0 &&
             <div className="sort-option">
               <span className="text-small">Sort by: </span>
