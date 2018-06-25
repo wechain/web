@@ -14,9 +14,15 @@ export const sortCommentsFromSteem = (list, commentsData, sortBy = 'trending') =
       if (!itemA || !itemB) {
         return 0;
       }
+
       let compareRes = parseFloat(itemA.total_payout_value) - parseFloat(itemB.total_payout_value);
       if (compareRes === 0) {
         compareRes = itemA.net_votes - itemB.net_votes;
+      }
+      if (itemA.author_reputation < 0) {
+        compareRes = -1;
+      } else if (itemB.author_reputation < 0) {
+        compareRes = 1;
       }
       if (compareRes === 0) {
         compareRes = Date.parse(itemB.created) - Date.parse(itemA.created); // older goes first
