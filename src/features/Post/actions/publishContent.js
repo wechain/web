@@ -62,15 +62,26 @@ export function publishContentReducer(state, action) {
 
 function getBody(post) {
   let screenshots = `<center>![${post.images[0].name}](${post.images[0].link})</center>\n\n`;
+  let screenshots2 = '';
   let table = '';
   if (post.images.length > 1) {
     const otherImages = post.images.slice(1);
     screenshots += '|';
     table += '|';
+    screenshots2 += '|';
 
-    for (let i of otherImages) {
-      screenshots += ` ![${i.name}](${i.link})<br>[View Image](${i.link}) |`;
-      table += ' - |';
+    for (let i in otherImages) {
+      const column = ` <center>![${otherImages[i].name}](${otherImages[i].link})<br>[View Image](${otherImages[i].link})</center> |`;
+
+      if (i < 5) {
+        screenshots += column;
+        table += ' - |';
+      } else {
+        screenshots2 += column;
+        if ((i + 1) % 5 === 0 && i !== otherImages.length - 1) {
+          screenshots2 += "\n| ";
+        }
+      }
     }
   }
 
@@ -85,6 +96,7 @@ function getBody(post) {
     `## Screenshots\n` +
     `${screenshots}\n` +
     `${table}\n` +
+    `${screenshots2}\n` +
     `\n---\n` +
     `## Hunter's comment\n` +
     `${post.description}\n` +
@@ -107,6 +119,9 @@ function getBody(post) {
 function* publishContent({ props, editMode }) {
   const post = yield select(selectDraft());
   // console.log('1------', post);
+
+  console.log(getBody(post));
+  return;
 
   try {
     if (post.url === initialState.draft.url) {
