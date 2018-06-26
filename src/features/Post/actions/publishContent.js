@@ -120,9 +120,6 @@ function* publishContent({ props, editMode }) {
   const post = yield select(selectDraft());
   // console.log('1------', post);
 
-  console.log(getBody(post));
-  return;
-
   try {
     if (post.url === initialState.draft.url) {
       throw new Error("Please check errors on product link field.");
