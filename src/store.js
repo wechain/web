@@ -19,7 +19,7 @@ const localStorageMiddleware = ({getState}) => {
       case 'UPDATE_DRAFT':
         // update draft
         const draft = getState().post.draft;
-        localStorage.setItem('store', JSON.stringify(draft));
+        localStorage.setItem('draft', JSON.stringify(draft));
         break;
       case 'PUBLISH_CONTENT_SUCCESS':
         // clear localStorage 'draft'
