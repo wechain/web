@@ -19,8 +19,6 @@ export function resetDraft() {
 export function updateDraftReducer(state, action) {
   switch (action.type) {
     case UPDATE_DRAFT: {
-      // update localStorage 'draft'
-      localStorage.setItem('draft', JSON.stringify(state.draft));
       return update(state, {
         draft: { $merge: { [action.field]: action.value } },
       });
