@@ -5,12 +5,10 @@ import { selectMe } from 'features/User/selectors';
 
 const selectPostDomain = () => state => state.post;
 
-export const selectDraft = () => {
-  return createSelector(
-    selectPostDomain(),
-    state => state.draft,
-  )
-};
+export const selectDraft = () => createSelector(
+  selectPostDomain(),
+  state => state.draft,
+);
 
 export const selectIsPublishing = () => createSelector(
   selectPostDomain(),
