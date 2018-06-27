@@ -13,6 +13,7 @@ import api from 'utils/api';
 import { selectCurrentPost } from './selectors';
 import { getPostBegin, setCurrentPostKey } from './actions/getPost';
 import { sanitizeText, splitTags } from './utils';
+import { getCachedImage, stripCachedURL } from 'features/Post/utils';
 
 const FormItem = Form.Item;
 let currentBeneficiaryId = 0;
@@ -116,7 +117,7 @@ class PostForm extends Component {
         {
           uid: i,
           name: f.name,
-          url:  f.link,
+          url:  getCachedImage(f.link),
           status: 'done',
           id: f.id,
           type: f.type,
@@ -269,7 +270,7 @@ class PostForm extends Component {
       } else if (f.name && f.link) { // Handle Edit
         return {
           name: f.name,
-          link: f.link,
+          link: stripCachedURL(f.link),
           width: f.width,
           height: f.height,
           type: f.type,

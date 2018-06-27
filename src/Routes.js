@@ -61,13 +61,13 @@ export class RoutesLeft extends Component {
           <Route path='/cookies' exact component={Cookies} />
           <Route path="/hall-of-fame" exact component={Home} />
           <Route path="/hall-of-fame/@:author/:permlink" exact component={Post} />
+          <Route path="/wallet" exact component={Airdrop} />
           <Route path="/@:author/:permlink" exact component={Post} />
           <Route path="/steemhunt/@:author/:permlink" exact render={(p) => (<Redirect to={`/@${p.match.params.author}/${p.match.params.permlink}`}/>)}/>
           <Route path="/@:author/:permlink/edit" exact component={Draft} />
           <Route path="/author/@:author" exact component={Profile} />
           <Route path="/author/@:author/:permlink" exact component={Post} />
           <Route path="/@:author" exact render={(p) => (<Redirect to={`/author/@${p.match.params.author}`} />)} />
-          <Route path="/wallet" exact componet={Airdrop} />
           <Route path='*' component={NotFound} />
         </Switch>
       </div>

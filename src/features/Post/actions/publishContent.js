@@ -63,7 +63,29 @@ export function publishContentReducer(state, action) {
 }
 
 function getBody(post) {
-  const screenshots = post.images.map(i => `<center>![${i.name}](${i.link})</center>\n\n`).join('');
+  let screenshots = `<center>![${post.images[0].name}](${post.images[0].link})</center>\n\n`;
+  let screenshots2 = '';
+  let table = '';
+  if (post.images.length > 1) {
+    const otherImages = post.images.slice(1);
+    screenshots += '|';
+    table += '|';
+    screenshots2 += '|';
+
+    for (let i in otherImages) {
+      const column = ` <center>![${otherImages[i].name}](${otherImages[i].link})<br>[View Image](${otherImages[i].link})</center> |`;
+
+      if (i < 5) {
+        screenshots += column;
+        table += ' - |';
+      } else {
+        screenshots2 += column;
+        if ((i + 1) % 5 === 0 && i !== otherImages.length - 1) {
+          screenshots2 += "\n| ";
+        }
+      }
+    }
+  }
 
   let contributors = '';
   if (post.beneficiaries && post.beneficiaries.length > 0) {
@@ -75,6 +97,8 @@ function getBody(post) {
     `\n---\n` +
     `## Screenshots\n` +
     `${screenshots}\n` +
+    `${table}\n` +
+    `${screenshots2}\n` +
     `\n---\n` +
     `## Hunter's comment\n` +
     `${post.description}\n` +

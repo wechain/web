@@ -62,7 +62,7 @@ export function getPostsReducer(state, action) {
 /*--------- SAGAS ---------*/
 function* getPosts({ daysAgo }) {
   try {
-    const posts = yield api.get('/posts.json', { days_ago: daysAgo, sort: getSortOption('daily') });
+    const posts = yield api.get('/posts.json', { days_ago: daysAgo, sort: getSortOption('daily-' + daysAgo) });
 
     yield put(getPostsSuccess(daysAgo, posts));
   } catch(e) {

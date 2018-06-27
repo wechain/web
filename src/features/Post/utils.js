@@ -65,12 +65,16 @@ export const addReferral = function(url) {
   return url;
 }
 
-export const getThumbnail = function(url, width, height) {
+export const getCachedImage = function(url, width = 0, height = 0) {
   if (/\.gif$/.test(url)) {
-    return url;
+    return `https://steemitimages.com/0x0/${url}`;
   }
 
   return `https://steemitimages.com/${width}x${height}/${url}`;
+}
+
+export const stripCachedURL = function(url) {
+  return url.replace(/https:\/\/steemitimages\.com\/\d+x\d+\//, '')
 }
 
 export const isEditable = function(post) {
@@ -88,4 +92,13 @@ export const isEditable = function(post) {
   }
 
   return false;
+}
+
+export const shuffle = function(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+
+  return array;
 }

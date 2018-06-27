@@ -8,11 +8,10 @@ import { selectPosts, selectDailyRanking } from './selectors';
 import { getPostsBegin } from './actions/getPosts';
 import { daysAgoToString } from 'utils/date';
 import PostItem from './components/PostItem';
-import { formatAmount } from "utils/helpers/steemitHelpers";
-import { timeUntilMidnightSeoul } from 'utils/date';
 import { getSortOption, setSortOption } from 'utils/sortOptions';
 import { isModerator } from 'features/User/utils';
 import { selectMe } from 'features/User/selectors';
+import { SubHeading } from './components/SubHeading';
 
 class PostList extends Component {
   static propTypes = {
@@ -27,7 +26,6 @@ class PostList extends Component {
     super();
 
     this.state = {
-      timer: null,
       showAll: false,
     }
 
@@ -38,29 +36,13 @@ class PostList extends Component {
 
   componentDidMount() {
     this.props.getPosts(this.props.daysAgo);
-    this.interval = setInterval(this.tick, 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
-
-  tick = () => {
-    const timeLeft = timeUntilMidnightSeoul(true)
-
-    if (timeLeft === '00:00:00') {
-      this.setState({ timer: (<div>Today's ranking competition is finished. Please <a onClick={() => window.location.reload()}>refresh your page.</a></div>) });
-      clearInterval(this.interval);
-    } else {
-      this.setState({ timer: (<div><b>{timeLeft}</b> left till midnight (KST)</div>) });
-    }
   }
 
   showAll = () => this.setState({ showAll: true });
 
   handleSortOption = (value) => {
-    setSortOption('daily', value);
-    window.location.reload();
+    setSortOption(`daily-${this.props.daysAgo}`, value);
+    this.props.getPosts(this.props.daysAgo);
   }
 
   render() {
@@ -72,7 +54,7 @@ class PostList extends Component {
     }
 
     let dailyTotalReward = 0;
-    const rankingItems = ranking.map((postKey, index) => {
+    let rankingItems = ranking.map((postKey, index) => {
       const post = posts[postKey];
       dailyTotalReward += post.payout_value;
       return (
@@ -85,33 +67,36 @@ class PostList extends Component {
       buttonClass += ' hide';
     }
 
+    const currentSortOption = getSortOption('daily-' + daysAgo);
+
     return (
       <div className={`post-list day-ago-${daysAgo}`}>
         <div className="heading left-padded">
-          <h3>{daysAgoToString(daysAgo)}</h3>
-          <div className="heading-sub">
-            <b>{ranking.length}</b> products, <b>{formatAmount(dailyTotalReward)}</b> SBD hunter’s rewards were generated.<br/>
-            {daysAgo === 0 && this.state.timer }
-          </div>
-          {daysAgo === 0 &&
-            <div className="sort-option">
-              <span className="text-small">Sort by: </span>
-              <Select size="small" defaultValue={getSortOption('daily')} onChange={this.handleSortOption}>
-                <Select.Option value="hunt_score">Hunt Score</Select.Option>
-                <Select.Option value="payout">Payout Value</Select.Option>
-                <Select.Option value="created">New</Select.Option>
-                <Select.Option value="vote_count">Vote Count</Select.Option>
-                <Select.Option value="comment_count">Comment Count</Select.Option>
-                {isModerator(me) &&
-                  <Select.Option value="unverified">Unverified</Select.Option>
-                }
-              </Select>
-
+          <h3>
+            {daysAgoToString(daysAgo)}
+          </h3>
+          <SubHeading huntsCount={ranking.length} dailyTotalReward={dailyTotalReward} daysAgo={daysAgo}  />
+          <div className="sort-option">
+            <span className="text-small">Sort by: </span>
+            <Select size="small" defaultValue={currentSortOption} onChange={this.handleSortOption}>
+              {daysAgo === 0 &&
+                <Select.Option value="random">Random</Select.Option>
+              }
+              <Select.Option value="hunt_score">Hunt Score</Select.Option>
+              <Select.Option value="payout">Payout Value</Select.Option>
+              <Select.Option value="created">New</Select.Option>
+              <Select.Option value="vote_count">Vote Count</Select.Option>
+              <Select.Option value="comment_count">Comment Count</Select.Option>
+              {isModerator(me) &&
+                <Select.Option value="unverified">Unverified</Select.Option>
+              }
+            </Select>
+            {currentSortOption === 'hunt_score' &&
               <Tooltip placement="left" title="Hunt score is calculated by upvoting counts that are weighted by Steem reputation in order to avoid spamming attempts.">
                 <Icon type="question-circle-o" className="help-hunt-score" />
               </Tooltip>
-            </div>
-          }
+            }
+          </div>
         </div>
         <div className="daily-posts">
           {rankingItems.slice(0,10)}

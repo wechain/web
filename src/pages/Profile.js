@@ -14,6 +14,8 @@ import FollowerCount from 'features/User/components/FollowerCount';
 import FollowButton from 'features/User/components/FollowButton';
 import CircularProgress from 'components/CircularProgress';
 import { scrollTop } from 'utils/scroller';
+import { formatNumber } from 'utils/helpers/steemitHelpers';
+import { getCachedImage } from 'features/Post/utils';
 
 class Profile extends Component {
   static propTypes = {
@@ -68,7 +70,7 @@ class Profile extends Component {
     if (profile.cover_image) {
       coverStyle = {
         backgroundColor: COLOR_PRIMARY,
-        backgroundImage: 'url(https://steemitimages.com/1600x800/' + profile.cover_image + ')',
+        backgroundImage: `url(${getCachedImage(profile.cover_image, 1600, 800)})`,
         backgroundSize: 'cover',
       };
     }
@@ -96,6 +98,12 @@ class Profile extends Component {
           <div className="timeline-container">
             <ul className="left">
               <li>Reputation</li>
+              {account.voting_weight &&
+                <li>Voting Weight</li>
+              }
+              {account.diversity_score &&
+                <li>Diversity Score</li>
+              }
               <li>Followers</li>
               <li>Steem Power</li>
               <li>Current Voting Power</li>
@@ -105,8 +113,13 @@ class Profile extends Component {
             <Timeline>
               <Timeline.Item>
                 {account.reputation}
-                {account.voting_weight && ` (voting weight: x${account.voting_weight * 100})` }
               </Timeline.Item>
+              {account.voting_weight &&
+                <Timeline.Item>x{formatNumber(account.voting_weight * 100)}</Timeline.Item>
+              }
+              {account.diversity_score &&
+                <Timeline.Item>{formatNumber(account.diversity_score)}</Timeline.Item>
+              }
               <Timeline.Item><FollowerCount author={account.name} unit="followers" /></Timeline.Item>
               <Timeline.Item><UserSteemPower account={account} /></Timeline.Item>
               <Timeline.Item>{parseInt(account.voting_power / 100, 10)}%</Timeline.Item>

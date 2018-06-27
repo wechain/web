@@ -46,7 +46,7 @@ class HuntedListByAuthor extends Component {
 
   handleSortOption = (value) => {
     setSortOption('profile', value);
-    window.location.reload();
+    this.props.getPostsByAuthor(this.props.currentUser, 1);
   };
 
   render() {
