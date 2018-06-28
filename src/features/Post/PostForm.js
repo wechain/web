@@ -49,7 +49,6 @@ class PostForm extends Component {
   componentDidMount() {
     const { match: { params : { author, permlink }}, updateDraft, getPost } = this.props;
     const draftString = localStorage.getItem('draft');
-    getPost(author, permlink);
     if (author && permlink) {
       if(!!draftString) {
         let draft = JSON.parse(draftString);
@@ -59,9 +58,17 @@ class PostForm extends Component {
           updateDraft('title', draft.title);
           updateDraft('tagline', draft.tagline);	
           updateDraft('description', draft.description);
-          // updateDraft('images', draft.images);
           updateDraft('tags', draft.tags);
+          if(draft.images !== []) {
+            updateDraft('images', draft.image);
+            this.handleImageChange({fileList: draft.images});
+            this.prepareForEdit(draft);
+          }
+        } else {
+          getPost(author, permlink);
         }
+      } else {
+        getPost(author, permlink);
       }
       this.setState({ editMode: true, resetted: false });
     } else if (!draftString) {
@@ -75,11 +82,11 @@ class PostForm extends Component {
       updateDraft('tagline', draft.tagline || 'Short Description');	
       updateDraft('description', draft.description || '');
       updateDraft('tags', draft.tags || []);
-      // if(draft.images) {
-      //   updateDraft('images', draft.images || []);
-      //   this.handleImageChange({fileList: draft.images});
-      //   this.prepareForEdit(draft);
-      // }
+      if(draft.images !== []) {
+        updateDraft('images', draft.image);
+        this.handleImageChange({fileList: draft.images});
+        this.prepareForEdit(draft);
+      }
       // updateDraft('beneficiaries', draft.beneficiaries || []);
     }
 
