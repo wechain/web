@@ -29,6 +29,17 @@ class VoteButton extends PureComponent {
     }
   }
 
+  componentDidMount() {
+    this.updateVote();
+  }
+
+  updateVote = () => {
+    const voteString = localStorage.getItem('vote');
+    if(voteString && parseInt(voteString)) {
+      this.setState({voteWeight: parseInt(voteString)});
+    }
+  }
+
   openSignin = () => {
     notification.open({
       message: 'Login Required',
@@ -50,6 +61,7 @@ class VoteButton extends PureComponent {
 
   onChangeVotingWeight = value => {
     this.setState({ voteWeight: value });
+    localStorage.setItem('vote', value);
   };
 
   doVote = weight => {
@@ -69,6 +81,7 @@ class VoteButton extends PureComponent {
         return this.openSignin();
       }
     }
+    this.updateVote();
     this.setState({ sliderOpened: visible });
   };
 
