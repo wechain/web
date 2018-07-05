@@ -56,10 +56,12 @@ class PostList extends Component {
     let dailyTotalReward = 0;
     let rankingItems = ranking.map((postKey, index) => {
       const post = posts[postKey];
-      dailyTotalReward += post.payout_value;
-      return (
-        <PostItem key={post.id} rank={index + 1} post={post} />
-      );
+      if (post) {
+        dailyTotalReward += post.payout_value;
+        return (
+          <PostItem key={post.id} rank={index + 1} post={post} />
+        );
+      }
     });
 
     let buttonClass = 'show-all';
