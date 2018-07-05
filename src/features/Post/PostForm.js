@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { Form, Row, Col, Input, InputNumber, Tooltip, Icon, Button, Upload, Modal } from 'antd';
+import { Form, Row, Col, Input, InputNumber, Tooltip, Icon, Button, Upload, Modal, Spin } from 'antd';
 import { selectDraft, selectIsPublishing } from './selectors';
 import { selectMe } from 'features/User/selectors';
 import { publishContentBegin } from './actions/publishContent';
@@ -87,10 +87,10 @@ class PostForm extends Component {
     } else {
       this.setState({ editMode: false });
       this.checkAndResetDraft();
-    }
 
-    if (this.props.me !== nextProps.draft.author) {
-      this.props.updateDraft('author', this.props.me);
+      if (this.props.me !== nextProps.draft.author) {
+        this.props.updateDraft('author', this.props.me);
+      }
     }
   }
 
@@ -286,6 +286,21 @@ class PostForm extends Component {
   initialValue = (field, defaultValue = null) => initialState.draft[field] === this.props.draft[field] ? defaultValue : this.props.draft[field];
 
   render() {
+    if (!this.props.me) {
+      return (<Spin className="center-loading" />);
+    }
+
+    if (this.props.post && this.props.post.author !== this.props.me) {
+      return (
+        <div className="heading left-padded">
+          <h3>Forbidden</h3>
+          <div className="heading-sub">
+            You don't have permission to edit this post.
+          </div>
+        </div>
+      );
+    }
+
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const formItemLayout = {
       labelCol: {
