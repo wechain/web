@@ -17,6 +17,7 @@ class PostList extends Component {
   static propTypes = {
     me: PropTypes.string.isRequired,
     daysAgo: PropTypes.number.isRequired,
+    session: PropTypes.number,
     getPosts: PropTypes.func.isRequired,
     posts: PropTypes.object.isRequired,
     dailyRanking: PropTypes.object.isRequired,
@@ -46,7 +47,7 @@ class PostList extends Component {
   }
 
   render() {
-    const { me, posts, dailyRanking, daysAgo } = this.props;
+    const { me, posts, dailyRanking, daysAgo, session } = this.props;
 
     let ranking = dailyRanking[daysAgo] || [];
     if (isEmpty(ranking) && daysAgo !== 0) {
@@ -58,55 +59,59 @@ class PostList extends Component {
       const post = posts[postKey];
       if (post) {
         dailyTotalReward += post.payout_value;
-        return (
-          <PostItem key={post.id} rank={index + 1} post={post} />
-        );
+
+        // Live section should exclude voted sessions
+        if (daysAgo === 0 && post.session_date && post.session_number !== session) {
+          console.log('today exclude', post.session_number);
+        } else {
+          return (
+            <PostItem key={post.id} rank={index + 1} post={post} />
+          );
+        }
       }
     });
-
-    let buttonClass = 'show-all';
-    if (this.state.showAll) {
-      buttonClass += ' hide';
-    }
 
     const currentSortOption = getSortOption('daily-' + daysAgo);
 
     return (
-      <div className={`post-list day-ago-${daysAgo}`}>
-        <div className="heading left-padded">
-          <h3>
-            {daysAgoToString(daysAgo)}
-          </h3>
-          <SubHeading huntsCount={ranking.length} dailyTotalReward={dailyTotalReward} daysAgo={daysAgo}  />
-          <div className="sort-option">
-            <span className="text-small">Sort by: </span>
-            <Select size="small" defaultValue={currentSortOption} onChange={this.handleSortOption}>
-              {daysAgo === 0 &&
-                <Select.Option value="random">Random</Select.Option>
+      <div>
+        <div className={`post-list day-ago-${daysAgo}`}>
+          <div className="heading left-padded">
+            <h3>
+              {daysAgoToString(daysAgo)}
+            </h3>
+            <SubHeading huntsCount={rankingItems.length} dailyTotalReward={dailyTotalReward} daysAgo={daysAgo}  />
+            <div className="sort-option">
+              <span className="text-small">Sort by: </span>
+              <Select size="small" defaultValue={currentSortOption} onChange={this.handleSortOption}>
+                {daysAgo === 0 &&
+                  <Select.Option value="random">Random</Select.Option>
+                }
+                <Select.Option value="hunt_score">Hunt Score</Select.Option>
+                <Select.Option value="payout">Payout Value</Select.Option>
+                <Select.Option value="created">New</Select.Option>
+                <Select.Option value="vote_count">Vote Count</Select.Option>
+                <Select.Option value="comment_count">Comment Count</Select.Option>
+                {isModerator(me) &&
+                  <Select.Option value="unverified">Unverified</Select.Option>
+                }
+              </Select>
+              {currentSortOption === 'hunt_score' &&
+                <Tooltip placement="left" title="Hunt score is calculated by upvoting counts that are weighted by Steem reputation in order to avoid spamming attempts.">
+                  <Icon type="question-circle-o" className="help-hunt-score" />
+                </Tooltip>
               }
-              <Select.Option value="hunt_score">Hunt Score</Select.Option>
-              <Select.Option value="payout">Payout Value</Select.Option>
-              <Select.Option value="created">New</Select.Option>
-              <Select.Option value="vote_count">Vote Count</Select.Option>
-              <Select.Option value="comment_count">Comment Count</Select.Option>
-              {isModerator(me) &&
-                <Select.Option value="unverified">Unverified</Select.Option>
-              }
-            </Select>
-            {currentSortOption === 'hunt_score' &&
-              <Tooltip placement="left" title="Hunt score is calculated by upvoting counts that are weighted by Steem reputation in order to avoid spamming attempts.">
-                <Icon type="question-circle-o" className="help-hunt-score" />
-              </Tooltip>
+            </div>
+          </div>
+          <div className="daily-posts">
+            {rankingItems.slice(0,10)}
+            {rankingItems.length > 10 && !this.state.showAll &&
+              <Button type="primary" size="default" className="show-all" ghost onClick={this.showAll}>Show All</Button>
             }
+            {rankingItems.length > 10 && this.state.showAll && rankingItems.slice(10)}
           </div>
         </div>
-        <div className="daily-posts">
-          {rankingItems.slice(0,10)}
-          {rankingItems.length > 10 &&
-            <Button type="primary" size="default" className={buttonClass} ghost onClick={this.showAll}>Show All</Button>
-          }
-          {rankingItems.length > 10 && this.state.showAll && rankingItems.slice(10)}
-        </div>
+        
       </div>
     );
   }
