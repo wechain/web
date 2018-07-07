@@ -75,6 +75,14 @@ These specific types of games will not be acceptable:
 
 With respect to “new” games we will consider them based on the original title’s release date. No other release dates based on additions of new platforms or newly released patches will be considered.
 
+## 12. Mobile/Web Extention Apps
+Like games, there are tons of mobile/web extention applications nowadays, and many of them are too generic to be featured on Steemhunt. If you share the following apps, we may delist your hunting post:
+* Apps that only have web browsing or read-only features.
+* Apps that already have many downloads/reviews (with the exception of apps that have released a completely new version).
+* Copy cat of a renowned app.
+* Apps considered extremely similar to previously hunted apps.
+
+
 <hr>
 
 ## Moderation
