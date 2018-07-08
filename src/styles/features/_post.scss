@@ -588,6 +588,22 @@
         color: $text_grey;
       }
 
+      h1 {
+        font-size: 1.25rem;
+      }
+
+      h2 {
+        font-size: 1.11rem;
+      }
+
+      h3 {
+        font-size: 1.0rem;
+      }
+
+      h4, h5, h6 {
+        font-size: 0.875rem;
+      }
+
       @include responsive(mobile) {
         border-left: 0;
         padding: 0 5px;
