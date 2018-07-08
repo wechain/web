@@ -28,7 +28,7 @@ export const selectDailyRanking = () => createSelector(
 export const selectMyPostsCountToday = () => createSelector(
   [selectMe(), selectDailyRanking()],
   (me, dailyRanking) => {
-    if (!dailyRanking[0]) {
+    if (!me || !dailyRanking[0]) {
       return 0;
     }
 
