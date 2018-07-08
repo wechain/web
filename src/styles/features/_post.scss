@@ -381,13 +381,22 @@
       }
 
       .badge {
-        background-color: $primary;
         margin-left: 5px;
         padding: 3px 6px;
         font-size: 0.625rem;
         color: #fff;
         border-radius: 2px;
         font-weight: 200;
+
+        &.team {
+          background-color: $primary;
+        }
+        &.moderator {
+          background-color: #87d461;
+        }
+        &.influencer {
+          background-color: #45c5c1;
+        }
       }
 
       .separator, .date {

@@ -30,6 +30,13 @@ export function isModerator(username) {
   return moderators.indexOf(username) !== -1;
 }
 
+export function isInfluencer(username) {
+  const influencer = [
+
+  ];
+  return influencer.indexOf(username) !== -1;
+}
+
 export function isGuardian(username) {
   const guardians = [
     'folken', 'fknmayhem',

@@ -12,7 +12,7 @@ import VoteButton from 'features/Vote/VoteButton';
 import { toTimeAgo } from 'utils/date';
 import { selectMe } from 'features/User/selectors';
 import { isEditable } from 'features/Post/utils';
-import { isAdmin, isModerator } from 'features/User/utils';
+import { isAdmin, isModerator, isInfluencer } from 'features/User/utils';
 
 class CommentItem extends PureComponent {
   static propTypes = {
@@ -62,9 +62,10 @@ class CommentItem extends PureComponent {
             <div className="comment-title">
               <Author name={comment.author} />
               {isAdmin(comment.author) ?
-                <span className="badge">ADMIN</span>
+                <span className="badge team">TEAM</span>
               :
-                isModerator(comment.author) && <span className="badge">MOD</span>
+                isModerator(comment.author) ? <span className="badge moderator">MODERATOR</span> :
+                isInfluencer(comment.author) && <span className="badge influencer">INFLUENCER</span>
               }
               <span className="separator">&middot;</span>
               <span className="date">{toTimeAgo(comment.created)}</span>
