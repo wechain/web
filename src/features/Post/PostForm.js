@@ -47,12 +47,47 @@ class PostForm extends Component {
   }
 
   componentDidMount() {
-    const { match: { params : { author, permlink }} } = this.props;
+    const { match: { params : { author, permlink }}, updateDraft, getPost } = this.props;
+    const draftString = localStorage.getItem('draft');
     if (author && permlink) {
-      this.props.getPost(author, permlink);
+      if(!!draftString) {
+        let draft = JSON.parse(draftString);
+        if(author === draft.author && permlink === draft.permlink) {
+          // if there is saved localStorage
+          updateDraft('url', draft.url);
+          updateDraft('title', draft.title);
+          updateDraft('tagline', draft.tagline);	
+          updateDraft('description', draft.description);
+          updateDraft('tags', draft.tags);
+          if(draft.images !== []) {
+            updateDraft('images', draft.image);
+            this.handleImageChange({fileList: draft.images});
+            this.prepareForEdit(draft);
+          }
+        } else {
+          getPost(author, permlink);
+        }
+      } else {
+        getPost(author, permlink);
+      }
       this.setState({ editMode: true, resetted: false });
-    } else {
+    } else if (!draftString) {
+      // if localStorage does not exist
       this.checkAndResetDraft();
+    } else {
+      // if there is saved localStorage
+      let draft = JSON.parse(draftString);
+      updateDraft('url', draft.url || '#');
+      updateDraft('title', draft.title || 'Title');
+      updateDraft('tagline', draft.tagline || 'Short Description');	
+      updateDraft('description', draft.description || '');
+      updateDraft('tags', draft.tags || []);
+      if(draft.images !== []) {
+        updateDraft('images', draft.image);
+        this.handleImageChange({fileList: draft.images});
+        this.prepareForEdit(draft);
+      }
+      // updateDraft('beneficiaries', draft.beneficiaries || []);
     }
 
     if (this.props.me) {
@@ -84,7 +119,8 @@ class PostForm extends Component {
       if (this.props.draft.permlink !== nextProps.draft.permlink) {
         this.prepareForEdit(nextProps.draft);
       }
-    } else {
+    } else if(!localStorage.getItem('draft')) {
+      // if localStorage does not exist
       this.setState({ editMode: false });
       this.checkAndResetDraft();
 
