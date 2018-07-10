@@ -201,6 +201,9 @@ function* publishContent({ props, editMode }) {
       }
       throw e;
     }
+
+    // Clear localStorage
+    localStorage.removeItem('draft');
     yield put(publishContentSuccess(post));
     if (editMode) {
       yield notification['success']({ message: 'Your post has been successfully updated!' });

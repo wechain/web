@@ -54,11 +54,12 @@ class PostList extends Component {
     }
 
     let dailyTotalReward = 0;
-    let rankingItems = ranking.map((postKey, index) => {
+    let rankingItems = [];
+    ranking.forEach(function(postKey, index) {
       const post = posts[postKey];
       if (post) {
         dailyTotalReward += post.payout_value;
-        return (
+        rankingItems.push(
           <PostItem key={post.id} rank={index + 1} post={post} />
         );
       }

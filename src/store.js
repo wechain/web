@@ -7,36 +7,10 @@ import sagas from './sagas';
 
 export const history = typeof window !== 'undefined' ? createBrowserHistory() : createMemoryHistory();
 const sagaMiddleware = createSagaMiddleware();
-
-// localStorage update
-// https://stackoverflow.com/questions/35305661/where-to-write-to-localstorage-in-a-redux-app
-
-const localStorageMiddleware = ({getState}) => {
-  return (next) => (action) => {
-    const result = next(action);
-
-    switch(action.type) {
-      case 'UPDATE_DRAFT':
-        // update draft
-        const draft = getState().post.draft;
-        localStorage.setItem('draft', JSON.stringify(draft));
-        break;
-      case 'PUBLISH_CONTENT_SUCCESS':
-        // clear localStorage 'draft'
-        localStorage.removeItem('draft');
-        break;
-      default:
-        break;
-    }
-    return result;
-  }
-}
-
 const initialState = {};
 const enhancers = [];
 const middlewares = [
   sagaMiddleware,
-  localStorageMiddleware,
 ];
 
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {

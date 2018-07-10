@@ -19,8 +19,6 @@ const FormItem = Form.Item;
 let currentBeneficiaryId = 0;
 
 class PostForm extends Component {
-  // TODO: Save draft into localstorage
-
   static propTypes = {
     me: PropTypes.string.isRequired,
     draft: PropTypes.object.isRequired,
@@ -47,8 +45,10 @@ class PostForm extends Component {
   }
 
   componentDidMount() {
-    const { match: { params : { author, permlink }}, updateDraft, getPost } = this.props;
+    const { match: { params : { author, permlink }}, getPost, updateDraft } = this.props;
     const draftString = localStorage.getItem('draft');
+
+    // Edit mode
     if (author && permlink) {
       if(!!draftString) {
         let draft = JSON.parse(draftString);
@@ -56,7 +56,7 @@ class PostForm extends Component {
           // if there is saved localStorage
           updateDraft('url', draft.url);
           updateDraft('title', draft.title);
-          updateDraft('tagline', draft.tagline);	
+          updateDraft('tagline', draft.tagline);
           updateDraft('description', draft.description);
           updateDraft('tags', draft.tags);
           if(draft.images !== []) {
@@ -71,15 +71,19 @@ class PostForm extends Component {
         getPost(author, permlink);
       }
       this.setState({ editMode: true, resetted: false });
+
+    // Fresh new post
     } else if (!draftString) {
       // if localStorage does not exist
       this.checkAndResetDraft();
+
+    // New post with draft
     } else {
       // if there is saved localStorage
       let draft = JSON.parse(draftString);
       updateDraft('url', draft.url || '#');
       updateDraft('title', draft.title || 'Title');
-      updateDraft('tagline', draft.tagline || 'Short Description');	
+      updateDraft('tagline', draft.tagline || 'Short Description');
       updateDraft('description', draft.description || '');
       updateDraft('tags', draft.tags || []);
       if(draft.images !== []) {
@@ -87,11 +91,12 @@ class PostForm extends Component {
         this.handleImageChange({fileList: draft.images});
         this.prepareForEdit(draft);
       }
+      // TODO: Should show add the inputs properly
       // updateDraft('beneficiaries', draft.beneficiaries || []);
     }
 
     if (this.props.me) {
-      this.props.updateDraft('author', this.props.me);
+      this.saveAndUpdateDraft('author', this.props.me);
     }
 
     window.onbeforeunload = function() {
@@ -125,7 +130,7 @@ class PostForm extends Component {
       this.checkAndResetDraft();
 
       if (this.props.me !== nextProps.draft.author) {
-        this.props.updateDraft('author', this.props.me);
+        this.saveAndUpdateDraft('author', this.props.me);
       }
     }
   }
@@ -134,6 +139,17 @@ class PostForm extends Component {
     if (this.state.shouldRecalculateBeneficiary) {
       this.onBeneficiariesChanged();
     }
+  }
+
+  saveAndUpdateDraft = (field, value) => {
+    this.props.updateDraft(field, value);
+
+    // TODO: FIXME: HACK:
+    // Should be a proper reducer callback
+    setTimeout(() => {
+      // Save into localStorage
+      localStorage.setItem('draft', JSON.stringify(this.props.draft));
+    });
   }
 
   checkAndResetDraft = () => {
@@ -145,7 +161,7 @@ class PostForm extends Component {
   };
 
   prepareForEdit = (draft) => {
-    this.props.updateDraft('permlink', draft.permlink);
+    this.saveAndUpdateDraft('permlink', draft.permlink);
     this.setState({
       fileList: draft.images.map((f, i) => f &&
         {
@@ -189,7 +205,7 @@ class PostForm extends Component {
         beneficiaries.push({ account: account, weight: weight * 100 });
         weightSum += weight;
       }
-      this.props.updateDraft('beneficiaries', beneficiaries);
+      this.saveAndUpdateDraft('beneficiaries', beneficiaries);
 
       if (weightSum > 85 || weightSum < 0) {
         this.setState({ beneficiariesValid: false });
@@ -251,16 +267,16 @@ class PostForm extends Component {
     }
 
     if (this.state.editMode) {
-      this.props.updateDraft('url', value);
+      this.saveAndUpdateDraft('url', value);
       return callback();
     }
 
     api.get('/posts/exists.json', { url: value }, true).then((res) => {
       if (res.result === 'OK') {
-        this.props.updateDraft('url', value);
+        this.saveAndUpdateDraft('url', value);
         callback();
       } else {
-        this.props.updateDraft('url', '#');
+        this.saveAndUpdateDraft('url', '#');
         if (res.url) {
           this.setState({ duplicatedUrl: res.url });
           callback('');
@@ -269,7 +285,7 @@ class PostForm extends Component {
         }
       }
     }).catch(msg => {
-      this.props.updateDraft('url', '#');
+      this.saveAndUpdateDraft('url', '#');
       callback('Service is temporarily unavailbe, Please try again later.');
     });
   };
@@ -286,9 +302,9 @@ class PostForm extends Component {
 
   // MARK: - Handle live updates
 
-  handleTitleChange = (e) => this.props.updateDraft('title', sanitizeText(e.target.value, true) || initialState.draft.title);
-  handleTaglineChange = (e) => this.props.updateDraft('tagline', sanitizeText(e.target.value, true) || initialState.draft.tagline);
-  handleDescriptionChange = (e) => this.props.updateDraft('description', sanitizeText(e.target.value) || initialState.draft.description);
+  handleTitleChange = (e) => this.saveAndUpdateDraft('title', sanitizeText(e.target.value, true) || initialState.draft.title);
+  handleTaglineChange = (e) => this.saveAndUpdateDraft('tagline', sanitizeText(e.target.value, true) || initialState.draft.tagline);
+  handleDescriptionChange = (e) => this.saveAndUpdateDraft('description', sanitizeText(e.target.value) || initialState.draft.description);
   handleImageChange = ({ fileList }) => {
     const images = fileList.map(function(f) {
       if (f.response && f.response.data && f.response.data.link) {
@@ -315,9 +331,9 @@ class PostForm extends Component {
       return null;
     });
     this.setState({ fileList });
-    this.props.updateDraft('images', images.filter(x => !!x));
+    this.saveAndUpdateDraft('images', images.filter(x => !!x));
   };
-  handleTagsChange = (tags) => this.props.updateDraft('tags', tags);
+  handleTagsChange = (tags) => this.saveAndUpdateDraft('tags', tags);
 
   initialValue = (field, defaultValue = null) => initialState.draft[field] === this.props.draft[field] ? defaultValue : this.props.draft[field];
 
