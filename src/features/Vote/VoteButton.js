@@ -34,9 +34,10 @@ class VoteButton extends PureComponent {
   }
 
   updateVote = () => {
-    const voteString = localStorage.getItem('vote');
-    if(voteString && parseInt(voteString)) {
-      this.setState({voteWeight: parseInt(voteString)});
+    const voteString = localStorage.getItem(this.props.type);
+    const voteWeight = parseInt(voteString, 10)
+    if(voteString && !!voteWeight) {
+      this.setState({voteWeight: voteWeight});
     }
   }
 
@@ -61,7 +62,7 @@ class VoteButton extends PureComponent {
 
   onChangeVotingWeight = value => {
     this.setState({ voteWeight: value });
-    localStorage.setItem('vote', value);
+    localStorage.setItem(this.props.type, value);
   };
 
   doVote = weight => {
