@@ -46,6 +46,7 @@ In Steemhunt, the coolness is decided by hunter’s upvotes. If many people thin
 ## 8. Quality of the Post
 As a hunter, you need to post a cool product with well-structured comments and screenshots so that the users can see the benefit of the product quickly without needing to check the products website. Your post will be hidden if you:
 * use non-related words/descriptions about the product.
+* write wrong name of product or duplicate product name in the short description.
 * attach non-related screenshot images or videos.
 * attach low quality product images.
 * share any scams or highly suspicious cryptocurrency/fin-tech products.
