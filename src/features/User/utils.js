@@ -32,7 +32,8 @@ export function isModerator(username) {
 
 export function isInfluencer(username) {
   const influencer = [
-    'dontstopmenow', 'sambillingham', 'ogochukwu', 'theversatileguy', 'guyfawkes4-20', 'pialejoana', 'tobias-g', 'superoo7'
+    'dontstopmenow', 'sambillingham', 'ogochukwu', 'theversatileguy', 'guyfawkes4-20', 'pialejoana', 'tobias-g', 'superoo7',
+    'themanualbot', 'rtytf', 'redtravels', 'elleok', 'joythewanderer', 'ady-was-here', 'raulmz'
   ];
   return influencer.indexOf(username) !== -1;
 }
