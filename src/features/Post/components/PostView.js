@@ -8,7 +8,7 @@ import IconTwitter from 'react-icons/lib/fa/twitter-square';
 import IconLinkedIn from 'react-icons/lib/fa/linkedin-square';
 import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
-import { getPostPath, isEditable, addReferral } from '../utils';
+import { getPostPath, isEditable, addReferral, canReview } from 'features/Post/utils';
 import VoteButton from 'features/Vote/VoteButton';
 import ResteemButton from './ResteemButton';
 import Author from 'components/Author';
@@ -150,7 +150,7 @@ class PostView extends Component {
     return (
       <div className="post-view diagonal-split-view">
         <div className="top-container primary-gradient">
-          <span className="featured-date round-border" data-id={post.id}>Featured on {shortFormat(post.created_at)}</span>
+          <span className="featured-date round-border" data-id={post.id}>Featured on {shortFormat(post.listed_at)}</span>
 
           <div className="edit-buttons">
             {shouldShowEdit &&
@@ -166,12 +166,18 @@ class PostView extends Component {
                         Own Content
                       </Button>
                     :
-                      <Button icon={post.verified_by && !post.is_verified ? 'loading' : 'check-circle'} size="small" onClick={this.showModeration} ghost>
-                        { !post.is_active ? 'Unhide' : post.is_verified ? "Unverify" : (post.verified_by === me ? "Reviewing" : 'Verify') }
-                        {post.verified_by &&
-                          <span> (@{post.verified_by})</span>
-                        }
-                      </Button>
+                      (canReview(post) ?
+                        <Button icon={post.verified_by && !post.is_verified ? 'loading' : 'check-circle'} size="small" onClick={this.showModeration} ghost>
+                          { !post.is_active ? 'Unhide' : post.is_verified ? "Unverify" : (post.verified_by === me ? "Reviewing" : 'Verify') }
+                          {post.verified_by &&
+                            <span> (@{post.verified_by})</span>
+                          }
+                        </Button>
+                      :
+                        <Button icon="check-circle" size="small" ghost disabled>
+                          Less than 3 hours
+                        </Button>
+                      )
                     )
                   :
                     (post.is_verified ?
