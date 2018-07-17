@@ -8,7 +8,7 @@ import IconTwitter from 'react-icons/lib/fa/twitter-square';
 import IconLinkedIn from 'react-icons/lib/fa/linkedin-square';
 import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
-import { getPostPath, isEditable, addReferral, canReview } from 'features/Post/utils';
+import { getPostPath, isEditable, addReferral } from 'features/Post/utils';
 import VoteButton from 'features/Vote/VoteButton';
 import ResteemButton from './ResteemButton';
 import Author from 'components/Author';
@@ -229,18 +229,12 @@ class PostView extends Component {
                         Own Content
                       </Button>
                     :
-                      (canReview(post) ?
-                        <Button icon={post.verified_by && !post.is_verified ? 'loading' : 'check-circle'} size="small" onClick={this.showModeration} ghost>
-                          {reviewButtonText}
-                          {post.verified_by &&
-                            <span> (@{post.verified_by})</span>
-                          }
-                        </Button>
-                      :
-                        <Button icon="check-circle" size="small" ghost disabled>
-                          Less than 3 hours
-                        </Button>
-                      )
+                      <Button icon={post.verified_by && !post.is_verified ? 'loading' : 'check-circle'} size="small" onClick={this.showModeration} ghost>
+                        {reviewButtonText}
+                        {post.verified_by &&
+                          <span> (@{post.verified_by})</span>
+                        }
+                      </Button>
                     )
                   :
                     (post.is_verified ?

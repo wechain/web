@@ -94,17 +94,6 @@ export const isEditable = function(post) {
   return false;
 }
 
-export const canReview = function(post) {
-  const created = new Date(post.created_at).getTime();
-  const diffHours = ((new Date()).getTime() - created) / 3600000;
-
-  if (diffHours > 3) {
-    return true;
-  }
-
-  return false;
-}
-
 export const shuffle = function(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
