@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import registerServiceWorker from './registerServiceWorker';
+import { register } from './registerServiceWorker';
 import steem from 'steem';
 import './utils/helpers/immutabilityHelpers';
 import store from './store';
@@ -23,4 +23,5 @@ ReactDOM.render(
   </Provider>
   , document.getElementById('root')
 );
-registerServiceWorker();
+
+register({});

@@ -367,7 +367,6 @@ class PostView extends Component {
               <Col span={7}>
                 <Button
                   icon="message"
-                  className="pull-right"
                   loading={this.props.isCommentPublishing}
                   onClick={this.commentModeration}
                   className="comment-button"
