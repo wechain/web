@@ -51,7 +51,7 @@ class CategoryList extends Component {
     const { categoryStatus, currentCategory, categoryPosts, posts } = this.props;
 
     const items = (categoryPosts[currentCategory] || []).map((key, index) =>
-      <PostItem key={index + 1} rank={index + 1} post={posts[key]} pathPrefix="/" />
+      <PostItem key={index + 1} rank={index + 1} post={posts[key]} pathPrefix={`/category/${currentCategory}`} />
     )
 
     let hasMore = true;
@@ -77,10 +77,7 @@ class CategoryList extends Component {
         header={categoryStatus[currentCategory] &&
           <div className="heading left-padded" key="header">
             <h3>Posts for "{currentCategory}"</h3>
-            <div className="heading-sub">
-              <b>{categoryStatus[currentCategory].total_count}</b> products, <b>{formatAmount(categoryStatus[currentCategory].total_payout)}</b> SBD hunter’s rewards were generated.
-            </div>
-            <div className="sort-option">
+            <div className="category-option">
               <span className="text-small">Sort by: </span>
               <Select size="small" defaultValue={getSortOption('profile')} onChange={this.handleSortOption}>
                 <Select.Option value="hunt_score">Hunt Score</Select.Option>
@@ -89,6 +86,9 @@ class CategoryList extends Component {
                 <Select.Option value="vote_count">Vote Count</Select.Option>
                 <Select.Option value="comment_count">Comment Count</Select.Option>
               </Select>
+            </div>
+            <div className="heading-sub">
+              <b>{categoryStatus[currentCategory].total_count}</b> products, <b>{formatAmount(categoryStatus[currentCategory].total_payout)}</b> SBD hunter’s rewards were generated.
             </div>
           </div>
         }
