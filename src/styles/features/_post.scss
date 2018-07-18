@@ -727,3 +727,18 @@
     }
   }
 }
+
+.moderation-modal {
+  .buttons {
+    margin-top: 20px;
+
+    button {
+      margin-right: 10px;
+    }
+  }
+
+  .comment-button {
+    height: 94px;
+    margin-left: 5px;
+  }
+}
