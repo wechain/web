@@ -23,6 +23,8 @@ const Cookies = asyncComponent(() => import('pages/Cookies'));
 const HuntedList = asyncComponent(() => import('pages/HuntedList'));
 const Profile = asyncComponent(() => import('pages/Profile'));
 const HuntedListByAuthor = asyncComponent(() => import('pages/HuntedListByAuthor'));
+const Category = asyncComponent(() => import('pages/Category'));
+const CategoryList = asyncComponent(() => import('pages/CategoryList'));
 const HallOfFame = asyncComponent(() => import('pages/HallOfFame'));
 const Search = asyncComponent(() => import('pages/Search'));
 const Airdrop = asyncComponent(() => import('pages/Airdrop'));
@@ -68,6 +70,7 @@ export class RoutesLeft extends Component {
           <Route path="/author/@:author" exact component={Profile} />
           <Route path="/author/@:author/:permlink" exact component={Post} />
           <Route path="/@:author" exact render={(p) => (<Redirect to={`/author/@${p.match.params.author}`} />)} />
+          <Route path="/category/:category" exact component={Category} />
           <Route path='*' component={NotFound} />
         </Switch>
       </div>
@@ -115,6 +118,7 @@ class Right extends Component {
           <Route path="/@:author/:permlink/edit" exact component={PostForm} />
           <Route path="/@:author/:permlink" exact component={List} />
           <Route path="/author/@:author" component={AuthorList} />
+          <Route path="/category/:category" exact component={CategoryList} />
           <Route path="/wallet" exact component={Wallet} />
           <Route path='*' component={List} />
         </Switch>
