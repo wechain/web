@@ -361,7 +361,7 @@ class PostView extends Component {
                   placeholder="You must leave a comment to receive the moderator’s upvoting."
                   value={this.state.moderationComment}
                   onChange={this.handleModerationCommentChange}
-                  autosize={{minRows: 4, maxRows: 8}}
+                  autosize={{ minRows: 4 }}
                 />
               </Col>
               <Col span={7}>
