@@ -18,8 +18,15 @@ class TagList extends Component {
     getPostsByTag: PropTypes.func.isRequired,
   };
 
-  componentDidMount() {    
+  componentDidMount() {
+    this.currentTag = this.props.match.params.tag;
     this.props.getPostsByTag(this.props.match.params.tag, 1);
+  }
+
+  componentDidUpdate(nextProps) {
+    if (this.currentTag !== nextProps.match.params.tag) {
+      this.props.getPostsByTag(nextProps.match.params.tag, 1);
+    }
   }
 
   loadMore = (nextPage) => {
