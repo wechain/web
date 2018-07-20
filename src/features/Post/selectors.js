@@ -108,3 +108,8 @@ export const selectTagPosts = () => createSelector(
   selectPostDomain(),
   state => state.tagPosts,
 )
+
+export const selectRelatedTags = () => createSelector(
+  selectPostDomain(),
+  state => state.relatedTags,
+)

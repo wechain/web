@@ -46,13 +46,25 @@ export function getPostsByTagReducer(state, action) {
 
       const newPosts = {};
       const postByTag = [];
+      let tagTable = {};
+      if (page !== 1) {
+        tagTable = Object.assign({}, state.relatedTags || {});
+      }
       result.posts.forEach(post => {
         const key = getPostKey(post);
         if (!state.posts[key]) { // only update non-existing post (preventing race-condition with getPost)
           newPosts[key] = post;
         }
         postByTag.push(key);
+
+        post.tags.forEach(relatedTag => {
+          if (tag !== relatedTag) {
+            tagTable[relatedTag] = (tagTable[relatedTag] || 0) + 1
+          }
+        })
       });
+
+      console.log(state.relatedTags, tagTable);
 
       let pushOrSet = { $push: postByTag };
       if (!state.tagPosts[tag] || page === 1) {
@@ -65,7 +77,9 @@ export function getPostsByTagReducer(state, action) {
         tagStatus: { [tag]: {
           loading: { $set: false },
           finished: { $set: result.posts.length === 0 },
+          error: { $set: false },
         }},
+        relatedTags: { $set: tagTable },
       }
 
       if (result.total_count && result.total_payout) {

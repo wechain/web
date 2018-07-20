@@ -7,16 +7,38 @@ import { Helmet } from 'react-helmet';
 import CircularProgress from 'components/CircularProgress';
 import { scrollTop } from 'utils/scroller';
 import { formatNumber } from 'utils/helpers/steemitHelpers';
+import { selectRelatedTags } from 'features/Post/selectors';
+import { getTagPath } from 'features/Post/utils';
+import { Link } from 'react-router-dom';
 
 class Tag extends Component {
+  static propTypes = {
+    relatedTags: PropTypes.object.isRequired,
+  };
 
-  componentDidMount() {
-  }
+  renderRelatedTags(relatedTags) {
 
-  componentWillReceiveProps(nextProps) {
+    const tagArray = Object.keys(relatedTags).map((key, index) => {
+      return [relatedTags[key], key]
+    }).sort((a, b) => b[0] - a[0])
+
+    return tagArray.map((tag, index) => {
+      return (
+        <div className={""} style={{
+          maxWidth: '30%',
+          margin: '0 auto'
+        }} key={tag[1]}>
+          <Link to={getTagPath(tag[1])}>#{tag[1]} ({tag[0]})</Link>
+          <hr/>
+        </div>
+      )
+    })
   }
 
   render() {
+    console.log('rendered=========================');
+    console.log('rendered=========================');
+    console.log('rendered=========================');
     const { tag } = this.props.match.params;
 
     if (isEmpty(tag)) {
@@ -26,15 +48,16 @@ class Tag extends Component {
     return (
       <div className="profile diagonal-split-view">
         <Helmet>
-          <title>{tag} - Steemhunt</title>
+          <title>#{tag} - Steemhunt</title>
         </Helmet>
-        <div className="top-container primary-gradient" style={{
-            display: 'flex',
-            height: '100vh',
-            justifyContent: 'center',
-            alignItems: 'center'
-        }}>
-          <h1>{tag}</h1>
+        <div className="top-container primary-gradient">
+          <h1>#{tag}</h1>
+        </div>
+        <div className="diagonal-line"></div>
+        <div className="bottom-container">
+          <h3>Related Tags</h3>
+          {this.props.relatedTags.length}
+          {this.renderRelatedTags(this.props.relatedTags)}
         </div>
       </div>
     );
@@ -42,7 +65,7 @@ class Tag extends Component {
 }
 
 const mapStateToProps = (state, props) => createStructuredSelector({
- 
+  relatedTags: selectRelatedTags(),
 });
 
 const mapDispatchToProps = (dispatch, props) => ({

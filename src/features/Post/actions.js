@@ -38,6 +38,7 @@ export const initialState = {
   authorStatus: {},
   tagPosts: {},
   tagStatus: {},
+  relatedTags: {},
   topPosts: {},
   topStatus: {},
   dailyRanking: {},

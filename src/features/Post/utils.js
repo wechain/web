@@ -6,7 +6,7 @@ export const getPostPath = function(post, prefix = '') {
   return `${prefix}/@${post.author}/${post.permlink}`;
 }
 
-export const getTagPath = function(post, tag) {
+export const getTagPath = function(tag) {
   return `/tag/${tag}`
 }
 

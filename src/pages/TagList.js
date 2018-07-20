@@ -23,8 +23,9 @@ class TagList extends Component {
     this.props.getPostsByTag(this.props.match.params.tag, 1);
   }
 
-  componentDidUpdate(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.currentTag !== nextProps.match.params.tag) {
+      this.currentTag = nextProps.match.params.tag;
       this.props.getPostsByTag(nextProps.match.params.tag, 1);
     }
   }
@@ -49,7 +50,7 @@ class TagList extends Component {
     let hasMore = false;
     let isLoading = false;
     if (tagStatus[tag]) {
-      if (tagStatus[tag]['finished'] && !tagStatus[tag]['error']) {
+      if (!tagStatus[tag]['finished'] && !tagStatus[tag]['error']) {
         hasMore = true;
       }
 
