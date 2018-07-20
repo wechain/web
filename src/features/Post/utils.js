@@ -6,8 +6,8 @@ export const getPostPath = function(post, prefix = '') {
   return `${prefix}/@${post.author}/${post.permlink}`;
 }
 
-export const getCategoryPath = function(post, category) {
-  return `/category/${category}`
+export const getTagPath = function(post, tag) {
+  return `/tag/${tag}`
 }
 
 export const generatePostKey = function(author, permlink) {

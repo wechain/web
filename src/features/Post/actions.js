@@ -13,8 +13,7 @@ import resteem, { resteemReducer } from './actions/resteem';
 import postReducer from 'features/Post/reducer';
 import postRefresh, { postRefreshReducer } from './actions/refreshPost';
 import { moderatePostManager, setModeratorManager, moderatePostReducer } from './actions/moderatePost';
-import getPostsByCategory, { getPostsByCategoryReducer } from './actions/getPostsByCategory';
-import setCurrentCategory, { setCurrentCategoryReducer } from './actions/setCurrentCategory';
+import getPostsByTag, { getPostsByTagReducer } from './actions/getPostsByTag';
 
 export const initialState = {
   draft: {
@@ -37,8 +36,8 @@ export const initialState = {
   posts: {},
   authorPosts: {},
   authorStatus: {},
-  categoryPosts: {},
-  categoryStatus: {},
+  tagPosts: {},
+  tagStatus: {},
   topPosts: {},
   topStatus: {},
   dailyRanking: {},
@@ -64,8 +63,7 @@ export const reducer = (state = initialState, action) => combine(
     resteemReducer,
     postRefreshReducer,
     moderatePostReducer,
-    getPostsByCategoryReducer,
-    setCurrentCategoryReducer,
+    getPostsByTagReducer,
   ],
   state,
   action,
@@ -83,6 +81,5 @@ export default [
   postRefresh,
   moderatePostManager,
   setModeratorManager,
-  getPostsByCategory,
-  setCurrentCategory,
+  getPostsByTag,
 ];

@@ -99,17 +99,12 @@ export const selectCurrentComments = () => createSelector(
   }
 );
 
-export const selectCurrentCategory = () => createSelector(
+export const selectTagStatus = () => createSelector(
   selectPostDomain(),
-  state => state.currentCategory,
-);
-
-export const selectCategoryStatus = () => createSelector(
-  selectPostDomain(),
-  state => state.categoryStatus,
+  state => state.tagStatus,
 )
 
-export const selectCategoryPosts = () => createSelector(
+export const selectTagPosts = () => createSelector(
   selectPostDomain(),
-  state => state.categoryPosts,
+  state => state.tagPosts,
 )

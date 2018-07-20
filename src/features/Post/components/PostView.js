@@ -8,7 +8,7 @@ import IconTwitter from 'react-icons/lib/fa/twitter-square';
 import IconLinkedIn from 'react-icons/lib/fa/linkedin-square';
 import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
-import { getPostPath, getCategoryPath, isEditable, addReferral } from '../utils';
+import { getPostPath, getTagPath, isEditable, addReferral } from '../utils';
 import VoteButton from 'features/Vote/VoteButton';
 import ResteemButton from './ResteemButton';
 import Author from 'components/Author';
@@ -128,7 +128,7 @@ class PostView extends Component {
     const tags = post.tags.map((tag, index) => {
       // TODO: To steemhunt tags
       return (
-        <Tag key={index}><Link to={getCategoryPath(post, tag)}>{tag}</Link></Tag>
+        <Tag key={index}><Link to={getTagPath(post, tag)}>{tag}</Link></Tag>
       );
     });
     const beneficiaries = post.beneficiaries && post.beneficiaries.map((b, index) => {
