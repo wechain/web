@@ -56,15 +56,23 @@ class HuntedListByAuthor extends Component {
       <PostItem key={index + 1} rank={index + 1} post={posts[key]} pathPrefix="/author" />
     )
 
-    let hasMore = true;
+    let hasMore = false;
     let isLoading = false;
     if (authorStatus[currentUser]) {
-      if (authorStatus[currentUser]['finished']) {
-        hasMore = false;
+      if (!authorStatus[currentUser]['finished'] && !authorStatus[currentUser]['error']) {
+        hasMore = true;
       }
 
       if (authorStatus[currentUser]['loading']) {
         isLoading = true;
+      }
+
+      if (authorStatus[currentUser]['error']) {
+        return (
+          <div className="heading left-padded right-padded">
+            Service is temporarily unavailbe, Please try again later.
+          </div>
+        );
       }
     }
 

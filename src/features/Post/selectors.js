@@ -57,6 +57,11 @@ export const selectIsLoading = () => createSelector(
   state => state.isLoading,
 );
 
+export const selectError = () => createSelector(
+  selectPostDomain(),
+  state => state.error,
+);
+
 export const selectAuthorStatus = () => createSelector(
   selectPostDomain(),
   state => state.authorStatus,

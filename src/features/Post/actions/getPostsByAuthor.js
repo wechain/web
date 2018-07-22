@@ -65,6 +65,7 @@ export function getPostsByAuthorReducer(state, action) {
         authorStatus: { [author]: {
           loading: { $set: false },
           finished: { $set: result.posts.length === 0 },
+          error: { $set: false },
         }},
       }
 
@@ -80,6 +81,7 @@ export function getPostsByAuthorReducer(state, action) {
         authorStatus: { [action.author]: {
           loading: { $set: false },
           finished: { $set: false },
+          error: { $set: true },
         }},
       });
     }
