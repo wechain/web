@@ -2,12 +2,10 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import last from 'lodash/last';
 import { Spin } from 'antd';
 import PostList from 'features/Post/PostList';
 import InfiniteScroll from 'components/InfiniteScroll';
 import { selectIsLoading, selectError } from 'features/Post/selectors';
-import { getSortOption } from 'utils/sortOptions';
 
 class HuntedList extends Component {
   static propTypes = {
