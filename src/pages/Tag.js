@@ -23,6 +23,9 @@ class Tag extends Component {
     }).sort((a, b) => b[0] - a[0])
 
     return tagArray.map((tag, index) => {
+      if (index > 19) {
+        return
+      }
       return (
         <div className={""} style={{
           maxWidth: '30%',
@@ -51,7 +54,7 @@ class Tag extends Component {
           <h1>#{tag}</h1>
         </div>
         <div className="diagonal-line"></div>
-        <div className="bottom-container">
+        <div className="bottom-container" style={{marginBottom: '40px'}}>
           <h3>Related Tags</h3>
           {this.renderRelatedTags(this.props.relatedTags)}
         </div>
