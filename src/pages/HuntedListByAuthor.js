@@ -25,18 +25,14 @@ class HuntedListByAuthor extends Component {
   componentDidMount() {
     const { match } = this.props;
 
-    if (match.params.author !== this.props.currentUser) {
-      this.props.setCurrentUser(match.params.author);
-      this.props.getPostsByAuthor(match.params.author, 1);
-    }
-    // scrollTop();
+    this.props.setCurrentUser(match.params.author);
+    this.props.getPostsByAuthor(match.params.author, 1);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.match.params.author !== nextProps.currentUser) {
       this.props.setCurrentUser(nextProps.match.params.author);
       this.props.getPostsByAuthor(nextProps.match.params.author, 1);
-      // scrollTop();
     }
   }
 
