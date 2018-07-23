@@ -36,9 +36,6 @@ class Tag extends Component {
   }
 
   render() {
-    console.log('rendered=========================');
-    console.log('rendered=========================');
-    console.log('rendered=========================');
     const { tag } = this.props.match.params;
 
     if (isEmpty(tag)) {
@@ -56,7 +53,6 @@ class Tag extends Component {
         <div className="diagonal-line"></div>
         <div className="bottom-container">
           <h3>Related Tags</h3>
-          {this.props.relatedTags.length}
           {this.renderRelatedTags(this.props.relatedTags)}
         </div>
       </div>

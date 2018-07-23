@@ -43,9 +43,12 @@ class TagList extends Component {
     const { tagStatus, tagPosts, posts } = this.props;
     const { tag } = this.props.match.params;
 
-    const items = (tagPosts[tag] || []).map((key, index) =>
-      <PostItem key={index + 1} rank={index + 1} post={posts[key]} pathPrefix={`/tag/${tag}`} />
-    )
+    let items = [];
+    if (tagPosts !== {} && (typeof tagPosts[tag] !== 'function')) {
+      items = (tagPosts[tag] || []).map((key, index) =>
+        <PostItem key={index + 1} rank={index + 1} post={posts[key]} pathPrefix={`/tag/${tag}`} />
+      )
+    }
 
     let hasMore = false;
     let isLoading = false;

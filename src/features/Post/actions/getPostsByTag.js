@@ -64,8 +64,6 @@ export function getPostsByTagReducer(state, action) {
         })
       });
 
-      console.log(state.relatedTags, tagTable);
-
       let pushOrSet = { $push: postByTag };
       if (!state.tagPosts[tag] || page === 1) {
         pushOrSet = { $set: postByTag }
