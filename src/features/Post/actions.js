@@ -13,6 +13,7 @@ import resteem, { resteemReducer } from './actions/resteem';
 import postReducer from 'features/Post/reducer';
 import postRefresh, { postRefreshReducer } from './actions/refreshPost';
 import { moderatePostManager, setModeratorManager, moderatePostReducer } from './actions/moderatePost';
+import getPostsByTag, { getPostsByTagReducer } from './actions/getPostsByTag';
 
 export const initialState = {
   draft: {
@@ -35,6 +36,9 @@ export const initialState = {
   posts: {},
   authorPosts: {},
   authorStatus: {},
+  tagPosts: {},
+  tagStatus: {},
+  relatedTags: {},
   topPosts: {},
   topStatus: {},
   dailyRanking: {},
@@ -61,6 +65,7 @@ export const reducer = (state = initialState, action) => combine(
     resteemReducer,
     postRefreshReducer,
     moderatePostReducer,
+    getPostsByTagReducer,
   ],
   state,
   action,
@@ -78,4 +83,5 @@ export default [
   postRefresh,
   moderatePostManager,
   setModeratorManager,
+  getPostsByTag,
 ];

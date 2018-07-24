@@ -103,3 +103,18 @@ export const selectCurrentComments = () => createSelector(
     return currentPost ? commentsDomain.commentsFromPost[generatePostKey(currentPost.author, currentPost.permlink)] : {};
   }
 );
+
+export const selectTagStatus = () => createSelector(
+  selectPostDomain(),
+  state => state.tagStatus,
+)
+
+export const selectTagPosts = () => createSelector(
+  selectPostDomain(),
+  state => state.tagPosts,
+)
+
+export const selectRelatedTags = () => createSelector(
+  selectPostDomain(),
+  state => state.relatedTags,
+)

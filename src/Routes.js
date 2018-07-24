@@ -23,6 +23,8 @@ const Cookies = asyncComponent(() => import('pages/Cookies'));
 const HuntedList = asyncComponent(() => import('pages/HuntedList'));
 const Profile = asyncComponent(() => import('pages/Profile'));
 const HuntedListByAuthor = asyncComponent(() => import('pages/HuntedListByAuthor'));
+const Tag = asyncComponent(() => import('pages/Tag'));
+const TagList = asyncComponent(() => import('pages/TagList'));
 const HallOfFame = asyncComponent(() => import('pages/HallOfFame'));
 const Search = asyncComponent(() => import('pages/Search'));
 const Airdrop = asyncComponent(() => import('pages/Airdrop'));
@@ -40,7 +42,8 @@ export class RoutesLeft extends Component {
     const path = window.location.pathname;
     return (/^\/@.+/.test(path) && !/.+\/edit$/.test(path)) ||
       /^\/(about|terms|privacy|cookies)/.test(path) ||
-      /^\/(hall-of-fame|author)\/@.+/.test(path);
+      /^\/(hall-of-fame|author)\/@.+/.test(path) ||
+      /^\/(tag)\/.*\/@.+/.test(path);
   }
 
   render() {
@@ -68,6 +71,8 @@ export class RoutesLeft extends Component {
           <Route path="/author/@:author" exact component={Profile} />
           <Route path="/author/@:author/:permlink" exact component={Post} />
           <Route path="/@:author" exact render={(p) => (<Redirect to={`/author/@${p.match.params.author}`} />)} />
+          <Route path="/tag/:tag" exact component={Tag} />
+          <Route path="/tag/:tag/@:author/:permlink" exact component={Post} />
           <Route path='*' component={NotFound} />
         </Switch>
       </div>
@@ -102,6 +107,7 @@ class Right extends Component {
     const List = isEmpty(this.props.searchTerm) ? HuntedList : Search;
     const AuthorList = isEmpty(this.props.searchTerm) ? HuntedListByAuthor : Search;
     const TopList = isEmpty(this.props.searchTerm) ? HallOfFame : Search;
+    const TagRight =  isEmpty(this.props.searchTerm) ? TagList : Search;
 
     return (
       <div className="panel-right">
@@ -115,6 +121,7 @@ class Right extends Component {
           <Route path="/@:author/:permlink/edit" exact component={PostForm} />
           <Route path="/@:author/:permlink" exact component={List} />
           <Route path="/author/@:author" component={AuthorList} />
+          <Route path="/tag/:tag" component={TagRight} />
           <Route path="/wallet" exact component={Wallet} />
           <Route path='*' component={List} />
         </Switch>

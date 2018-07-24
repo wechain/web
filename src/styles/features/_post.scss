@@ -97,6 +97,37 @@
         vertical-align: middle;
       }
     }
+
+    .tag-option {
+      text-align: right;
+      position: absolute;
+      right: 80px;
+      top: 0;
+
+      @include responsive(ipadpro) {
+        right: 40px;
+      }
+
+      @include responsive(tablet) {
+        right: 20px;
+      }
+
+      @include responsive(mobile) {
+        position: static;
+        text-align: left;
+        margin: 0.5rem 0;
+      }
+
+      .ant-select {
+        width: 8.5rem;
+        font-size: 0.75rem;
+      }
+
+      .help-hunt-score {
+        margin-left: 5px;
+        vertical-align: middle;
+      }
+    }
   } // .heading
 
   .show-all {
