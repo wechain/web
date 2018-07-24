@@ -150,15 +150,9 @@ class Header extends Component {
 
         {!isLoading && me &&
           <div className="pull-right">
-            { myPostsCountToday >= 2 ?
-              <Tooltip title="You have already posted 2 products today. Please hunt more tomorrow :)">
-                <Button shape="circle" icon="plus"  className="right-margin header-button smaller"/>
-              </Tooltip>
-            :
-              <Link to="/post" className="right-margin header-button smaller">
-                <Button shape="circle" icon="plus" />
-              </Link>
-            }
+            <Link to="/post" className="right-margin header-button smaller">
+              <Button shape="circle" icon="plus" />
+            </Link>
             <Popover
               content={menu}
               trigger="click"
