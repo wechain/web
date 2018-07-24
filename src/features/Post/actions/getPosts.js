@@ -47,11 +47,13 @@ export function getPostsReducer(state, action) {
         posts: { $merge: newPosts },
         dailyRanking: { [daysAgo]: { $set: dailyRanking } },
         isLoading: { $set: false },
+        error: { $set: false },
       });
     }
     case GET_POSTS_FAILURE: {
       return update(state, {
         isLoading: { $set: false },
+        error: { $set: true },
       });
     }
     default:

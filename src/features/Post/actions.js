@@ -44,6 +44,7 @@ export const initialState = {
   dailyRanking: {},
   isPostLoading: false,
   isLoading: false,
+  error: false,
   isPublishing: false,
   currentPostKey: null,
   searchTerm: '',

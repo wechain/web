@@ -118,7 +118,7 @@ class Profile extends Component {
                 {account.reputation}
               </Timeline.Item>
               {account.voting_weight &&
-                <Timeline.Item>x{formatNumber(account.voting_weight * 100)}</Timeline.Item>
+                <Timeline.Item>x{formatNumber(account.voting_weight)}</Timeline.Item>
               }
               <Timeline.Item><FollowerCount author={account.name} unit="followers" /></Timeline.Item>
               <Timeline.Item><UserSteemPower account={account} /></Timeline.Item>
