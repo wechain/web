@@ -4,7 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import { Helmet } from 'react-helmet';
-import { Icon, Timeline } from 'antd';
+import { Icon, Timeline, Progress } from 'antd';
 import { setCurrentUserBegin } from 'features/User/actions/setCurrentUser';
 import { selectCurrentUser, selectCurrentAccount, selectMyFollowingsList } from 'features/User/selectors';
 import { COLOR_PRIMARY, COLOR_LIGHT_GREY } from 'styles/constants';
@@ -12,6 +12,7 @@ import UserSteemPower from 'features/User/components/UserSteemPower';
 import UserEstimatedValue from 'features/User/components/UserEstimatedValue';
 import FollowerCount from 'features/User/components/FollowerCount';
 import FollowButton from 'features/User/components/FollowButton';
+import LevelBar from 'features/User/components/LevelBar';
 import CircularProgress from 'components/CircularProgress';
 import { scrollTop } from 'utils/scroller';
 import { formatNumber } from 'utils/helpers/steemitHelpers';
@@ -82,6 +83,8 @@ class Profile extends Component {
       profileStyle['backgroundImage'] = `url(${process.env.REACT_APP_STEEMCONNECT_IMG_HOST}/@${account.name}?s=280)`;
     }
 
+    const userScore = account.level || 3.4;
+
     return (
       <div className="profile diagonal-split-view">
         <Helmet>
@@ -95,6 +98,9 @@ class Profile extends Component {
         <div className="diagonal-line"></div>
         <div className="bottom-container">
           <div className="profile-picture" style={profileStyle}></div>
+          <div className="profile-level">
+            <LevelBar userScore={userScore} />
+          </div>
           <div className="timeline-container">
             <ul className="left">
               <li>Reputation</li>
@@ -122,7 +128,7 @@ class Profile extends Component {
           </div>
 
           <div className="other-info">
-            { profile.website &&
+            {profile.website &&
               <p><a href={profile.website} target="_blank"><Icon type="link" /> {profile.website.replace(/^https?:\/\//, '')}</a></p>
             }
             <p><Icon type="book" /> <a href={`https://steemit.com/@${account.name}`} target="_blank" rel="noopener noreferrer">View Steemit blog</a></p>
