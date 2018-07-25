@@ -1,7 +1,7 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import update from 'immutability-helper';
 import api from 'utils/api';
-import { getPostKey } from '../utils';
+import { getPostKey, getCachedImage } from '../utils';
 import { getSortOption } from 'utils/sortOptions';
 
 /*--------- CONSTANTS ---------*/
@@ -47,9 +47,11 @@ export function getPostsByTagReducer(state, action) {
       const newPosts = {};
       const postByTag = [];
       let tagTable = {};
+
       if (page !== 1) {
         tagTable = Object.assign({}, state.relatedTags || {});
       }
+
       result.posts.forEach(post => {
         const key = getPostKey(post);
         if (!state.posts[key]) { // only update non-existing post (preventing race-condition with getPost)
@@ -81,6 +83,7 @@ export function getPostsByTagReducer(state, action) {
       }
 
       if (result.total_count && result.total_payout) {
+        newState.tagStatus[tag].featuredImage = { $set: getCachedImage(result.posts[0].images[0].link, 240, 240) }
         newState.tagStatus[tag].total_count = { $set: result.total_count }
         newState.tagStatus[tag].total_payout = { $set: result.total_payout }
       }
