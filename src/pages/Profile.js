@@ -83,8 +83,6 @@ class Profile extends Component {
       profileStyle['backgroundImage'] = `url(${process.env.REACT_APP_STEEMCONNECT_IMG_HOST}/@${account.name}?s=280)`;
     }
 
-    const userScore = account.level || 3.4;
-
     return (
       <div className="profile diagonal-split-view">
         <Helmet>
@@ -99,7 +97,9 @@ class Profile extends Component {
         <div className="bottom-container">
           <div className="profile-picture" style={profileStyle}></div>
           <div className="profile-level">
-            <LevelBar userScore={userScore} />
+          {account.user_score &&
+            <LevelBar userScore={account.user_score || 0} />
+          }
           </div>
           <div className="timeline-container">
             <ul className="left">
