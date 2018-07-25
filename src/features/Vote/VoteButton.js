@@ -112,7 +112,7 @@ class VoteButton extends PureComponent {
           {layout === 'comment' ?
             ` (${formatAmount(this.votingValueCalculator(voteWeight))})`
           :
-            ` (+${formatNumber(voteWeight * myAccount.voting_weight * 0.01)}, ${formatAmount(this.votingValueCalculator(voteWeight))})`
+            ` (+${formatNumber(voteWeight * myAccount.user_score * 0.01)}, ${formatAmount(this.votingValueCalculator(voteWeight))})`
           }
         </div>
         <Button

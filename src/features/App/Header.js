@@ -107,7 +107,7 @@ class Header extends Component {
           <Menu.Item key="4">
             <Link to={`/author/@${me}`} onClick={() => this.changeVisibility(false)}>
               <Icon type="loading-3-quarters" />
-              WEIGHT: x{formatNumber(myAccount.voting_weight, '0,0.0')} /
+              WEIGHT: x{formatNumber(myAccount.user_score, '0,0.0')} /
               VP: {parseInt(myAccount.voting_power / 100, 10)}%
             </Link>
           </Menu.Item>
