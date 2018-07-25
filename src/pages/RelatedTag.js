@@ -5,36 +5,32 @@ import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import { Helmet } from 'react-helmet';
 import CircularProgress from 'components/CircularProgress';
-import { scrollTop } from 'utils/scroller';
-import { formatNumber } from 'utils/helpers/steemitHelpers';
-import { selectRelatedTags } from 'features/Post/selectors';
+import { selectRelatedTags, selectTagStatus } from 'features/Post/selectors';
 import { getTagPath } from 'features/Post/utils';
 import { Link } from 'react-router-dom';
+import { Button } from 'antd';
+import { COLOR_LIGHT_GREY } from 'styles/constants';
 
-class Tag extends Component {
+class RelatedTag extends Component {
   static propTypes = {
     relatedTags: PropTypes.object.isRequired,
+    tagStatus: PropTypes.object.isRequired,
   };
 
   renderRelatedTags(relatedTags) {
 
     const tagArray = Object.keys(relatedTags).map((key, index) => {
       return [relatedTags[key], key]
-    }).sort((a, b) => b[0] - a[0])
+    }).sort((a, b) => b[0] - a[0]);
 
-    return tagArray.map((tag, index) => {
-      if (index > 19) {
-        return
-      }
+    return tagArray.slice(0, 20).map((tag, index) => {
       return (
-        <div className={""} style={{
-          maxWidth: '30%',
-          margin: '0 auto'
-        }} key={tag[1]}>
-          <Link to={getTagPath(tag[1])}>#{tag[1]} ({tag[0]})</Link>
-          <hr/>
+        <div className="tag" key={tag[1]}>
+          <Link to={getTagPath(tag[1])}>
+            <Button size={'small'}>#{tag[1]} ({tag[0]})</Button>
+          </Link>
         </div>
-      )
+      );
     })
   }
 
@@ -45,17 +41,27 @@ class Tag extends Component {
       return <CircularProgress />;
     }
 
+    const { tagStatus } = this.props;
+
+    const profileStyle = {
+      backgroundColor: COLOR_LIGHT_GREY,
+      backgroundSize: 'cover',
+      backgroundImage: `${tagStatus[tag] && tagStatus[tag].featuredImage ? `url(${tagStatus[tag].featuredImage})` : 'none'}`,
+    };
+
     return (
-      <div className="profile diagonal-split-view">
+      <div className="tags diagonal-split-view">
         <Helmet>
           <title>#{tag} - Steemhunt</title>
         </Helmet>
         <div className="top-container primary-gradient">
           <h1>#{tag}</h1>
+          <h3>{tagStatus[tag] && (tagStatus[tag].total_count || 0)} Hunts</h3>
         </div>
         <div className="diagonal-line"></div>
-        <div className="bottom-container" style={{marginBottom: '40px'}}>
-          <h3>Related Tags</h3>
+        <div className="bottom-container">
+          <div className="profile-picture" style={profileStyle}></div>
+          <h2 className="related-tags">Related Tags</h2>
           {this.renderRelatedTags(this.props.relatedTags)}
         </div>
       </div>
@@ -65,10 +71,7 @@ class Tag extends Component {
 
 const mapStateToProps = (state, props) => createStructuredSelector({
   relatedTags: selectRelatedTags(),
+  tagStatus: selectTagStatus(),
 });
 
-const mapDispatchToProps = (dispatch, props) => ({
-  
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Tag);
+export default connect(mapStateToProps)(RelatedTag);

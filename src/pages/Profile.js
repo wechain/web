@@ -12,6 +12,7 @@ import UserSteemPower from 'features/User/components/UserSteemPower';
 import UserEstimatedValue from 'features/User/components/UserEstimatedValue';
 import FollowerCount from 'features/User/components/FollowerCount';
 import FollowButton from 'features/User/components/FollowButton';
+import LevelBar from 'features/User/components/LevelBar';
 import CircularProgress from 'components/CircularProgress';
 import { scrollTop } from 'utils/scroller';
 import { formatNumber } from 'utils/helpers/steemitHelpers';
@@ -95,34 +96,37 @@ class Profile extends Component {
         <div className="diagonal-line"></div>
         <div className="bottom-container">
           <div className="profile-picture" style={profileStyle}></div>
+          <div className="profile-level">
+          {account.user_score &&
+            <LevelBar userScore={account.user_score || 0} />
+          }
+          </div>
           <div className="timeline-container">
             <ul className="left">
-              <li>Reputation</li>
-              {account.voting_weight &&
-                <li>Voting Weight</li>
+              {account.user_score &&
+                <li className="pink">User Score</li>
               }
+              <li>Reputation</li>
               <li>Followers</li>
               <li>Steem Power</li>
-              <li>Current Voting Power</li>
               <li>Estimated Value</li>
             </ul>
 
             <Timeline>
+              {account.user_score &&
+                <Timeline.Item className="pink">{formatNumber(account.user_score)}</Timeline.Item>
+              }
               <Timeline.Item>
                 {account.reputation}
               </Timeline.Item>
-              {account.voting_weight &&
-                <Timeline.Item>x{formatNumber(account.voting_weight * 100)}</Timeline.Item>
-              }
               <Timeline.Item><FollowerCount author={account.name} unit="followers" /></Timeline.Item>
               <Timeline.Item><UserSteemPower account={account} /></Timeline.Item>
-              <Timeline.Item>{parseInt(account.voting_power / 100, 10)}%</Timeline.Item>
               <Timeline.Item><UserEstimatedValue account={account} /></Timeline.Item>
             </Timeline>
           </div>
 
           <div className="other-info">
-            { profile.website &&
+            {profile.website &&
               <p><a href={profile.website} target="_blank"><Icon type="link" /> {profile.website.replace(/^https?:\/\//, '')}</a></p>
             }
             <p><Icon type="book" /> <a href={`https://steemit.com/@${account.name}`} target="_blank" rel="noopener noreferrer">View Steemit blog</a></p>

@@ -23,7 +23,7 @@ const Cookies = asyncComponent(() => import('pages/Cookies'));
 const HuntedList = asyncComponent(() => import('pages/HuntedList'));
 const Profile = asyncComponent(() => import('pages/Profile'));
 const HuntedListByAuthor = asyncComponent(() => import('pages/HuntedListByAuthor'));
-const Tag = asyncComponent(() => import('pages/Tag'));
+const RelatedTag = asyncComponent(() => import('pages/RelatedTag'));
 const TagList = asyncComponent(() => import('pages/TagList'));
 const HallOfFame = asyncComponent(() => import('pages/HallOfFame'));
 const Search = asyncComponent(() => import('pages/Search'));
@@ -71,7 +71,7 @@ export class RoutesLeft extends Component {
           <Route path="/author/@:author" exact component={Profile} />
           <Route path="/author/@:author/:permlink" exact component={Post} />
           <Route path="/@:author" exact render={(p) => (<Redirect to={`/author/@${p.match.params.author}`} />)} />
-          <Route path="/tag/:tag" exact component={Tag} />
+          <Route path="/tag/:tag" exact component={RelatedTag} />
           <Route path="/tag/:tag/@:author/:permlink" exact component={Post} />
           <Route path='*' component={NotFound} />
         </Switch>
