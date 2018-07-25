@@ -43,24 +43,20 @@ const LevelLabels = () => {
 const ModalContent = () => {
   return (
     <div className="pop-content">
-    <h4>Increased</h4>
-    <ul>
-      <li>When account credibility is increased (higher reputation, older accounts)</li>
-      <li> When user login to Steemhunt more frequently</li>
-      <li>When user vote on more hunt pots</li>
-      <li> When user vote with more weight and earlier timing on hunt posts (same curation penalty applied for the first 30 minutes of posting)</li>
-      <li>When user hunted and it's on ranked high</li>
-      <li>When user is selected as our community influencer (it's a temporary role and anyone can apply on our Discord #influencer-apply channel)</li>
-    </ul>
-    <h4>Decreased</h4>
-    <ul>
-      <li>When user's reputation is decreased</li>
-      <li>When user login to Steemhunt less frequently</li>
-      <li>When user vote on the same group of people many times</li>
-      <li>When user does circle voting with a specific group</li>
-      <li>When user hunted and it's on ranked low</li>
-    </ul>
-  </div>
+      <p>
+        A hunter’s level is decided based on their overall hunter contribution within Steemhunt based on four criteria: Account credibility, Activity score, Curation score, and Hunt score.
+        Please check out <a href="https://steemit.com/steemhunt/@steemhunt/steemhunt-abv-2-0-introducing-hunter-level-based-steemhunt-upvotes-or-new-category-search-feature" target="_blank">this announcement</a> for more details.
+      </p>
+
+      <h4>The hunter level will increase when:</h4>
+      <ul>
+        <li>your Steemit reputation is higher, your account age is older, or you’ve visited Steemhunt more frequently.</li>
+        <li>your curations (upvoting hunt posts) are highly active with higher diversity scores.</li>
+        <li>you have more approved hunts, and they rank higher.</li>
+      </ul>
+
+      <p>The hunter level will decrease when the activities mentioned above run in the opposite way, or you are blacklisted.</p>
+    </div>
   )
 }
 
@@ -94,7 +90,7 @@ class LevelBar extends Component {
           </a>
         </h2>
         <Modal
-            title="How did my level calculated?"
+            title="What is Hunter Level?"
             visible={this.state.modalVisible}
             onOk={this.toggleModal}
             onCancel={this.toggleModal}
