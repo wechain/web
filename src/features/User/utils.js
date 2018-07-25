@@ -51,3 +51,24 @@ export function isAdmin(username) {
   ];
   return admins.indexOf(username) !== -1;
 }
+
+
+export const LEVEL_TIER = [
+  1.0, 2.0, 3.0, 5.0, 8.0
+];
+
+export function levelFor(userScore) {
+  if (userScore >= LEVEL_TIER[4]) {
+    return 5;
+  } else if (userScore >= LEVEL_TIER[3]) {
+    return 4;
+  } else if (userScore >= LEVEL_TIER[2]) {
+    return 3;
+  } else if (userScore >= LEVEL_TIER[1]) {
+    return 2;
+  } else if (userScore >= LEVEL_TIER[0]) {
+    return 1;
+  } else {
+    return 0;
+  }
+}

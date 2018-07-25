@@ -56,7 +56,7 @@ class RelatedTag extends Component {
         </Helmet>
         <div className="top-container primary-gradient">
           <h1>#{tag}</h1>
-          <h3>{tagStatus[tag] && tagStatus[tag].total_count || 0} Hunts</h3>
+          <h3>{tagStatus[tag] && (tagStatus[tag].total_count || 0)} Hunts</h3>
         </div>
         <div className="diagonal-line"></div>
         <div className="bottom-container">

@@ -103,26 +103,24 @@ class Profile extends Component {
           </div>
           <div className="timeline-container">
             <ul className="left">
-              <li>Reputation</li>
-              {account.voting_weight &&
-                <li>Voting Weight</li>
+              {account.user_score &&
+                <li className="pink">User Score</li>
               }
+              <li>Reputation</li>
               <li>Followers</li>
               <li>Steem Power</li>
-              <li>Current Voting Power</li>
               <li>Estimated Value</li>
             </ul>
 
             <Timeline>
+              {account.user_score &&
+                <Timeline.Item className="pink">{formatNumber(account.user_score)}</Timeline.Item>
+              }
               <Timeline.Item>
                 {account.reputation}
               </Timeline.Item>
-              {account.voting_weight &&
-                <Timeline.Item>x{formatNumber(account.voting_weight)}</Timeline.Item>
-              }
               <Timeline.Item><FollowerCount author={account.name} unit="followers" /></Timeline.Item>
               <Timeline.Item><UserSteemPower account={account} /></Timeline.Item>
-              <Timeline.Item>{parseInt(account.voting_power / 100, 10)}%</Timeline.Item>
               <Timeline.Item><UserEstimatedValue account={account} /></Timeline.Item>
             </Timeline>
           </div>

@@ -26,12 +26,21 @@
     @include responsive(mobile) {
       width: 60%;
     }
+
+    .bar-label {
+      position: absolute;
+      bottom: 22px;
+      font-size: 0.6875rem;
+      width: 26px;
+      z-index: 150;
+      color: $text_grey;
+      text-align: center;
+    }
   }
-  
 
   .level-col {
     border-right: 5px solid white;
-    height: 0.875rem;
+    height: 18px;
   }
 
 }

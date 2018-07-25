@@ -1,23 +1,12 @@
 import React, { Component } from 'react';
-import {
-  Row, Col, Icon, Modal
-} from 'antd';
-
-const LEVEL_PER_SCORE = {
-  0: 0,
-  1: 1,
-  2: 2,
-  3: 3, 4: 3,
-  5: 4, 6: 4, 7: 4,
-  8: 5
-}
+import { Row, Col, Icon, Modal } from 'antd';
+import { LEVEL_TIER, levelFor } from 'features/User/utils';
 
 const ColoredCol = ({ userScore }) => {
+  const maxLevel = LEVEL_TIER[LEVEL_TIER.length - 1];
 
-  return Object.keys(LEVEL_PER_SCORE).map(Number).map((i) => {
-
+  return Array(maxLevel).fill().map((_, i) => i).map((i) => {
     let weight = 0;
-
     if (i <= userScore) {
       weight = 1;
     } else if (i - 1 < userScore < i) {
@@ -26,37 +15,29 @@ const ColoredCol = ({ userScore }) => {
 
     const width = (weight > 0) ? `${weight * 100 || 0}%` : 0
 
-    if (i !== 0) {
-      return (
-        <Col className="level-col" key={`colored-${i}`} span={3}>
-          <div style={{
-            backgroundColor: '#ff9c99',
-            height: '100%', width: width,
-          }}>
-          </div>
-        </Col>
-      )
-    }
-  })
+    return (
+      <Col className="level-col" key={`colored-${i}`} span={3}>
+        <div style={{
+          backgroundColor: '#ff9c99',
+          height: '100%',
+          width: width,
+        }}>
+        </div>
+      </Col>
+    );
+  });
 }
 
 const LevelLabels = () => {
-  return Object.values(LEVEL_PER_SCORE).map(Number).map((level, _index) => {
-    const left = `calc(${(_index / 8) * 100}% - 15px)`;
+  const levels = Array(LEVEL_TIER.length + 1).fill().map((_, i) => i);
 
-    if (level !== LEVEL_PER_SCORE[_index - 1]) {
-      return (
-        <span key={`${level}-${_index}`} style={{
-          position: 'absolute',
-          left: left,
-          bottom: '15px',
-          fontSize: '5px',
-          width: '30px',
-          zIndex: 150
-        }}>{`LV. ${level}`}</span>
-      )
-    }
-  })
+  return [0].concat(LEVEL_TIER).map(Number).map((tier, i) => {
+    const left = `calc(${(tier / 8) * 100}% - 15px)`;
+
+    return (
+      <span key={i} className="bar-label" style={{ left: left }}>{`LV. ${levels[i]}`}</span>
+    )
+  });
 }
 
 const ModalContent = () => {
@@ -100,13 +81,14 @@ class LevelBar extends Component {
 
   render() {
     const { userScore } = this.props;
+
     return (
       <div className="level-bar">
         <Row className="level-row">
           <LevelLabels />
           <ColoredCol userScore={userScore} />
         </Row>
-        <h2>Hunter Level : {parseInt(userScore)}
+        <h2>Hunter Level : {levelFor(userScore)}
           <a onClick={this.toggleModal}>
             <Icon className="level-question" type="question-circle-o" />
           </a>
