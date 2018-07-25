@@ -3,9 +3,10 @@ import { Row, Col, Icon, Modal } from 'antd';
 import { LEVEL_TIER, levelFor } from 'features/User/utils';
 
 const ColoredCol = ({ userScore }) => {
-  const maxLevel = LEVEL_TIER[LEVEL_TIER.length - 1];
+  const bars = Array(LEVEL_TIER[LEVEL_TIER.length - 1] + 1).fill().map((_, i) => i);
+  bars.shift();
 
-  return Array(maxLevel).fill().map((_, i) => i).map((i) => {
+  return bars.map((i) => {
     let weight = 0;
     if (i <= userScore) {
       weight = 1;
@@ -13,7 +14,7 @@ const ColoredCol = ({ userScore }) => {
       weight = (userScore - (i - 1));
     }
 
-    const width = (weight > 0) ? `${weight * 100 || 0}%` : 0
+    let width = (weight > 0) ? `${weight * 100 || 0}%` : 0
 
     return (
       <Col className="level-col" key={`colored-${i}`} span={3}>
@@ -45,7 +46,7 @@ const ModalContent = () => {
     <div className="pop-content">
       <p>
         A hunter’s level is decided based on their overall hunter contribution within Steemhunt based on four criteria: Account credibility, Activity score, Curation score, and Hunt score.
-        Please check out <a href="https://steemit.com/steemhunt/@steemhunt/steemhunt-abv-2-0-introducing-hunter-level-based-steemhunt-upvotes-or-new-category-search-feature" target="_blank">this announcement</a> for more details.
+        Please check out <a href="https://steemit.com/steemhunt/@steemhunt/steemhunt-abv-2-0-introducing-hunter-level-based-steemhunt-upvotes-or-new-category-search-feature" target="_blank" rel="noopener noreferrer">this announcement</a> for more details.
       </p>
 
       <h4>The hunter level will increase when:</h4>
