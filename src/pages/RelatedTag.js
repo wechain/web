@@ -5,13 +5,11 @@ import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import { Helmet } from 'react-helmet';
 import CircularProgress from 'components/CircularProgress';
-import { scrollTop } from 'utils/scroller';
-import { formatNumber } from 'utils/helpers/steemitHelpers';
 import { selectRelatedTags } from 'features/Post/selectors';
 import { getTagPath } from 'features/Post/utils';
 import { Link } from 'react-router-dom';
 
-class Tag extends Component {
+class RelatedTag extends Component {
   static propTypes = {
     relatedTags: PropTypes.object.isRequired,
   };
@@ -20,21 +18,31 @@ class Tag extends Component {
 
     const tagArray = Object.keys(relatedTags).map((key, index) => {
       return [relatedTags[key], key]
-    }).sort((a, b) => b[0] - a[0])
+    }).sort((a, b) => b[0] - a[0]);
 
-    return tagArray.map((tag, index) => {
-      if (index > 19) {
-        return
+    let max = 1;
+    let min = 0;
+    for (let tag of tagArray) {
+      if (tag[0] > max) {
+        max = tag[0];
       }
+
+      if (tag[0] < min) {
+        min = tag[0];
+      }
+    }
+
+    let sizePerCount = 20 / (max - min);
+    if (max === 1) {
+      sizePerCount = 6;
+    }
+
+    return tagArray.slice(0, 20).map((tag, index) => {
       return (
-        <div className={""} style={{
-          maxWidth: '30%',
-          margin: '0 auto'
-        }} key={tag[1]}>
-          <Link to={getTagPath(tag[1])}>#{tag[1]} ({tag[0]})</Link>
-          <hr/>
+        <div className="tag" key={tag[1]}>
+          <Link to={getTagPath(tag[1])} style={{fontSize: 11 + tag[0] * sizePerCount + 'px'}}>#{tag[1]} ({tag[0]})</Link>
         </div>
-      )
+      );
     })
   }
 
@@ -46,7 +54,7 @@ class Tag extends Component {
     }
 
     return (
-      <div className="profile diagonal-split-view">
+      <div className="tags diagonal-split-view">
         <Helmet>
           <title>#{tag} - Steemhunt</title>
         </Helmet>
@@ -54,8 +62,8 @@ class Tag extends Component {
           <h1>#{tag}</h1>
         </div>
         <div className="diagonal-line"></div>
-        <div className="bottom-container" style={{marginBottom: '40px'}}>
-          <h3>Related Tags</h3>
+        <div className="bottom-container">
+          <h1 className="related-tags">Related Tags</h1>
           {this.renderRelatedTags(this.props.relatedTags)}
         </div>
       </div>
@@ -67,8 +75,4 @@ const mapStateToProps = (state, props) => createStructuredSelector({
   relatedTags: selectRelatedTags(),
 });
 
-const mapDispatchToProps = (dispatch, props) => ({
-  
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Tag);
+export default connect(mapStateToProps)(RelatedTag);

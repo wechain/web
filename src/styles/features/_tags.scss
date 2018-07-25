@@ -1,0 +1,22 @@
+.tags {
+  .top-container {
+    padding: 10rem 0 11rem 0;
+
+    h1 {
+      margin: 0;
+    }
+  }
+
+  .bottom-container {
+    padding: 0 20%;
+
+    .related-tags {
+      margin: 3rem 0 1.5rem 0;
+    }
+
+    .tag {
+      margin: 0.5rem;
+      display: inline-block;
+    }
+  } // .bottom-container
+}
