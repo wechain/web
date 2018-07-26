@@ -58,7 +58,7 @@ export function getBoostScore(username) {
   } else if (isInfluencer(username)) {
     return 3;
   } else {
-    return 0;
+    return 1;
   }
 }
 

@@ -9,6 +9,7 @@ import { voteBegin } from './actions/vote';
 import { hasVoted, calculateVotingValue } from 'utils/helpers/steemitHelpers';
 import { formatAmount, formatNumber } from 'utils/helpers/steemitHelpers';
 import { getLoginURL } from 'utils/token';
+import { getBoostScore } from 'features/User/utils';
 
 class VoteButton extends PureComponent {
   static propTypes = {
@@ -112,7 +113,7 @@ class VoteButton extends PureComponent {
           {layout === 'comment' ?
             ` (${formatAmount(this.votingValueCalculator(voteWeight))})`
           :
-            ` (+${formatNumber(voteWeight * myAccount.user_score * 0.01)}, ${formatAmount(this.votingValueCalculator(voteWeight))})`
+            ` (+${formatNumber(voteWeight * myAccount.user_score * 0.01 * getBoostScore(myAccount.name))}, ${formatAmount(this.votingValueCalculator(voteWeight))})`
           }
         </div>
         <Button

@@ -119,8 +119,8 @@ class Profile extends Component {
               {account.user_score &&
                 <Timeline.Item className="pink">
                   {formatNumber(account.user_score)}
-                  {boostScore > 0 &&
-                    <span>(x{boostScore})</span>
+                  {boostScore > 1 &&
+                    <span> (x{boostScore})</span>
                   }
                 </Timeline.Item>
               }

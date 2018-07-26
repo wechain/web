@@ -21,6 +21,7 @@ import { setSearchTerm } from 'features/Post/actions/searchPost';
 import logo from 'assets/images/logo-nav-pink@2x.png'
 import AvatarSteemit from 'components/AvatarSteemit';
 import { formatNumber } from 'utils/helpers/steemitHelpers';
+import { getBoostScore } from 'features/User/utils';
 
 class Header extends Component {
   static propTypes = {
@@ -76,6 +77,8 @@ class Header extends Component {
     const isFollowLoading = isLoading || myFollowingsLoadStatus['steemhunt'];
     const searchBarHidden = (this.props.path === '/wallet' || this.props.path === '/post');
 
+    const boostScore = getBoostScore(me);
+
     let menu;
     if(me) {
       menu = (
@@ -104,14 +107,20 @@ class Header extends Component {
               <Icon type="user" /> MY PROFILE
             </Link>
           </Menu.Item>
-          <Menu.Item key="4">
+          <Menu.Item key="4" className="sub">
             <Link to={`/author/@${me}`} onClick={() => this.changeVisibility(false)}>
-              <Icon type="loading-3-quarters" />
-              WEIGHT: x{formatNumber(myAccount.user_score, '0,0.0')} /
-              VP: {parseInt(myAccount.voting_power / 100, 10)}%
+              <Icon type="up-circle-o" />
+              Level: {myAccount.level} ({formatNumber(myAccount.user_score, '0,0.00')}{boostScore > 1 &&
+                <span> x {boostScore}</span>})
             </Link>
           </Menu.Item>
-          <Menu.Item key="5">
+          <Menu.Item key="5" className="sub">
+            <Link to={`/author/@${me}`} onClick={() => this.changeVisibility(false)}>
+              <Icon type="loading-3-quarters" />
+              Voting Power: {formatNumber(myAccount.voting_power / 100, '0,0.00')}%
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="6">
             <span onClick={this.props.logout}>
               <Icon type="poweroff" /> LOGOUT
             </span>
