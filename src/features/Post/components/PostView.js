@@ -58,7 +58,9 @@ class PostView extends Component {
       previewImage: '',
       previewVisible: false,
       moderationVisible: false,
-      moderationComment: '',
+      moderationComment: "Your comment here\n\n---\n\n" +
+        "Please read our [posting guidelines](https://github.com/Steemhunt/web/blob/master/POSTING_GUIDELINES.md). " +
+        "If you have any questions, please join our [Discord Group](https://discord.gg/mWXpgks).",
     };
   }
 
