@@ -34,6 +34,10 @@
     object-fit: cover;
   }
 
+  .description .ant-form-extra {
+    text-align: right;
+  }
+
   .submit-button {
     border:0;
   }
@@ -42,7 +46,7 @@
   .ant-input-group, .ant-input-group-wrapper {
     display: inline-table;
   }
-}
+} // .post-form
 
 .post-list {
   margin-bottom: 4.375rem;

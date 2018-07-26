@@ -517,6 +517,8 @@ class PostForm extends Component {
         <FormItem
           {...formItemLayout}
           label="Hunter's comment"
+          extra={`${this.props.draft.description.length} / 1000`}
+          className="description"
         >
           {getFieldDecorator('description', {
             initialValue: this.initialValue('description'),
@@ -524,7 +526,8 @@ class PostForm extends Component {
             <Input.TextArea
               placeholder="Comment on this product..."
               rows={4}
-              onChange={this.handleDescriptionChange} />
+              onChange={this.handleDescriptionChange}
+              maxLength={1000} />
           )}
         </FormItem>
 
