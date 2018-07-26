@@ -17,6 +17,7 @@ import CircularProgress from 'components/CircularProgress';
 import { scrollTop } from 'utils/scroller';
 import { formatNumber } from 'utils/helpers/steemitHelpers';
 import { getCachedImage } from 'features/Post/utils';
+import { getBoostScore } from 'features/User/utils';
 
 class Profile extends Component {
   static propTypes = {
@@ -83,6 +84,8 @@ class Profile extends Component {
       profileStyle['backgroundImage'] = `url(${process.env.REACT_APP_STEEMCONNECT_IMG_HOST}/@${account.name}?s=280)`;
     }
 
+    const boostScore = getBoostScore(account.name);
+
     return (
       <div className="profile diagonal-split-view">
         <Helmet>
@@ -114,7 +117,12 @@ class Profile extends Component {
 
             <Timeline>
               {account.user_score &&
-                <Timeline.Item className="pink">{formatNumber(account.user_score)}</Timeline.Item>
+                <Timeline.Item className="pink">
+                  {formatNumber(account.user_score)}
+                  {boostScore > 0 &&
+                    <span>(x{boostScore})</span>
+                  }
+                </Timeline.Item>
               }
               <Timeline.Item>
                 {account.reputation}

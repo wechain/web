@@ -52,6 +52,15 @@ export function isAdmin(username) {
   return admins.indexOf(username) !== -1;
 }
 
+export function getBoostScore(username) {
+  if (isModerator(username)) {
+    return 2;
+  } else if (isInfluencer(username)) {
+    return 3;
+  } else {
+    return 0;
+  }
+}
 
 export const LEVEL_TIER = [
   1.0, 2.0, 3.0, 5.0, 8.0
