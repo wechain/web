@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Icon, Modal } from 'antd';
-import { LEVEL_TIER, levelFor } from 'features/User/utils';
+import { LEVEL_TIER } from 'features/User/utils';
 
 const ColoredCol = ({ userScore }) => {
   const bars = Array(LEVEL_TIER[LEVEL_TIER.length - 1] + 1).fill().map((_, i) => i);
@@ -70,22 +70,21 @@ class LevelBar extends Component {
   }
 
   toggleModal = () => {
-    console.log('clicked');
     this.setState({
       modalVisible: !this.state.modalVisible,
     });
   }
 
   render() {
-    const { userScore } = this.props;
+    const { account } = this.props;
 
     return (
       <div className="level-bar">
         <Row className="level-row">
           <LevelLabels />
-          <ColoredCol userScore={userScore} />
+          <ColoredCol userScore={account.user_score} />
         </Row>
-        <h2>Hunter Level : {levelFor(userScore)}
+        <h2>Hunter Level : {account.level}
           <a onClick={this.toggleModal}>
             <Icon className="level-question" type="question-circle-o" />
           </a>

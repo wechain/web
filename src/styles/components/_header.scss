@@ -66,6 +66,11 @@ header {
 
     .avatar-steemit {
       margin-left: 5px; // additional 5px (right 8px)
+
+      // NOTE: Should be automatically set. Maybe a bug
+      .ant-progress-circle-path {
+        stroke: $primary;
+      }
     }
 
     .right-margin {

@@ -21,7 +21,6 @@ import { setSearchTerm } from 'features/Post/actions/searchPost';
 import logo from 'assets/images/logo-nav-pink@2x.png'
 import AvatarSteemit from 'components/AvatarSteemit';
 import { formatNumber } from 'utils/helpers/steemitHelpers';
-import { getBoostScore } from 'features/User/utils';
 
 class Header extends Component {
   static propTypes = {
@@ -77,8 +76,6 @@ class Header extends Component {
     const isFollowLoading = isLoading || myFollowingsLoadStatus['steemhunt'];
     const searchBarHidden = (this.props.path === '/wallet' || this.props.path === '/post');
 
-    const boostScore = getBoostScore(me);
-
     let menu;
     if(me) {
       menu = (
@@ -110,8 +107,10 @@ class Header extends Component {
           <Menu.Item key="4" className="sub">
             <Link to={`/author/@${me}`} onClick={() => this.changeVisibility(false)}>
               <Icon type="up-circle-o" />
-              Level: {myAccount.level} ({formatNumber(myAccount.user_score, '0,0.00')}{boostScore > 1 &&
-                <span> x {boostScore}</span>})
+              Level: {myAccount.level}&nbsp;
+              ({formatNumber(myAccount.user_score, '0,0.00')}
+                {myAccount.boost_score && myAccount.boost_score > 1 && <span> x {myAccount.boost_score}</span> }
+              )
             </Link>
           </Menu.Item>
           <Menu.Item key="5" className="sub">

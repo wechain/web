@@ -4,7 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import { Helmet } from 'react-helmet';
-import { Icon, Timeline } from 'antd';
+import { Icon, Timeline, Tooltip } from 'antd';
 import { setCurrentUserBegin } from 'features/User/actions/setCurrentUser';
 import { selectCurrentUser, selectCurrentAccount, selectMyFollowingsList } from 'features/User/selectors';
 import { COLOR_PRIMARY, COLOR_LIGHT_GREY } from 'styles/constants';
@@ -17,7 +17,6 @@ import CircularProgress from 'components/CircularProgress';
 import { scrollTop } from 'utils/scroller';
 import { formatNumber } from 'utils/helpers/steemitHelpers';
 import { getCachedImage } from 'features/Post/utils';
-import { getBoostScore } from 'features/User/utils';
 
 class Profile extends Component {
   static propTypes = {
@@ -84,8 +83,6 @@ class Profile extends Component {
       profileStyle['backgroundImage'] = `url(${process.env.REACT_APP_STEEMCONNECT_IMG_HOST}/@${account.name}?s=280)`;
     }
 
-    const boostScore = getBoostScore(account.name);
-
     return (
       <div className="profile diagonal-split-view">
         <Helmet>
@@ -100,13 +97,13 @@ class Profile extends Component {
         <div className="bottom-container">
           <div className="profile-picture" style={profileStyle}></div>
           <div className="profile-level">
-          {account.user_score &&
-            <LevelBar userScore={account.user_score || 0} />
+          {account.user_score !== null &&
+            <LevelBar account={account} />
           }
           </div>
           <div className="timeline-container">
             <ul className="left">
-              {account.user_score &&
+              {account.user_score !== null &&
                 <li className="pink">User Score</li>
               }
               <li>Reputation</li>
@@ -116,12 +113,27 @@ class Profile extends Component {
             </ul>
 
             <Timeline>
-              {account.user_score &&
+              {account.user_score !== null &&
                 <Timeline.Item className="pink">
                   {formatNumber(account.user_score)}
-                  {boostScore > 1 &&
-                    <span> (x{boostScore})</span>
+                  {account.boost_score && account.boost_score > 1 &&
+                    <span> (x{account.boost_score})</span>
                   }
+                  &nbsp;
+                  <Tooltip title={
+                    <div>
+                      Score Detail:
+                      <ul style={{ 'paddingLeft': '1.3em', 'marginBottom': '0.3em' }}>
+                        <li>Account Credibility: {formatNumber(account.credibility_score)}</li>
+                        <li>Activity Score: {formatNumber(account.activity_score)}</li>
+                        <li>Curation Score: {formatNumber(account.curation_score)}</li>
+                        <li>Hunter Score: {formatNumber(account.hunter_score)}</li>
+                        {account.blacklisted_at && <li className="red">Blacklisted</li> }
+                      </ul>
+                    </div>
+                  }>
+                    <Icon type="info-circle-o" className="fake-link" />
+                  </Tooltip>
                 </Timeline.Item>
               }
               <Timeline.Item>
