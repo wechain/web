@@ -4,7 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import { Helmet } from 'react-helmet';
-import { Icon, Timeline, Tooltip } from 'antd';
+import { Icon, Timeline } from 'antd';
 import { setCurrentUserBegin } from 'features/User/actions/setCurrentUser';
 import { selectCurrentUser, selectCurrentAccount, selectMyFollowingsList } from 'features/User/selectors';
 import { COLOR_PRIMARY, COLOR_LIGHT_GREY } from 'styles/constants';
@@ -119,21 +119,6 @@ class Profile extends Component {
                   {account.boost_score && account.boost_score > 1 &&
                     <span> (x{account.boost_score})</span>
                   }
-                  &nbsp;
-                  <Tooltip title={
-                    <div>
-                      Score Detail:
-                      <ul style={{ 'paddingLeft': '1.3em', 'marginBottom': '0.3em' }}>
-                        <li>Account Credibility: {formatNumber(account.credibility_score)}</li>
-                        <li>Activity Score: {formatNumber(account.activity_score)}</li>
-                        <li>Curation Score: {formatNumber(account.curation_score)}</li>
-                        <li>Hunter Score: {formatNumber(account.hunter_score)}</li>
-                        {account.blacklisted_at && <li className="red">Blacklisted</li> }
-                      </ul>
-                    </div>
-                  }>
-                    <Icon type="info-circle-o" className="fake-link" />
-                  </Tooltip>
                 </Timeline.Item>
               }
               <Timeline.Item>
