@@ -52,7 +52,7 @@ There are countless games worldwide, and many of them have narrow target custome
 <hr>
 
 ## Moderation
-All hunts posted on Steemhunt.com are verified by Steemhunt moderators first. Once our moderators check that your hunt meets all the criteria in the posting guidelines, your hunt will be approved and considered for the ranking competition and @steemhunt's upvote based on your hunter level.
+All hunts posted on Steemhunt.com are verified by Steemhunt moderators first. Once our moderators check that your hunt meets all the criteria in the posting guidelines, your hunt will be approved and considered for the ranking competition and @steemhunt's upvote based on your [hunter level](https://steemit.com/steemhunt/@steemhunt/steemhunt-abv-2-0-introducing-hunter-level-based-steemhunt-upvotes-or-new-category-search-feature).
 
 Your post will be hidden by the moderators if it does not meet the posting guidelines, in which case your hunt will be delisted from the ranking board. Due to time constraints, posts may not be processed before the cutoff time. In this case, your post will automatically roll over to the next day's competition and will be verified that day. Also, the moderator may ask you to edit/change some of the content. If you don't respond within 24 hours, your post will be hidden permanently.
 
