@@ -24,7 +24,7 @@ export function format(user, appProps) {
 export function isModerator(username) {
   const moderators = [
     'tabris', 'project7',
-    'teamhumble', 'folken', 'urbangladiator', 'chronocrypto', 'dayleeo', 'fknmayhem', 'jayplayco', 'bitrocker2020', 'joannewong',
+    'teamhumble', 'urbangladiator', 'chronocrypto', 'dayleeo', 'fknmayhem', 'jayplayco', 'bitrocker2020', 'joannewong',
     'geekgirl', 'playitforward'
   ];
   return moderators.indexOf(username) !== -1;
@@ -40,7 +40,7 @@ export function isInfluencer(username) {
 
 export function isGuardian(username) {
   const guardians = [
-    'folken', 'fknmayhem',
+    'fknmayhem', 'jayplayco'
   ];
   return guardians.indexOf(username) !== -1;
 }
