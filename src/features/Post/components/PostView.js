@@ -257,7 +257,6 @@ class PostView extends Component {
           <Button
             href={addReferral(post.url)}
             type="primary"
-            htmlType="submit"
             className="round-border inversed-color padded-button checkitout-button"
             target="_blank"
             rel="noopener noreferrer"

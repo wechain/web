@@ -575,7 +575,6 @@ class PostForm extends Component {
         <FormItem {...formItemLayoutWithOutLabel}>
           <Button
             type="primary"
-            htmlType="submit"
             className="submit-button pull-right round-border padded-button"
             loading={this.props.isPublishing}
           >
