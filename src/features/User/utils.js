@@ -40,7 +40,7 @@ export function isInfluencer(username) {
 
 export function isGuardian(username) {
   const guardians = [
-    'fknmayhem', 'jayplayco'
+    'jayplayco'
   ];
   return guardians.indexOf(username) !== -1;
 }
