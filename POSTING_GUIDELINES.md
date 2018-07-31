@@ -56,4 +56,12 @@ All hunts posted on Steemhunt.com are verified by Steemhunt moderators first. On
 
 Your post will be hidden by the moderators if it does not meet the posting guidelines, in which case your hunt will be delisted from the ranking board. Due to time constraints, posts may not be processed before the cutoff time. In this case, your post will automatically roll over to the next day's competition and will be verified that day. Also, the moderator may ask you to edit/change some of the content. If you don't respond within 24 hours, your post will be hidden permanently.
 
-Please note that our moderators are human, so they may make mistakes/errors during the moderation process. If you have query, please join our [Discord Group](https://discord.gg/mWXpgks) and request to re-review in the #moderation-errors channel. *These posting guidelines were updated on July 26, 2018.*
+## Blacklist
+Steemhunt is running a blacklist to maintain a fair community platform. If you commit any of the following actions, you will be blacklisted.
+1. Leave comments multiple times with irrelevant content to receive Steemhunt's upvotes.
+2. Constantly plagiarise your content.
+
+Even if you are blacklisted, you can still use our platform (posting, upvoting, and commenting), however, you won't be able to get upvoted by Steemhunt for 30 days. If you receive "permanent blacklist" status, you are not be elligiable to receive Steemhunt's upvotes indefinately. We announce the blacklist via #blacklist channel in our [Discord Group](https://discord.gg/mWXpgks).
+
+
+Please note that our moderators are human, so they may make mistakes/errors during the moderation process. If you have query, please join our [Discord Group](https://discord.gg/mWXpgks) and request to re-review in the #moderation-errors channel. *These posting guidelines were updated on July 31, 2018.*
