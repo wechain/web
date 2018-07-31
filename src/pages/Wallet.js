@@ -48,6 +48,7 @@ class Wallet extends Component {
             <Tooltip title="SP holder airdrop is not available yet. We'll announce it when it becomes available.">
               <Button
                 type="primary"
+                htmlType="submit"
                 className="submit-button"
                 ghost
               >
@@ -57,6 +58,7 @@ class Wallet extends Component {
             <Tooltip title="ERC-20 wallet withdrawal feature is currently under development.">
               <Button
                 type="primary"
+                htmlType="submit"
                 className="submit-button"
                 ghost
               >
