@@ -12,8 +12,8 @@ export function getTransactionsBegin() {
   return { type: GET_TRANSACTION_BEGIN };
 }
 
-function getTransactionsSuccess(transactions) {
-  return { type: GET_TRANSACTION_SUCCESS, transactions };
+function getTransactionsSuccess(result) {
+  return { type: GET_TRANSACTION_SUCCESS, result };
 }
 
 function getTransactionsFailure(message) {
@@ -28,12 +28,17 @@ export function getTransactionsReducer(state, action) {
         isLoading: { $set: true },
       });
     case GET_TRANSACTION_SUCCESS:
-      const { transactions } = action;
+      const { result } = action;
 
       return update(state, {
-        balance: { $set: transactions.balance },
-        ethAddress: { $set: transactions.eth_address },
-        transactions: { $set: transactions.transactions },
+        balance: { $set: result.balance },
+        spToClaim: { $set: result.sp_to_claim },
+        ethAddress: { $set: result.eth_address },
+        transactions: { $set: result.transactions },
+        isLoading: { $set: false },
+      });
+    case GET_TRANSACTION_FAILURE:
+      return update(state, {
         isLoading: { $set: false },
       });
     default:
@@ -44,9 +49,9 @@ export function getTransactionsReducer(state, action) {
 /*--------- SAGAS ---------*/
 function* getTransactions() {
   try {
-    const transactions = yield api.get(`/hunt_transactions.json`, null, true);
+    const result = yield api.get(`/hunt_transactions.json`, null, true);
 
-    yield put(getTransactionsSuccess(transactions));
+    yield put(getTransactionsSuccess(result));
   } catch(e) {
     yield put(getTransactionsFailure(e.message));
   }

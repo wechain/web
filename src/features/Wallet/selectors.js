@@ -7,6 +7,11 @@ export const selectBalance = () => createSelector(
   state => state.balance,
 );
 
+export const selectSPToClaim = () => createSelector(
+  selectWalletDomain(),
+  state => state.spToClaim,
+);
+
 export const selectTransactions = () => createSelector(
   selectWalletDomain(),
   state => state.transactions,
@@ -16,3 +21,9 @@ export const selectIsLoading = () => createSelector(
   selectWalletDomain(),
   state => state.isLoading,
 );
+
+export const selectIsClaiming = () => createSelector(
+  selectWalletDomain(),
+  state => state.isClaiming,
+);
+

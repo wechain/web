@@ -4,10 +4,11 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import isEmpty from 'lodash/isEmpty';
-import { List, Avatar, Button, Tooltip } from 'antd';
+import { List, Avatar, Button, Tooltip, Modal, Icon } from 'antd';
 import { formatNumber } from "utils/helpers/steemitHelpers";
-import { selectBalance, selectTransactions, selectIsLoading } from 'features/Wallet/selectors';
+import { selectBalance, selectSPToClaim, selectTransactions, selectIsLoading, selectIsClaiming } from 'features/Wallet/selectors';
 import { getTransactionsBegin } from 'features/Wallet/actions/getTransactions';
+import { claimTokensBegin } from 'features/Wallet/actions/claimTokens';
 import CircularProgress from 'components/CircularProgress';
 import { selectMe } from 'features/User/selectors';
 import { shortFormat } from 'utils/date';
@@ -17,17 +18,25 @@ class Wallet extends Component {
   static propTypes = {
     me: PropTypes.string.isRequired,
     balance: PropTypes.string.isRequired,
+    spToClaim: PropTypes.number.isRequired,
     transactions: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     getTransactions: PropTypes.func.isRequired,
+    claimTokens: PropTypes.func.isRequired,
   };
+
+  state = { modalVisible: false };
 
   componentDidMount() {
     this.props.getTransactions();
   }
 
+  showModal = () => this.setState({ modalVisible: true });
+  handleCancel = (e) => this.setState({ modalVisible: false });
+  handleClaim = (e) => this.props.claimTokens();
+
   render() {
-    const { me, balance, isLoading, transactions } = this.props;
+    const { me, balance, isLoading, transactions, spToClaim, isClaiming } = this.props;
 
     if (isLoading || isEmpty(me)) {
       return <CircularProgress />;
@@ -45,15 +54,48 @@ class Wallet extends Component {
             <div className="sans balance">{formatNumber(balance)} HUNT</div>
           </div>
           <div className="right">
-            <Tooltip title="SP holder airdrop is not available yet. We'll announce it when it becomes available.">
-              <Button
-                type="primary"
-                className="submit-button"
-                ghost
+            <Button
+              type="primary"
+              onClick={this.showModal}
+              className="submit-button"
+              ghost
+            >
+              SP CLAIM
+            </Button>
+
+            {spToClaim > 0 ?
+              <Modal
+                title="Airdrop for SP Holders"
+                visible={this.state.modalVisible}
+                onCancel={this.handleCancel}
+                footer={[
+                  <Button key="back" onClick={this.handleCancel}>Cancel</Button>,
+                  <Button key="submit" type="primary" loading={isClaiming} onClick={this.handleClaim}>
+                    Claim HUNT Tokens
+                  </Button>,
+                ]}
               >
-                SP CLAIM
-              </Button>
-            </Tooltip>
+                <div>
+                  You have <span className="pink">{formatNumber(spToClaim)} HUNT</span> tokens to claim
+                  <div className="text-small">1:1 ratio with your Steem Power (based on STEEM per VEST: 0.000495)</div>
+                </div>
+                <div className="top-margin">Do you want to claim your HUNT tokens?</div>
+              </Modal>
+            :
+              <Modal
+                title="Airdrop for SP Holders"
+                visible={this.state.modalVisible}
+                onCancel={this.handleCancel}
+                footer={[
+                  <Button key="ok" onClick={this.handleCancel} type="primary">OK</Button>
+                ]}
+              >
+                <div>
+                  <Icon type="check-circle" className="pink"/>&nbsp;
+                  You have successfully claimed your token
+                </div>
+              </Modal>
+            }
             <Tooltip title="ERC-20 wallet withdrawal feature is currently under development.">
               <Button
                 type="primary"
@@ -119,10 +161,13 @@ const mapStateToProps = (state, props) => createStructuredSelector({
   balance: selectBalance(),
   transactions: selectTransactions(),
   isLoading: selectIsLoading(),
+  spToClaim: selectSPToClaim(),
+  isClaiming: selectIsClaiming(),
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
-  getTransactions: user => dispatch(getTransactionsBegin()),
+  getTransactions: () => dispatch(getTransactionsBegin()),
+  claimTokens: () => dispatch(claimTokensBegin()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
