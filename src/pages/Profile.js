@@ -6,7 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 import { Helmet } from 'react-helmet';
 import { Icon, Timeline } from 'antd';
 import { setCurrentUserBegin } from 'features/User/actions/setCurrentUser';
-import { selectCurrentUser, selectCurrentAccount, selectMyFollowingsList } from 'features/User/selectors';
+import { selectCurrentUser, selectCurrentAccount, selectMyFollowingsList, selectMe } from 'features/User/selectors';
 import { COLOR_PRIMARY, COLOR_LIGHT_GREY } from 'styles/constants';
 import UserSteemPower from 'features/User/components/UserSteemPower';
 import UserEstimatedValue from 'features/User/components/UserEstimatedValue';
@@ -20,6 +20,7 @@ import { getCachedImage } from 'features/Post/utils';
 
 class Profile extends Component {
   static propTypes = {
+    me: PropTypes.string,
     currentUser: PropTypes.string,
     account: PropTypes.shape({
       name: PropTypes.string,
@@ -61,7 +62,7 @@ class Profile extends Component {
   }
 
   render() {
-    const { account } = this.props;
+    const { account, me } = this.props;
     if (isEmpty(account)) {
       return <CircularProgress />;
     }
@@ -91,7 +92,9 @@ class Profile extends Component {
         <div className="top-container primary-gradient" style={coverStyle}>
           <h1>{profile.name || account.name}</h1>
           <h2>{profile.about}</h2>
-          <FollowButton accountName={account.name} />
+          {me !== account.name &&
+            <FollowButton accountName={account.name} />
+          }
         </div>
         <div className="diagonal-line"></div>
         <div className="bottom-container">
@@ -143,6 +146,7 @@ class Profile extends Component {
 }
 
 const mapStateToProps = (state, props) => createStructuredSelector({
+  me: selectMe(),
   account: selectCurrentAccount(),
   currentUser: selectCurrentUser(),
   myFollowings: selectMyFollowingsList(),
