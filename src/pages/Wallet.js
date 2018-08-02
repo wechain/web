@@ -77,7 +77,7 @@ class Wallet extends Component {
               >
                 <div>
                   You have <span className="pink">{formatNumber(spToClaim)} HUNT</span> tokens to claim
-                  <div className="text-small">1:1 ratio with your Steem Power (based on STEEM per VEST: 0.000495)</div>
+                  <div className="text-small">1:1 ratio of your Steem Power (based on STEEM per VEST: 0.000495)</div>
                 </div>
                 <div className="top-margin">Do you want to claim your HUNT tokens?</div>
               </Modal>
