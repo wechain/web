@@ -1,5 +1,5 @@
 .wallet {
-  .balance-bar {
+  .balance-bar, .eth-bar {
     padding-top: 30px;
     padding-bottom: 30px;
     color: $primary;
@@ -17,6 +17,7 @@
         margin-top: -0.3125rem;
         font-size: 1.75rem;
       }
+
     }
 
     .right {
@@ -29,6 +30,22 @@
       }
     }
   } // .balance-bar
+
+  .eth-bar {
+    color: $text_dark;
+    background-color: #efefef;
+
+    .left {
+      .eth-input {
+        margin-top: 0.5rem;
+        width: 22rem;
+      }
+    }
+
+    .right {
+      margin-top: 1.0rem;
+    }
+  }
 
   .transaction-heading {
     margin-top: 50px;

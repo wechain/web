@@ -4,15 +4,26 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import isEmpty from 'lodash/isEmpty';
-import { List, Avatar, Button, Tooltip, Modal, Icon } from 'antd';
+import { keccak256 } from 'js-sha3';
+import { List, Avatar, Button, Tooltip, Modal, Icon, Input } from 'antd';
 import { formatNumber } from "utils/helpers/steemitHelpers";
-import { selectBalance, selectSPToClaim, selectTransactions, selectIsLoading, selectIsClaiming } from 'features/Wallet/selectors';
+import {
+  selectBalance,
+  selectSPToClaim,
+  selectEthAddress,
+  selectTransactions,
+  selectIsLoading,
+  selectIsClaiming,
+  selectIsUpdating,
+} from 'features/Wallet/selectors';
 import { getTransactionsBegin } from 'features/Wallet/actions/getTransactions';
 import { claimTokensBegin } from 'features/Wallet/actions/claimTokens';
+import { setEthAddressBegin } from 'features/Wallet/actions/setEthAddress';
 import CircularProgress from 'components/CircularProgress';
 import { selectMe } from 'features/User/selectors';
 import { shortFormat } from 'utils/date';
 import tokenPlaceholder from 'assets/images/wallet/token-placeholder@2x.png';
+import api from 'utils/api';
 
 class Wallet extends Component {
   static propTypes = {
@@ -23,20 +34,69 @@ class Wallet extends Component {
     isLoading: PropTypes.bool.isRequired,
     getTransactions: PropTypes.func.isRequired,
     claimTokens: PropTypes.func.isRequired,
+    ethAddress: PropTypes.string,
+    isUpdating: PropTypes.bool.isRequired,
   };
 
-  state = { modalVisible: false };
+  state = {
+    modalVisible: false,
+    ethAddress: null,
+    ethModalVisible: false,
+  };
 
   componentDidMount() {
     this.props.getTransactions();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.ethAddress !== null) {
+      this.setState({ ethModalVisible: false });
+    }
+  }
+
+  isValidAddress(address) {
+    if (!/^0x[0-9a-f]{40}$/i.test(address)) {
+      // check if it has the basic requirements of an address
+      return false;
+    } else if (/^0x[0-9a-f]{40}$/.test(address) || /^0x[0-9A-F]{40}$/.test(address)) {
+      // If it's all small caps or all all caps, return true
+      return true;
+    } else {
+      // Otherwise check each case
+      return this.isValidChecksumAddress(address);
+    }
+  }
+
+  isValidChecksumAddress(address) {
+    // Check each case
+    address = address.replace('0x','');
+    var addressHash = keccak256(address.toLowerCase());
+    for (var i = 0; i < 40; i++ ) {
+      // the nth letter should be uppercase if the nth digit of casemap is 1
+      if ((parseInt(addressHash[i], 16) > 7 && address[i].toUpperCase() !== address[i]) || (parseInt(addressHash[i], 16) <= 7 && address[i].toLowerCase() !== address[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   showModal = () => this.setState({ modalVisible: true });
   handleCancel = (e) => this.setState({ modalVisible: false });
-  handleClaim = (e) => this.props.claimTokens();
+  handleEthAddressChange = (e) => this.setState({ ethAddress: e.target.value});
+  handleEthModalCancel = (e) => this.setState({ ethModalVisible: false });
+  linkEthAddress = () => {
+    if (!this.isValidAddress(this.state.ethAddress)) {
+      Modal.error({
+        title: 'Incorrect address',
+        content: 'The Ethereum address you entered is invalid. Please check it again.',
+      });
+    } else {
+      this.setState({ ethModalVisible: true });
+    }
+  }
 
   render() {
-    const { me, balance, isLoading, transactions, spToClaim, isClaiming } = this.props;
+    const { me, balance, isLoading, transactions, spToClaim, isClaiming, isUpdating } = this.props;
 
     if (isLoading || isEmpty(me)) {
       return <CircularProgress />;
@@ -70,7 +130,7 @@ class Wallet extends Component {
                 onCancel={this.handleCancel}
                 footer={[
                   <Button key="back" onClick={this.handleCancel}>Cancel</Button>,
-                  <Button key="submit" type="primary" loading={isClaiming} onClick={this.handleClaim}>
+                  <Button key="submit" type="primary" loading={isClaiming} onClick={this.props.claimTokens}>
                     Claim HUNT Tokens
                   </Button>,
                 ]}
@@ -96,16 +156,54 @@ class Wallet extends Component {
                 </div>
               </Modal>
             }
-            <Tooltip title="ERC-20 wallet withdrawal feature is currently under development.">
-              <Button
-                type="primary"
-                className="submit-button"
-                ghost
-              >
-                WITHDRAW
-              </Button>
-            </Tooltip>
+            <Button
+              type="primary"
+              className="submit-button"
+              ghost
+            >
+              WITHDRAW
+            </Button>
           </div>
+        </div>
+
+        <div className="eth-bar left-padded right-padded">
+          <div className="left">
+            <div className="sans small">Link Your Ethereum Wallet</div>
+            <div>
+              <Input
+                placeholder="Your wallet address (e.g. 0xABCD1234...)"
+                onChange={this.handleEthAddressChange}
+                className="eth-input"
+              />
+            </div>
+          </div>
+          <div className="right">
+            <Button
+              type="primary"
+              className="submit-button"
+              onClick={this.linkEthAddress}
+              ghost
+            >
+              LINK
+            </Button>
+          </div>
+          <Modal
+            closable={false}
+            visible={this.state.ethModalVisible}
+            onCancel={this.handleEthModalCancel}
+            footer={[
+              <Button key="back" onClick={this.handleEthModalCancel}>Cancel</Button>,
+              <Button key="submit" type="primary" loading={isUpdating} onClick={() => this.props.setEthAddress(this.state.ethAddress)}>
+                OK
+              </Button>,
+            ]}
+          >
+            <div>
+              Are you sure that this is the ETH address you want to link to your Steemhunt wallet?
+              <p className="pink" style={{ marginTop: '1.2em' }}>{this.state.ethAddress}</p>
+              Once you link your ETH address, <b>you CANNOT change it later</b>. Please double check that you have entered it correctly.
+            </div>
+          </Modal>
         </div>
 
         {transactions.length === 0 ?
@@ -163,11 +261,14 @@ const mapStateToProps = (state, props) => createStructuredSelector({
   isLoading: selectIsLoading(),
   spToClaim: selectSPToClaim(),
   isClaiming: selectIsClaiming(),
+  ethAddress: selectEthAddress(),
+  isUpdating: selectIsUpdating(),
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
   getTransactions: () => dispatch(getTransactionsBegin()),
   claimTokens: () => dispatch(claimTokensBegin()),
+  setEthAddress: (address) => dispatch(setEthAddressBegin(address)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

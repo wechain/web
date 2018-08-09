@@ -12,6 +12,11 @@ export const selectSPToClaim = () => createSelector(
   state => state.spToClaim,
 );
 
+export const selectEthAddress = () => createSelector(
+  selectWalletDomain(),
+  state => state.ethAddress,
+);
+
 export const selectTransactions = () => createSelector(
   selectWalletDomain(),
   state => state.transactions,
@@ -25,5 +30,10 @@ export const selectIsLoading = () => createSelector(
 export const selectIsClaiming = () => createSelector(
   selectWalletDomain(),
   state => state.isClaiming,
+);
+
+export const selectIsUpdating = () => createSelector(
+  selectWalletDomain(),
+  state => state.isUpdating,
 );
 
