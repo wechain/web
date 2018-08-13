@@ -119,7 +119,7 @@ class Wallet extends Component {
 
     const spClaimStats = (
       <div>
-        <Progress percent={parseInt(spClaim.total_claimed / 100000000)} />
+        <Progress percent={Math.floor(100 * spClaim.total_claimed / 100000000)} />
         <p>A total of <span className="pink">{formatNumber(spClaim.total_claimed)} HUNT</span> tokens have been claimed so far by {formatNumber(spClaim.total_claimed_count, '0,0')} users.</p>
       </div>
     );
