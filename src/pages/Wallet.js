@@ -120,7 +120,7 @@ class Wallet extends Component {
     const spClaimStats = (
       <div>
         <Progress percent={parseInt(spClaim.total_claimed / 100000000)} />
-        <p>Total <span className="pink">{formatNumber(spClaim.total_claimed)} HUNT</span> tokens claimed by {formatNumber(spClaim.total_claimed_count, '0,0')} users.</p>
+        <p>Total <span className="pink">{formatNumber(spClaim.total_claimed)} HUNT</span> tokens have claimed by {formatNumber(spClaim.total_claimed_count, '0,0')} users.</p>
       </div>
     );
 
@@ -176,7 +176,7 @@ class Wallet extends Component {
                 <div>
                   {spClaimStats}
                   <Icon type="check-circle" className="pink"/>&nbsp;
-                  You have successfully claimed your token
+                  You have successfully claimed your tokens.
                 </div>
               </Modal>
             }
