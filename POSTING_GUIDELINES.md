@@ -64,4 +64,4 @@ Steemhunt is running a blacklist to maintain a fair community platform. If you c
 Even if you are blacklisted, you can still use our platform (posting, upvoting, and commenting), however, you won't be able to get upvoted by Steemhunt for 30 days. If you receive "permanent blacklist" status, you are not be elligiable to receive Steemhunt's upvotes indefinately. We announce the blacklist via #blacklist channel in our [Discord Group](https://discord.gg/mWXpgks).
 
 
-Please note that our moderators are human, so they may make mistakes/errors during the moderation process. If you have query, please join our [Discord Group](https://discord.gg/mWXpgks) and request to re-review in the #moderation-errors channel. *These posting guidelines were updated on July 31, 2018.*
+Please note that our moderators are human, so they may make mistakes/errors during the moderation process. If you have query, please join our [Discord Group](https://discord.gg/mWXpgks) and request to re-review in the #moderation-errors channel. *These posting guidelines were updated on August 13, 2018.*
