@@ -1,5 +1,5 @@
 .wallet {
-  .balance-bar {
+  .balance-bar, .eth-bar, .withdraw-bar {
     padding-top: 30px;
     padding-bottom: 30px;
     color: $primary;
@@ -8,15 +8,6 @@
 
     .left {
       float: left;
-      .small {
-        font-size: 0.875rem;
-        font-weight: 200;
-      }
-
-      .balance {
-        margin-top: -0.3125rem;
-        font-size: 1.75rem;
-      }
     }
 
     .right {
@@ -28,7 +19,65 @@
         margin-left: 0.5rem;
       }
     }
-  } // .balance-bar
+
+    .small {
+      font-size: 0.875rem;
+      font-weight: 200;
+    }
+
+    .balance {
+      margin-top: -0.3125rem;
+      font-size: 1.75rem;
+    }
+  }
+
+  .eth-bar, .withdraw-bar {
+    color: $text_dark;
+    background-color: #efefef;
+
+    .input {
+      margin-top: 0.6875rem;
+      margin-right: 0.5rem;
+      width: 22rem;
+
+      @include responsive(tablet) {
+        width: 7rem;
+      }
+    }
+  }
+
+  .withdraw-bar {
+    .eth-address {
+      font-size: 1rem;
+      margin: 5px 0 20px 0;
+
+      @include responsive(tablet) {
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  .ant-tabs-nav-wrap {
+    padding-left: 80px;
+
+    @include responsive(ipadpro) {
+      padding-left: 40px;
+    }
+
+    @include responsive(tablet) {
+      padding-left: 20px;
+    }
+
+    .ant-tabs-nav {
+      font-family: 'Comfortaa', cursive;
+      font-weight: 700;
+      font-size: 20px;
+
+      .ant-tabs-tab-active {
+        font-weight: 700;
+      }
+    }
+  }
 
   .transaction-heading {
     margin-top: 50px;
@@ -42,40 +91,32 @@
       width: 253px;
       height: 253px;
       display: block;
-      margin: 8rem auto 1rem auto;
+      margin: 2rem auto 0.5rem auto;
     }
 
     p {
       font-size: 1.5rem;
       color: $light_grey;
+      margin-bottom: 4rem;
     }
   }
 
   .transactions {
-    border-top: 1px solid #e8e8e8;
-
     .transaction-item {
       padding-top: 0.75rem;
       padding-bottom: 0.75rem;
 
+      &:first-child {
+        padding-top: 0;
+      }
+
       .icon {
         margin-top: 1rem;
-        &.sent {
-          background-color: #bd10e0;
-        }
-        &.received {
-          background-color: $primary;
-        }
+        background-color: $primary;
       }
 
       .title {
-        &.sent {
-          color: #bd10e0
-        }
-
-        &.received {
-          color: $primary;
-        }
+        color: $primary;
       }
 
       // override

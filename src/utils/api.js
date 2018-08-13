@@ -29,7 +29,6 @@ function request(method, path, params, shouldAuthenticate) {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
   };
-
   if (shouldAuthenticate) {
     headers['Authorization'] = 'Token token=' + getEncryptedToken();
   }
