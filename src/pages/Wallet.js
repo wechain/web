@@ -171,7 +171,10 @@ class Wallet extends Component {
               <Button
                 type="primary"
                 className="submit-button"
-                // onClick={() => this.setState({ withdrawStepVisible: !this.state.withdrawStepVisible })}
+                // onClick={() => {
+                //   this.setState({ withdrawStepVisible: !this.state.withdrawStepVisible });
+                //   this.setState({ activeTabKey: '2' });
+                // }}
                 ghost
               >
                 WITHDRAW
