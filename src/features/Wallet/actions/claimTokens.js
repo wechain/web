@@ -31,11 +31,13 @@ export function claimTokensReducer(state, action) {
       });
     case CLAIM_TOKENS_SUCCESS:
       const { result } = action;
+      result.sp_claim.total_claimed = parseFloat(result.sp_claim.total_claimed);
 
       return update(state, {
-        spToClaim: { $set: 0 },
+        balance: { $set: result.balance },
+        spClaim: { $set: result.sp_claim },
+        transactions: { $unshift: [result.transaction] }, // put on top
         isClaiming: { $set: false },
-        transactions: { $unshift: [result.transaction] } // put on top
       });
     case CLAIM_TOKENS_FAILURE:
       return update(state, {

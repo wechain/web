@@ -6,7 +6,12 @@ import withdraw, { withdrawReducer } from './actions/withdraw';
 
 export const initialState = {
   balance: '',
-  spToClaim: -1.0,
+  spClaim: {
+    sp_to_claim: -1.0,
+    total_claimed: 0,
+    total_claimed_count: 0,
+  },
+  totalClaimed: 0.0,
   ethAddress: null,
   transactions: [],
   withdrawals: [],

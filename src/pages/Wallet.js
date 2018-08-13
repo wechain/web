@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import isEmpty from 'lodash/isEmpty';
 import { keccak256 } from 'js-sha3';
-import { List, Avatar, Button, Tooltip, Modal, Icon, Input, InputNumber, Tabs } from 'antd';
+import { List, Avatar, Button, Tooltip, Modal, Icon, Input, InputNumber, Tabs, Progress } from 'antd';
 import { formatNumber } from "utils/helpers/steemitHelpers";
 import {
   selectBalance,
-  selectSPToClaim,
+  selectSPClaim,
   selectEthAddress,
   selectTransactions,
   selectWithdrawals,
@@ -30,7 +30,11 @@ class Wallet extends Component {
   static propTypes = {
     me: PropTypes.string.isRequired,
     balance: PropTypes.string.isRequired,
-    spToClaim: PropTypes.number.isRequired,
+    spClaim: PropTypes.shape({
+      sp_to_claim: PropTypes.number.isRequired,
+      total_claimed: PropTypes.number.isRequired,
+      total_claimed_count: PropTypes.number.isRequired,
+    }).isRequired,
     withdrawals: PropTypes.array.isRequired,
     transactions: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
@@ -107,11 +111,18 @@ class Wallet extends Component {
   }
 
   render() {
-    const { me, balance, isLoading, transactions, withdrawals, spToClaim, ethAddress, isClaiming, isUpdating } = this.props;
+    const { me, balance, isLoading, transactions, withdrawals, spClaim, ethAddress, isClaiming, isUpdating } = this.props;
 
     if (isLoading || isEmpty(me)) {
       return <CircularProgress />;
     }
+
+    const spClaimStats = (
+      <div>
+        <Progress percent={parseInt(spClaim.total_claimed / 100000000)} />
+        <p>Total <span className="pink">{formatNumber(spClaim.total_claimed)} HUNT</span> tokens claimed by {formatNumber(spClaim.total_claimed_count, '0,0')} users.</p>
+      </div>
+    );
 
     return (
       <div className="wallet">
@@ -134,7 +145,7 @@ class Wallet extends Component {
               SP CLAIM
             </Button>
 
-            {spToClaim > 0 ?
+            {spClaim.sp_to_claim > 0 ?
               <Modal
                 title="Airdrop for SP Holders"
                 visible={this.state.modalVisible}
@@ -147,7 +158,8 @@ class Wallet extends Component {
                 ]}
               >
                 <div>
-                  You have <span className="pink">{formatNumber(spToClaim)} HUNT</span> tokens to claim
+                  {spClaimStats}
+                  You have <span className="pink">{formatNumber(spClaim.sp_to_claim)} HUNT</span> tokens to claim
                   <div className="text-small">1:1 ratio of your Steem Power (based on STEEM per VEST: 0.000495)</div>
                 </div>
                 <div className="top-margin">Do you want to claim your HUNT tokens?</div>
@@ -162,6 +174,7 @@ class Wallet extends Component {
                 ]}
               >
                 <div>
+                  {spClaimStats}
                   <Icon type="check-circle" className="pink"/>&nbsp;
                   You have successfully claimed your token
                 </div>
@@ -363,7 +376,7 @@ const mapStateToProps = (state, props) => createStructuredSelector({
   transactions: selectTransactions(),
   withdrawals: selectWithdrawals(),
   isLoading: selectIsLoading(),
-  spToClaim: selectSPToClaim(),
+  spClaim: selectSPClaim(),
   isClaiming: selectIsClaiming(),
   ethAddress: selectEthAddress(),
   isUpdating: selectIsUpdating(),
