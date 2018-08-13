@@ -22,6 +22,11 @@ export const selectTransactions = () => createSelector(
   state => state.transactions,
 );
 
+export const selectWithdrawals = () => createSelector(
+  selectWalletDomain(),
+  state => state.withdrawals,
+);
+
 export const selectIsLoading = () => createSelector(
   selectWalletDomain(),
   state => state.isLoading,

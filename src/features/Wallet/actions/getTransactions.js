@@ -35,6 +35,7 @@ export function getTransactionsReducer(state, action) {
         spToClaim: { $set: result.sp_to_claim },
         ethAddress: { $set: result.eth_address },
         transactions: { $set: result.transactions },
+        withdrawals: { $set: result.withdrawals },
         isLoading: { $set: false },
       });
     case GET_TRANSACTION_FAILURE:

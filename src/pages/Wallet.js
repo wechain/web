@@ -5,43 +5,49 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import isEmpty from 'lodash/isEmpty';
 import { keccak256 } from 'js-sha3';
-import { List, Avatar, Button, Tooltip, Modal, Icon, Input } from 'antd';
+import { List, Avatar, Button, Tooltip, Modal, Icon, Input, InputNumber, Tabs } from 'antd';
 import { formatNumber } from "utils/helpers/steemitHelpers";
 import {
   selectBalance,
   selectSPToClaim,
   selectEthAddress,
   selectTransactions,
+  selectWithdrawals,
   selectIsLoading,
   selectIsClaiming,
   selectIsUpdating,
 } from 'features/Wallet/selectors';
 import { getTransactionsBegin } from 'features/Wallet/actions/getTransactions';
 import { claimTokensBegin } from 'features/Wallet/actions/claimTokens';
+import { withdrawBegin } from 'features/Wallet/actions/withdraw';
 import { setEthAddressBegin } from 'features/Wallet/actions/setEthAddress';
 import CircularProgress from 'components/CircularProgress';
 import { selectMe } from 'features/User/selectors';
 import { shortFormat } from 'utils/date';
 import tokenPlaceholder from 'assets/images/wallet/token-placeholder@2x.png';
-import api from 'utils/api';
 
 class Wallet extends Component {
   static propTypes = {
     me: PropTypes.string.isRequired,
     balance: PropTypes.string.isRequired,
     spToClaim: PropTypes.number.isRequired,
+    withdrawals: PropTypes.array.isRequired,
     transactions: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     getTransactions: PropTypes.func.isRequired,
     claimTokens: PropTypes.func.isRequired,
+    withdraw: PropTypes.func.isRequired,
     ethAddress: PropTypes.string,
     isUpdating: PropTypes.bool.isRequired,
   };
 
   state = {
     modalVisible: false,
+    withdrawStepVisible: false,
     ethAddress: null,
     ethModalVisible: false,
+    withdrawalAmount: 1000.00,
+    activeTabKey: '1',
   };
 
   componentDidMount() {
@@ -82,7 +88,12 @@ class Wallet extends Component {
 
   showModal = () => this.setState({ modalVisible: true });
   handleCancel = (e) => this.setState({ modalVisible: false });
-  handleEthAddressChange = (e) => this.setState({ ethAddress: e.target.value});
+  handleEthAddressChanged = (e) => this.setState({ ethAddress: e.target.value });
+  handleWithdrawalAmountChanged = (amount) => this.setState({ withdrawalAmount: amount });
+  handleWithdraw = () => {
+    this.props.withdraw(this.state.withdrawalAmount);
+    this.setState({ activeTabKey: '2' });
+  }
   handleEthModalCancel = (e) => this.setState({ ethModalVisible: false });
   linkEthAddress = () => {
     if (!this.isValidAddress(this.state.ethAddress)) {
@@ -96,7 +107,7 @@ class Wallet extends Component {
   }
 
   render() {
-    const { me, balance, isLoading, transactions, spToClaim, isClaiming, isUpdating } = this.props;
+    const { me, balance, isLoading, transactions, withdrawals, spToClaim, ethAddress, isClaiming, isUpdating } = this.props;
 
     if (isLoading || isEmpty(me)) {
       return <CircularProgress />;
@@ -156,99 +167,188 @@ class Wallet extends Component {
                 </div>
               </Modal>
             }
-            <Button
-              type="primary"
-              className="submit-button"
-              ghost
-            >
-              WITHDRAW
-            </Button>
+            <Tooltip title="ERC-20 token withdraw feature will be released on 20 Aug 2018.">
+              <Button
+                type="primary"
+                className="submit-button"
+                // onClick={() => this.setState({ withdrawStepVisible: !this.state.withdrawStepVisible })}
+                ghost
+              >
+                WITHDRAW
+              </Button>
+            </Tooltip>
           </div>
         </div>
 
-        <div className="eth-bar left-padded right-padded">
-          <div className="left">
-            <div className="sans small">Link Your Ethereum Wallet</div>
-            <div>
-              <Input
-                placeholder="Your wallet address (e.g. 0xABCD1234...)"
-                onChange={this.handleEthAddressChange}
-                className="eth-input"
-              />
-            </div>
-          </div>
-          <div className="right">
-            <Button
-              type="primary"
-              className="submit-button"
-              onClick={this.linkEthAddress}
-              ghost
-            >
-              LINK
-            </Button>
-          </div>
-          <Modal
-            closable={false}
-            visible={this.state.ethModalVisible}
-            onCancel={this.handleEthModalCancel}
-            footer={[
-              <Button key="back" onClick={this.handleEthModalCancel}>Cancel</Button>,
-              <Button key="submit" type="primary" loading={isUpdating} onClick={() => this.props.setEthAddress(this.state.ethAddress)}>
-                OK
-              </Button>,
-            ]}
-          >
-            <div>
-              Are you sure that this is the ETH address you want to link to your Steemhunt wallet?
-              <p className="pink" style={{ marginTop: '1.2em' }}>{this.state.ethAddress}</p>
-              Once you link your ETH address, <b>you CANNOT change it later</b>. Please double check that you have entered it correctly.
-            </div>
-          </Modal>
-        </div>
-
-        {transactions.length === 0 ?
-          <div className="placeholder">
-            <img src={tokenPlaceholder} alt="No transactions" />
-            <p>No Transactions Yet</p>
-          </div>
-        :
+        {this.state.withdrawStepVisible &&
           <div>
-            <div className="heading left-padded transaction-heading">
-              <h3>Transactions</h3>
-            </div>
-            <List
-              itemLayout="horizontal"
-              dataSource={transactions}
-              className="transactions"
-              renderItem={t => (
-                <List.Item className="left-padded transaction-item">
-                  <List.Item.Meta
-                    avatar={me === t.sender ?
-                      <Avatar icon="arrow-right" className="icon sent"/>
-                    :
-                      <Avatar icon="arrow-left" className="icon received" />
-                    }
-                    title={me === t.sender ?
-                      <div className="title sent">
-                        {`Sent ${formatNumber(t.amount)} to ` + (t.receiver ? `@${t.receiver}` : `ETH Wallet (${t.eth_address})`)}
-                      </div>
-                    :
-                      <div className="title received">
-                        {`Received ${formatNumber(t.amount)} from ` + (t.sender ? `@${t.sender}` : `ETH Wallet (${t.eth_address})`)}
-                      </div>
-                    }
-                    description={
-                      <div>
-                        <div className="memo">{t.memo}</div>
-                        <div className="date">{shortFormat(t.created_at)}</div>
-                      </div>
-                    }
-                  />
-                </List.Item>
-              )}
-            />
+            {ethAddress === null ?
+              <div className="eth-bar left-padded right-padded">
+                <div className="sans small">Link Your Ethereum Wallet</div>
+                <Input
+                  placeholder="Your wallet address (e.g. 0xABCD1234...)"
+                  onChange={this.handleEthAddressChanged}
+                  className="input"
+                />
+                <Button
+                  type="primary"
+                  className="submit-button right"
+                  onClick={this.linkEthAddress}
+                  ghost
+                >
+                  LINK
+                </Button>
+                <Modal
+                  closable={false}
+                  visible={this.state.ethModalVisible}
+                  onCancel={this.handleEthModalCancel}
+                  footer={[
+                    <Button key="back" onClick={this.handleEthModalCancel}>Cancel</Button>,
+                    <Button key="submit" type="primary" loading={isUpdating} onClick={() => this.props.setEthAddress(this.state.ethAddress)}>
+                      OK
+                    </Button>,
+                  ]}
+                >
+                  <div>
+                    Are you sure that this is the ETH address you want to link to your Steemhunt wallet?
+                    <p className="pink" style={{ marginTop: '1.2em' }}>{this.state.ethAddress}</p>
+                    <b>WARNING!</b>
+                    Do not request HUNT directly to exchange addresses. This will result in lost tokens that won't be refunded.
+                    Once you link your ETH address, <b>you cannot change it later</b>. Please double check that you have entered it correctly.
+                  </div>
+                </Modal>
+              </div>
+            :
+              <div className="withdraw-bar left-padded right-padded">
+                <div className="sans small">Your Ethereum Address</div>
+                <div className="sans balance eth-address">{ethAddress}</div>
+                <div className="sans small">
+                  Amount to withdraw&nbsp;
+                  <Tooltip title="When transferring HUNT to your Ethereum wallet, one of the parties has to pay a commission for the transfer. For now, we have decided to cover this fee ourselves and introduced this limit to prevent overspending.">
+                    (minimum: 1000 HUNT <Icon type="question-circle" />)
+                  </Tooltip>
+                </div>
+                <InputNumber
+                  placeholder="Amount to withdraw"
+                  className="input"
+                  min={1000}
+                  defaultValue={1000}
+                  onChange={this.handleWithdrawalAmountChanged}
+                  precision={2}
+                />
+                HUNT
+                <Button
+                  type="primary"
+                  loading={isLoading}
+                  className="submit-button right"
+                  onClick={() => {
+                    const self = this;
+                    Modal.confirm({
+                      title: 'Are you sure withdraw HUNT tokens?',
+                      content: <div>{formatNumber(this.state.withdrawalAmount)} HUNT tokens will be sent to your registered ETH address:<div>{ethAddress}</div></div>,
+                      width: 450,
+                      onOk() {
+                        self.handleWithdraw();
+                      },
+                    });
+                  }}
+                  ghost
+                >
+                  WITHDRAW
+                </Button>
+              </div>
+            }
           </div>
         }
+
+
+        <Tabs activeKey={this.state.activeTabKey} onTabClick={(key) => this.setState({ activeTabKey: key })}>
+          <Tabs.TabPane tab="Airdrop" key="1">
+            {transactions.length === 0 ?
+              <div className="placeholder">
+                <img src={tokenPlaceholder} alt="No transactions" />
+                <p>No Transactions Yet</p>
+              </div>
+            :
+              <List
+                itemLayout="horizontal"
+                dataSource={transactions}
+                className="transactions"
+                renderItem={t => (
+                  <List.Item className="left-padded transaction-item">
+                    <List.Item.Meta
+                      avatar={me === t.sender ?
+                        <Avatar icon="arrow-right" className="icon sent"/>
+                      :
+                        <Avatar icon="arrow-left" className="icon received" />
+                      }
+                      title={me === t.sender ?
+                        <div className="title sent">
+                          {`Sent ${formatNumber(t.amount)} to ` + (t.receiver ? `@${t.receiver}` : `ETH Wallet (${t.eth_address})`)}
+                        </div>
+                      :
+                        <div className="title received">
+                          {`Received ${formatNumber(t.amount)} from ` + (t.sender ? `@${t.sender}` : `ETH Wallet (${t.eth_address})`)}
+                        </div>
+                      }
+                      description={
+                        <div>
+                          <div className="memo">{t.memo}</div>
+                          <div className="date">{shortFormat(t.created_at)}</div>
+                        </div>
+                      }
+                    />
+                  </List.Item>
+                )}
+              />
+            }
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Withdrawals" key="2">
+            {withdrawals.length === 0 ?
+              <div className="placeholder">
+                <img src={tokenPlaceholder} alt="No transactions" />
+                <p>No Withdrawals Yet</p>
+              </div>
+            :
+              <List
+                itemLayout="horizontal"
+                dataSource={withdrawals}
+                className="transactions"
+                renderItem={w => (
+                  <List.Item className="left-padded transaction-item">
+                    <List.Item.Meta
+                      avatar={w.status === 'sent' ?
+                          <Avatar icon="arrow-right" className="icon sent"/>
+                        :
+                          (w.status === 'error' ?
+                            <Avatar icon="exclamation" className="icon error"/>
+                          :
+                            <Avatar icon="loading" className="icon pending"/>
+                          )
+                      }
+                      title={
+                        <div className="title sent">
+                          {`Withdraw ${formatNumber(w.amount)} HUNT`}
+                        </div>
+                      }
+                      description={
+                        <div>
+                          <div className="memo">
+                            Status: {w.status}
+                            {w.tx_hash &&
+                              <span>/ Transaction: {w.tx_hash}</span>
+                            }
+                          </div>
+                          <div className="date">{shortFormat(w.created_at)}</div>
+                        </div>
+                      }
+                    />
+                  </List.Item>
+                )}
+              />
+            }
+          </Tabs.TabPane>
+        </Tabs>
       </div>
     );
   }
@@ -258,6 +358,7 @@ const mapStateToProps = (state, props) => createStructuredSelector({
   me: selectMe(),
   balance: selectBalance(),
   transactions: selectTransactions(),
+  withdrawals: selectWithdrawals(),
   isLoading: selectIsLoading(),
   spToClaim: selectSPToClaim(),
   isClaiming: selectIsClaiming(),
@@ -269,6 +370,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   getTransactions: () => dispatch(getTransactionsBegin()),
   claimTokens: () => dispatch(claimTokensBegin()),
   setEthAddress: (address) => dispatch(setEthAddressBegin(address)),
+  withdraw: (amount) => dispatch(withdrawBegin(amount)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
