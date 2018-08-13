@@ -24,7 +24,7 @@ We only accept these four product links (Your post will be delisted if you inclu
 
 3-1. Official product website<br>
 3-2. Major app store link (AppStore, PlayStore, etc)<br>
-3-3. Crowdfunding sites (Kickstarter, Indiegogo, etc) - The project that has failed to be pledged won't be accepted.<br>
+3-3. Crowdfunding sites (Kickstarter, Indiegogo, etc) - The funding should be active status or fully pledged. The project that has failed to be pledged won't be accepted.<br>
 3-4. Github, Bitbucket repositories for open source projects 
 
 Also, the product link MUST be activated properly. If the link is broken or does not work properly, your hunt will be delisted.
