@@ -35,8 +35,7 @@ Write a short description and hunter’s comment with your own words. Do not cop
 ## 5. Quality of the Post
 Steemhunt is a “product hunting” site, **not a writing curation site**. We have a certain format that all hunters should follow when posting a product in order to make a fair/effective ranking chart. Please follow the directions below:
 
-5-1. The field “name of product” should ONLY contain the official name of the product. Also, do not include special characters
-such as trademark or copyright symbols.<br>
+5-1. The field “name of product” should ONLY contain the official name of the product. Please do not include special characters such as trademark or copyright symbols in that field.<br>
 5-2. Do not duplicate the product name or use any non-product-specific words in the field “short description.” <br>
 5-3. Do not attach non-related screenshot images or videos.<br>
 5-4. Do not use low quality product images.<br>
