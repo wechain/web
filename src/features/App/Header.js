@@ -90,21 +90,26 @@ class Header extends Component {
           }
 
           <Menu.Item key="1">
+            <a href="https://token.steemhunt.com" rel="noopener noreferrer" target="_blank">
+              <Icon type="api" /> ABOUT HUNT PLATFORM
+            </a>
+          </Menu.Item>
+          <Menu.Item key="2">
             <Link to="/hall-of-fame" onClick={() => this.changeVisibility(false)}>
               <Icon type="trophy" /> HALL OF FAME
             </Link>
           </Menu.Item>
-          <Menu.Item key="2">
+          <Menu.Item key="3">
             <Link to={`/wallet`} onClick={() => this.changeVisibility(false)}>
               <Icon type="wallet" /> WALLET <sup>beta</sup>
             </Link>
           </Menu.Item>
-          <Menu.Item key="3">
+          <Menu.Item key="4">
             <Link to={`/author/@${me}`} onClick={() => this.changeVisibility(false)}>
               <Icon type="user" /> MY PROFILE
             </Link>
           </Menu.Item>
-          <Menu.Item key="4" className="sub">
+          <Menu.Item key="4-1" className="sub">
             <Link to={`/author/@${me}`} onClick={() => this.changeVisibility(false)}>
               <Icon type="up-circle-o" />
               Level: {myAccount.level}&nbsp;
@@ -113,13 +118,13 @@ class Header extends Component {
               )
             </Link>
           </Menu.Item>
-          <Menu.Item key="5" className="sub">
+          <Menu.Item key="4-2" className="sub">
             <Link to={`/author/@${me}`} onClick={() => this.changeVisibility(false)}>
               <Icon type="loading-3-quarters" />
               Voting Power: {formatNumber(myAccount.voting_power / 100, '0,0.00')}%
             </Link>
           </Menu.Item>
-          <Menu.Item key="6">
+          <Menu.Item key="5">
             <span onClick={this.props.logout}>
               <Icon type="poweroff" /> LOGOUT
             </span>
@@ -135,6 +140,11 @@ class Header extends Component {
             </Link>
           </Menu.Item>
           <Menu.Item key="1">
+            <a href="https://token.steemhunt.com" rel="noopener noreferrer" target="_blank">
+              <Icon type="api" /> ABOUT HUNT PLATFORM
+            </a>
+          </Menu.Item>
+          <Menu.Item key="2">
             <Link to="/hall-of-fame" onClick={() => this.changeVisibility(false)}>
               <Icon type="trophy" /> HALL OF FAME
             </Link>
