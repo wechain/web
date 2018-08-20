@@ -180,7 +180,7 @@ class Wallet extends Component {
                 </div>
               </Modal>
             }
-            <Tooltip title="ERC-20 token withdraw feature will be released at the end Aug 2018.">
+            <Tooltip title="ERC-20 token withdraw feature is currently under development. We will announce it once we're ready.">
               <Button
                 type="primary"
                 className="submit-button"
