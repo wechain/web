@@ -129,10 +129,10 @@ class PostForm extends Component {
       // if localStorage does not exist
       this.setState({ editMode: false });
       this.checkAndResetDraft();
+    }
 
-      if (this.props.me !== nextProps.draft.author) {
-        this.saveAndUpdateDraft('author', this.props.me);
-      }
+    if (nextProps.me !== nextProps.draft.author) {
+      this.saveAndUpdateDraft('author', nextProps.me);
     }
   }
 

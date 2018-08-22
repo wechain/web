@@ -193,7 +193,9 @@ function* publishContent({ props, editMode }) {
     // console.log('3-------------', operations);
 
     try {
-      yield steemConnectAPI.broadcast(operations);
+      if (process.env.NODE_ENV === 'production') {
+        yield steemConnectAPI.broadcast(operations);
+      }
     } catch (e) {
       // Delete post on Steemhunt as transaction failed
       if (!editMode) {
