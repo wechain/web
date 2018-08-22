@@ -169,12 +169,7 @@ class PostForm extends Component {
           name: f.name,
           url:  getCachedImage(f.link),
           status: 'done',
-          id: f.id,
-          type: f.type,
           link: f.link,
-          deletehash: f.deletehash,
-          width: f.width,
-          height: f.height,
         }
       ),
     });
@@ -307,25 +302,15 @@ class PostForm extends Component {
   handleDescriptionChange = (e) => this.saveAndUpdateDraft('description', sanitizeText(e.target.value) || initialState.draft.description);
   handleImageChange = ({ fileList }) => {
     const images = fileList.map(function(f) {
-      if (f.response && f.response.data && f.response.data.link) {
+      if (f.response && f.response.link) {
         return {
           name: f.name,
-          link: f.response.data.link,
-          width: f.response.data.width,
-          height: f.response.data.height,
-          type: f.response.data.type,
-          id: f.response.data.id,
-          deletehash: f.response.data.deletehash,
+          link: f.response.link
         }
       } else if (f.name && f.link) { // Handle Edit
         return {
           name: f.name,
-          link: stripCachedURL(f.link),
-          width: f.width,
-          height: f.height,
-          type: f.type,
-          id: f.id,
-          deletehash: f.deletehash,
+          link: stripCachedURL(f.link)
         }
       }
       return null;
@@ -336,6 +321,21 @@ class PostForm extends Component {
   handleTagsChange = (tags) => this.saveAndUpdateDraft('tags', tags);
 
   initialValue = (field, defaultValue = null) => initialState.draft[field] === this.props.draft[field] ? defaultValue : this.props.draft[field];
+
+  xhrUploadS3 = async ({ file, onProgress, onSuccess }) => {
+    onProgress({ percent: Math.round(10).toFixed(2) }, file);
+    const res = await api.post('/posts/signed_url', {filename: file.name});
+    onProgress({ percent: Math.round(90).toFixed(2) }, file);
+    fetch(res.signed_url, { method: 'PUT', headers: {'Content-Type': 'multipart/form-data'}, body: file })
+    .then(() => {
+      const result = {
+        uid: res.uid, url: getCachedImage(res.image_url),
+        name: file.name, link: res.image_url,
+        status: 'done'
+      }
+      onSuccess(result, file)
+    })
+  }
 
   render() {
     if (!this.props.me) {
@@ -489,12 +489,7 @@ class PostForm extends Component {
               rules: [{ required: true, message: 'You must upload at least one image' }],
             })(
               <Upload.Dragger name="image"
-                action="https://api.imgur.com/3/image"
-                headers={{
-                  'Authorization': 'Client-ID 32355fe756394b2',
-                  'Cache-Control': null,
-                  'X-Requested-With': null
-                }}
+                customRequest={this.xhrUploadS3}
                 listType="picture-card"
                 fileList={this.state.fileList}
                 onPreview={this.handleImagePreview}
