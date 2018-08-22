@@ -14,6 +14,7 @@ import { selectCurrentPost } from './selectors';
 import { getPostBegin, setCurrentPostKey } from './actions/getPost';
 import { sanitizeText, splitTags } from './utils';
 import { getCachedImage, stripCachedURL } from 'features/Post/utils';
+import axios from 'axios';
 
 const FormItem = Form.Item;
 let currentBeneficiaryId = 0;
@@ -323,10 +324,10 @@ class PostForm extends Component {
   initialValue = (field, defaultValue = null) => initialState.draft[field] === this.props.draft[field] ? defaultValue : this.props.draft[field];
 
   xhrUploadS3 = async ({ file, onProgress, onSuccess }) => {
-    onProgress({ percent: Math.round(10).toFixed(2) }, file);
     const res = await api.post('/posts/signed_url', {filename: file.name});
-    onProgress({ percent: Math.round(90).toFixed(2) }, file);
-    fetch(res.signed_url, { method: 'PUT', headers: {'Content-Type': 'multipart/form-data'}, body: file })
+    axios.put(res.signed_url, file, { headers: {'Content-Type': 'multipart/form-data' }, onUploadProgress: ({ total, loaded }) => {
+      onProgress({ percent: parseFloat(Math.round(loaded / total * 100).toFixed(2)) }, file);
+    },})
     .then(() => {
       const result = {
         uid: res.uid, url: getCachedImage(res.image_url),
@@ -334,7 +335,8 @@ class PostForm extends Component {
         status: 'done'
       }
       onSuccess(result, file)
-    })
+    });
+
   }
 
   render() {
