@@ -282,7 +282,7 @@ class PostForm extends Component {
       }
     }).catch(msg => {
       this.saveAndUpdateDraft('url', '#');
-      callback('Service is temporarily unavailbe, Please try again later.');
+      callback('Service is temporarily unavailable, Please try again later.');
     });
   };
 

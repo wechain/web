@@ -34,7 +34,7 @@ class HuntedList extends Component {
     if (error) {
       return (
         <div className="heading left-padded right-padded">
-          Service is temporarily unavailbe, Please try again later.
+          Service is temporarily unavailable, Please try again later.
         </div>
       );
     }
