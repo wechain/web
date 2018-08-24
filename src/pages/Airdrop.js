@@ -51,24 +51,27 @@ export default class Airdrop extends Component {
           <Col className="grid" span={12}>
             <img src={iconSponsor} alt="Sponsors" className="icon sponsors" />
             <h3>Sponsors</h3>
-            <p>90,000 tokens per day are distributed for the sponsors who delegate SP in @steemhunt.</p>
+            <p>90,000 tokens per day are distributed for the sponsors who delegate Steem Power (SP) in @steemhunt.</p>
           </Col>
           <Col className="grid" span={12}>
             <img src={iconUpvote} alt="Upvote" className="icon upvote" />
-            <h3>Voting / Resteem</h3>
-            <p>60,000 tokens per day will be distributed for people who upvote or resteem the hunter posts located under the “Today” section on Steemhunt.com.</p>
+            <h3>Voting / Promotion</h3>
+            <p>
+              40,000 tokens per day are distributed for people who upvote the hunts located under the “Today” section on Steemhunt.com.
+              20,000 tokens per day are distributed for people who helps promoting Steemhunts to the community.
+            </p>
           </Col>
         </Row>
         <Row gutter={16}>
           <Col className="grid" span={12}>
             <img src={iconReferral} alt="Referrals" className="icon referrals" />
             <h3>Referrals</h3>
-            <p>90,000 tokens per day are distributed for people who refer Steemhunt to others. Both referrers and referees will gain the tokens.</p>
+            <p>90,000 tokens per day will be distributed for people who refer Steemhunt to others. Both referrers and referees will gain the tokens.</p>
           </Col>
           <Col className="grid" span={12}>
             <img src={iconPosting} alt="Posting" className="icon posting" />
-            <h3>Posting / Commenting</h3>
-            <p>60,000 tokens per day are assigned for the hunters who received @steemhunt’s upvoting.</p>
+            <h3>Content Creation</h3>
+            <p>60,000 tokens per day will be assigned for the hunters who creates content on HUNT platform.</p>
           </Col>
         </Row>
 
