@@ -255,6 +255,14 @@ class PostForm extends Component {
     }
   };
 
+  checkImages = (_, value, callback) => {
+    if (this.state.fileList.length > 0) {
+      callback();
+    } else {
+      callback('You must upload at least one image');
+    }
+  };
+
   checkUrl = (_, value, callback) => {
     this.setState({ duplicatedUrl: null });
 
@@ -343,6 +351,8 @@ class PostForm extends Component {
     if (!this.props.me) {
       return (<Spin className="center-loading" />);
     }
+
+    console.log(this.state.fileList, "===============fileList=============")
 
     if (this.props.post && this.props.post.author !== this.props.me) {
       return (
@@ -488,7 +498,7 @@ class PostForm extends Component {
         >
           <div className="dropbox">
             {getFieldDecorator('images', {
-              rules: [{ required: true, message: 'You must upload at least one image' }],
+              rules: [{ validator: this.checkImages }],//[{ required: true, message: 'You must upload at least one image' }],
             })(
               <Upload.Dragger name="image"
                 customRequest={this.xhrUploadS3}
