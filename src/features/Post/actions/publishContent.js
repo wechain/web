@@ -141,22 +141,23 @@ function* publishContent({ props, editMode }) {
 
     const title = `${post.title} - ${post.tagline}`;
 
+    let newPost;
     if (editMode) { // Edit
-      yield api.put(`/posts${getPostPath(post)}.json`, { post: post }, true);
+      newPost = yield api.put(`/posts${getPostPath(post)}.json`, { post: post }, true);
     } else { // Create
       post.permlink = yield createPermlink(title, post.author, '', '');
-      yield api.post('/posts.json', { post: post }, true);
+      newPost = yield api.post('/posts.json', { post: post }, true);
     }
     // console.log('2------', res);
 
     // Inject 'steemhunt' as a main category for every post
-    const tags = [MAIN_CATEGORY].concat(post.tags);
+    const tags = [MAIN_CATEGORY].concat(newPost.tags);
 
     // Prepare data
     const metadata = {
       tags: tags,
-      image: post.images.map(i => i.link),
-      links: [ post.url ],
+      image: newPost.images.map(i => i.link),
+      links: [ newPost.url ],
       community: 'steemhunt',
       app: 'steemhunt/1.0.0',
     };
@@ -166,10 +167,10 @@ function* publishContent({ props, editMode }) {
         {
           parent_author: '',
           parent_permlink: tags[0],
-          author: post.author,
-          permlink: post.permlink,
+          author: newPost.author,
+          permlink: newPost.permlink,
           title,
-          body: getBody(post),
+          body: getBody(newPost),
           json_metadata: JSON.stringify(metadata),
         },
       ]
@@ -177,15 +178,15 @@ function* publishContent({ props, editMode }) {
 
     if (!editMode) { // only on create
       operations.push(['comment_options', {
-        author: post.author,
-        permlink: post.permlink,
+        author: newPost.author,
+        permlink: newPost.permlink,
         max_accepted_payout: '1000000.000 SBD',
         percent_steem_dollars: 10000,
         allow_votes: true,
         allow_curation_rewards: true,
         extensions: [
           [0, {
-            beneficiaries: DEFAULT_BENEFICIARY.concat(post.beneficiaries || [])
+            beneficiaries: DEFAULT_BENEFICIARY.concat(newPost.beneficiaries || [])
           }]
         ]
       }]);
@@ -199,21 +200,21 @@ function* publishContent({ props, editMode }) {
     } catch (e) {
       // Delete post on Steemhunt as transaction failed
       if (!editMode) {
-        yield api.delete(`/posts${getPostPath(post)}.json`, null, true);
+        yield api.delete(`/posts${getPostPath(newPost)}.json`, null, true);
       }
       throw e;
     }
 
     // Clear localStorage
     localStorage.removeItem('draft');
-    yield put(publishContentSuccess(post));
+    yield put(publishContentSuccess(newPost));
     if (editMode) {
       yield notification['success']({ message: 'Your post has been successfully updated!' });
     } else {
       yield notification['success']({ message: 'Your post has been successfully published!' });
     }
 
-    yield props.history.push(getPostPath(post)); // Redirect to #show
+    yield props.history.push(getPostPath(newPost)); // Redirect to #show
   } catch (e) {
     yield notification['error']({ message: extractErrorMessage(e) });
     yield put(publishContentFailure(e.message));

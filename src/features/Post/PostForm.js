@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { Form, Row, Col, Input, InputNumber, Tooltip, Icon, Button, Upload, Modal, Spin } from 'antd';
+import { Form, Row, Col, Input, InputNumber, Tooltip, Icon, Button, Upload, Modal, Spin, notification } from 'antd';
 import { selectDraft, selectIsPublishing } from './selectors';
 import { selectMe } from 'features/User/selectors';
 import { publishContentBegin } from './actions/publishContent';
@@ -331,28 +331,35 @@ class PostForm extends Component {
 
   initialValue = (field, defaultValue = null) => initialState.draft[field] === this.props.draft[field] ? defaultValue : this.props.draft[field];
 
-  xhrUploadS3 = async ({ file, onProgress, onSuccess }) => {
-    const res = await api.post('/posts/signed_url', {filename: file.name});
-    axios.put(res.signed_url, file, { headers: {'Content-Type': 'multipart/form-data' }, onUploadProgress: ({ total, loaded }) => {
-      onProgress({ percent: parseFloat(Math.round(loaded / total * 100).toFixed(2)) }, file);
-    },})
-    .then(() => {
-      const result = {
-        uid: res.uid, url: getCachedImage(res.image_url),
-        name: file.name, link: res.image_url,
-        status: 'done'
-      }
-      onSuccess(result, file)
-    });
+  xhrUploadS3 = async ({ file, onProgress, onSuccess, onError }) => {
+    try {
+      const res = await api.post('/posts/signed_url', {filename: file.name});
 
+      axios.put(res.signed_url, file, { headers: {'Content-Type': 'multipart/form-data' }, onUploadProgress: ({ total, loaded }) => {
+        onProgress({ percent: parseFloat(Math.round(loaded / total * 100).toFixed(2)) }, file);
+      },})
+      .then(() => {
+        const result = {
+          uid: res.uid, url: getCachedImage(res.image_url),
+          name: file.name, link: res.image_url,
+          status: 'done'
+        }
+        onSuccess(result, file);
+      }).catch((e) => {
+        throw new Error(e)
+      });
+    } catch(e) {
+      this.setState({ fileList: this.state.fileList.filter(f => f.name !== file.name) }); // Remove error image
+      notification['error']({ message: 'Image upload failed. Please check your Internet connection.' });
+
+      onError(e);
+    }
   }
 
   render() {
     if (!this.props.me) {
       return (<Spin className="center-loading" />);
     }
-
-    console.log(this.state.fileList, "===============fileList=============")
 
     if (this.props.post && this.props.post.author !== this.props.me) {
       return (
@@ -498,7 +505,7 @@ class PostForm extends Component {
         >
           <div className="dropbox">
             {getFieldDecorator('images', {
-              rules: [{ validator: this.checkImages }],//[{ required: true, message: 'You must upload at least one image' }],
+              rules: [{ validator: this.checkImages }],
             })(
               <Upload.Dragger name="image"
                 customRequest={this.xhrUploadS3}

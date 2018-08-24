@@ -17,6 +17,7 @@ import getPostsByTag, { getPostsByTagReducer } from './actions/getPostsByTag';
 
 export const initialState = {
   draft: {
+    id: 0,
     url: '#',
     title: 'Title',
     tagline: 'Short Description',
