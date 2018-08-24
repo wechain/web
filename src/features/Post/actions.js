@@ -32,6 +32,7 @@ export const initialState = {
     is_active: true,
     is_verified: false,
     verified_by: null,
+    cashout_time: 'newPost'
   },
   posts: {},
   authorPosts: {},
