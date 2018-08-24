@@ -66,7 +66,7 @@ class HuntedListByAuthor extends Component {
       if (authorStatus[currentUser]['error']) {
         return (
           <div className="heading left-padded right-padded">
-            Service is temporarily unavailbe, Please try again later.
+            Service is temporarily unavailable, Please try again later.
           </div>
         );
       }

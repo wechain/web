@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { Form, Row, Col, Input, InputNumber, Tooltip, Icon, Button, Upload, Modal, Spin } from 'antd';
+import { Form, Row, Col, Input, InputNumber, Tooltip, Icon, Button, Upload, Modal, Spin, notification } from 'antd';
 import { selectDraft, selectIsPublishing } from './selectors';
 import { selectMe } from 'features/User/selectors';
 import { publishContentBegin } from './actions/publishContent';
@@ -14,6 +14,7 @@ import { selectCurrentPost } from './selectors';
 import { getPostBegin, setCurrentPostKey } from './actions/getPost';
 import { sanitizeText, splitTags } from './utils';
 import { getCachedImage, stripCachedURL } from 'features/Post/utils';
+import axios from 'axios';
 
 const FormItem = Form.Item;
 let currentBeneficiaryId = 0;
@@ -128,10 +129,10 @@ class PostForm extends Component {
       // if localStorage does not exist
       this.setState({ editMode: false });
       this.checkAndResetDraft();
+    }
 
-      if (this.props.me !== nextProps.draft.author) {
-        this.saveAndUpdateDraft('author', this.props.me);
-      }
+    if (nextProps.me !== nextProps.draft.author) {
+      this.saveAndUpdateDraft('author', nextProps.me);
     }
   }
 
@@ -169,12 +170,7 @@ class PostForm extends Component {
           name: f.name,
           url:  getCachedImage(f.link),
           status: 'done',
-          id: f.id,
-          type: f.type,
           link: f.link,
-          deletehash: f.deletehash,
-          width: f.width,
-          height: f.height,
         }
       ),
     });
@@ -259,6 +255,14 @@ class PostForm extends Component {
     }
   };
 
+  checkImages = (_, value, callback) => {
+    if (this.state.fileList.length > 0) {
+      callback();
+    } else {
+      callback('You must upload at least one image');
+    }
+  };
+
   checkUrl = (_, value, callback) => {
     this.setState({ duplicatedUrl: null });
 
@@ -286,7 +290,7 @@ class PostForm extends Component {
       }
     }).catch(msg => {
       this.saveAndUpdateDraft('url', '#');
-      callback('Service is temporarily unavailbe, Please try again later.');
+      callback('Service is temporarily unavailable, Please try again later.');
     });
   };
 
@@ -307,25 +311,15 @@ class PostForm extends Component {
   handleDescriptionChange = (e) => this.saveAndUpdateDraft('description', sanitizeText(e.target.value) || initialState.draft.description);
   handleImageChange = ({ fileList }) => {
     const images = fileList.map(function(f) {
-      if (f.response && f.response.data && f.response.data.link) {
+      if (f.response && f.response.link) {
         return {
           name: f.name,
-          link: f.response.data.link,
-          width: f.response.data.width,
-          height: f.response.data.height,
-          type: f.response.data.type,
-          id: f.response.data.id,
-          deletehash: f.response.data.deletehash,
+          link: f.response.link
         }
       } else if (f.name && f.link) { // Handle Edit
         return {
           name: f.name,
-          link: stripCachedURL(f.link),
-          width: f.width,
-          height: f.height,
-          type: f.type,
-          id: f.id,
-          deletehash: f.deletehash,
+          link: stripCachedURL(f.link)
         }
       }
       return null;
@@ -336,6 +330,31 @@ class PostForm extends Component {
   handleTagsChange = (tags) => this.saveAndUpdateDraft('tags', tags);
 
   initialValue = (field, defaultValue = null) => initialState.draft[field] === this.props.draft[field] ? defaultValue : this.props.draft[field];
+
+  xhrUploadS3 = async ({ file, onProgress, onSuccess, onError }) => {
+    try {
+      const res = await api.post('/posts/signed_url', {filename: file.name});
+
+      axios.put(res.signed_url, file, { headers: {'Content-Type': 'multipart/form-data' }, onUploadProgress: ({ total, loaded }) => {
+        onProgress({ percent: parseFloat(Math.round(loaded / total * 100).toFixed(2)) }, file);
+      },})
+      .then(() => {
+        const result = {
+          uid: res.uid, url: getCachedImage(res.image_url),
+          name: file.name, link: res.image_url,
+          status: 'done'
+        }
+        onSuccess(result, file);
+      }).catch((e) => {
+        throw new Error(e)
+      });
+    } catch(e) {
+      this.setState({ fileList: this.state.fileList.filter(f => f.name !== file.name) }); // Remove error image
+      notification['error']({ message: 'Image upload failed. Please check your Internet connection.' });
+
+      onError(e);
+    }
+  }
 
   render() {
     if (!this.props.me) {
@@ -486,15 +505,10 @@ class PostForm extends Component {
         >
           <div className="dropbox">
             {getFieldDecorator('images', {
-              rules: [{ required: true, message: 'You must upload at least one image' }],
+              rules: [{ validator: this.checkImages }],
             })(
               <Upload.Dragger name="image"
-                action="https://api.imgur.com/3/image"
-                headers={{
-                  'Authorization': 'Client-ID 32355fe756394b2',
-                  'Cache-Control': null,
-                  'X-Requested-With': null
-                }}
+                customRequest={this.xhrUploadS3}
                 listType="picture-card"
                 fileList={this.state.fileList}
                 onPreview={this.handleImagePreview}

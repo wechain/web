@@ -34,7 +34,13 @@ const BackButton = withRouter(({ history }) => (
   <Icon
     type="left"
     className="back-button"
-    onClick={() => { history.go(-1) }}/>
+    onClick={() => {
+      if (history.length === 2) {
+        history.replace('/')
+      } else {
+        history.go(-1)
+      }
+    }}/>
 ));
 
 export class RoutesLeft extends Component {

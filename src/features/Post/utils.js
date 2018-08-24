@@ -82,7 +82,7 @@ export const stripCachedURL = function(url) {
 }
 
 export const isEditable = function(post) {
-  if (post.cashout_time && post.cashout_time !== '1969-12-31T23:59:59') {
+  if ((post.cashout_time && post.cashout_time !== '1969-12-31T23:59:59') || (post.cashout_time === 'newPost')) {
     return true;
   }
 

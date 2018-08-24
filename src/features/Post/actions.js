@@ -17,6 +17,7 @@ import getPostsByTag, { getPostsByTagReducer } from './actions/getPostsByTag';
 
 export const initialState = {
   draft: {
+    id: 0,
     url: '#',
     title: 'Title',
     tagline: 'Short Description',
@@ -32,6 +33,7 @@ export const initialState = {
     is_active: true,
     is_verified: false,
     verified_by: null,
+    cashout_time: 'newPost'
   },
   posts: {},
   authorPosts: {},
