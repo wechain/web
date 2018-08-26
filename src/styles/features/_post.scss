@@ -391,6 +391,12 @@
       margin-left: -50px;
     }
 
+    @include responsive(mobile) {
+      .comment .comment-body .comment .comment-body .comment {
+        margin-left: -50px;
+      }
+    }
+
     .ant-list-item .ant-list-item {
       padding-bottom: 0;
     }
