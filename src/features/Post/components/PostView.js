@@ -296,7 +296,7 @@ class PostView extends Component {
             <VoteButton post={post} type="post" layout="detail-page" />
 
             { me && me !== post.author &&
-              <ResteemButton post={post} />
+              <ResteemButton post={post} me={me} />
             }
 
             <div className="social-shares">
