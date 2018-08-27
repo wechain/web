@@ -35,6 +35,7 @@ const BackButton = withRouter(({ history }) => (
     type="left"
     className="back-button"
     onClick={() => {
+      console.log(history.length)
       if (history.length === 2) {
         history.replace('/')
       } else {
