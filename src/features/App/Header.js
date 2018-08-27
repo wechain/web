@@ -70,12 +70,13 @@ class Header extends Component {
     }
   };
 
-  currentVotingPower = ({last_vote_time, voting_power}) => {
-    const vpLeft = voting_power / 100
-    const lastVT = Date.parse(last_vote_time) + new Date().getTimezoneOffset();
-    const secPassed = (Date.now() - lastVT) / 1000;
+  currentVotingPower = ({ last_vote_time, voting_power }) => {
+    const vpLeft = voting_power / 100;
+    const lastVotingTime = Date.parse(last_vote_time) + new Date().getTimezoneOffset();
+    const secPassed = (Date.now() - lastVotingTime) / 1000;
     const currentVP = (vpLeft + (secPassed / 3600.0) * (20.0/24.0))
     const vp = currentVP > 100 ? 100 : currentVP;
+
     return Math.round(vp * 100) / 100;
   }
 
