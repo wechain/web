@@ -70,6 +70,15 @@ class Header extends Component {
     }
   };
 
+  currentVotingPower = ({last_vote_time, voting_power}) => {
+    const vpLeft = voting_power / 100
+    const lastVT = Date.parse(last_vote_time) + new Date().getTimezoneOffset();
+    const secPassed = (Date.now() - lastVT) / 1000;
+    const currentVP = (vpLeft + (secPassed / 3600.0) * (20.0/24.0))
+    const vp = currentVP > 100 ? 100 : currentVP;
+    return Math.round(vp * 100) / 100;
+  }
+
   render() {
     const { me, myAccount, myFollowingsList, myFollowingsLoadStatus, isLoading, follow, searchTerm } = this.props;
     const isFollowing = myFollowingsList.find(following => following.following === 'steemhunt');
@@ -121,7 +130,7 @@ class Header extends Component {
           <Menu.Item key="4-2" className="sub">
             <Link to={`/author/@${me}`} onClick={() => this.changeVisibility(false)}>
               <Icon type="loading-3-quarters" />
-              Voting Power: {formatNumber(myAccount.voting_power / 100, '0,0.00')}%
+              Voting Power: {formatNumber(this.currentVotingPower(myAccount), '0,0.00')}%
             </Link>
           </Menu.Item>
           <Menu.Item key="5">
@@ -179,7 +188,7 @@ class Header extends Component {
               overlayClassName="menu-popover"
             >
               <span className="ant-dropdown-link header-button" role="button">
-                <AvatarSteemit name={me} votingPower={myAccount.voting_power} />
+                <AvatarSteemit name={me} votingPower={this.currentVotingPower(myAccount)} />
               </span>
             </Popover>
           </div>
