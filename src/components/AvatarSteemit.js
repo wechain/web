@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Avatar, Progress } from 'antd';
 
 const AvatarSteemit = ({ name, size, votingPower }) => {
-  const percentVotingPower = votingPower ? parseInt(votingPower / 100, 10) : 0;
+  const percentVotingPower = votingPower ? parseInt(votingPower, 10) : 0;
 
   return (
     <div className="avatar-steemit" style={{ width: size, height: size }}>
