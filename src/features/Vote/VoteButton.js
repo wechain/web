@@ -39,7 +39,7 @@ class VoteButton extends PureComponent {
     if(voteString && !!voteWeight) {
       this.setState({voteWeight: voteWeight});
     }
-  }
+  };
 
   openSignin = () => {
     notification.open({
