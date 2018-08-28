@@ -65,7 +65,9 @@ function* getCommentsFromPost({ category, author, permlink }) {
     // Update payout_value
     const commentsData = mapCommentsBasedOnId(state.content);
     for (const content of Object.values(commentsData)) {
-      content.payout_value = calculateContentPayout(content); // Sync with local format
+      if (content) {
+        content.payout_value = calculateContentPayout(content); // Sync with local format
+      }
     }
 
     // Refresh post if necessary
