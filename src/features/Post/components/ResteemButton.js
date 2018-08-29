@@ -8,6 +8,7 @@ import steem from 'steem';
 class ResteemButton extends PureComponent {
   static propTypes = {
     post: PropTypes.object.isRequired,
+    me: PropTypes.object.isRequired,
   };
 
   constructor(props) {
