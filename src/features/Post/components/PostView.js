@@ -295,7 +295,7 @@ class PostView extends Component {
           <div className="vote-container">
             <VoteButton post={post} type="post" layout="detail-page" />
 
-            { me && me !== post.author &&
+            { me && me !== post.author && !this.props.draft &&
               <ResteemButton post={post} me={me} />
             }
 
