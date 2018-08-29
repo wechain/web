@@ -25,15 +25,15 @@ export function isModerator(username) {
   const moderators = [
     'tabris', 'project7',
     'teamhumble', 'urbangladiator', 'dayleeo', 'fknmayhem', 'jayplayco', 'bitrocker2020', 'joannewong',
-    'geekgirl', 'playitforward'
+    'geekgirl', 'playitforward', 'monajam', 'pialejoana'
   ];
   return moderators.indexOf(username) !== -1;
 }
 
 export function isInfluencer(username) {
   const influencer = [
-    'dontstopmenow', 'sambillingham', 'ogochukwu', 'theversatileguy', 'guyfawkes4-20', 'pialejoana', 'tobias-g', 'superoo7',
-    'themanualbot', 'redtravels', 'elleok', 'joythewanderer', 'ady-was-here', 'raulmz', 'chuuuckie', 'shaphir', 'mobi72', 'monajam'
+    'dontstopmenow', 'sambillingham', 'ogochukwu', 'theversatileguy', 'guyfawkes4-20', 'tobias-g', 'superoo7',
+    'themanualbot', 'redtravels', 'elleok', 'joythewanderer', 'ady-was-here', 'raulmz', 'chuuuckie', 'shaphir', 'mobi72'
   ];
   return influencer.indexOf(username) !== -1;
 }
