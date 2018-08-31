@@ -1,4 +1,5 @@
 /* eslint-disable camelcase,no-param-reassign,consistent-return,no-console,new-cap */
+import { call } from 'redux-saga/effects';
 import numeral from 'numeral';
 import base58 from 'bs58';
 import steem from 'steem';
@@ -100,59 +101,47 @@ export const createCommentPermlink = (parentAuthor, parentPermlink) => {
   return permlink;
 };
 
-
-
-function checkPermLinkLength(permlink) {
-  if (permlink.length > 255) {
-    // STEEMIT_MAX_PERMLINK_LENGTH
-    permlink = permlink.substring(permlink.length - 255, permlink.length);
-  }
-  // only letters numbers and dashes shall survive
-  permlink = permlink.toLowerCase().replace(/[^a-z0-9-]+/g, '');
-  return permlink;
-}
+/**
+ * Generate permlink
+ * https://github.com/steemit/condenser/blob/master/src/app/redux/TransactionSaga.js
+ */
 
 function slug(text) {
   return getSlug(text.replace(/[<>]/g, ''), { truncate: 128 });
 }
 
-/**
- * Generate permlink
- * https://github.com/steemit/steemit.com/blob/ded8ecfcc9caf2d73b6ef12dbd0191bd9dbf990b/app/redux/TransactionSaga.js
- */
-
-export function createPermlink(title, author, parent_author, parent_permlink) {
-  let permlink;
-  if (title && title.trim() !== '') {
-    let s = slug(title);
-    if (s === '') {
-      s = base58.encode(secureRandom.randomBuffer(4));
-    }
-
-    return steem.api
-      .getContentAsync(author, s)
-      .then(content => {
+export function* createPermlink(title, author, parent_author, parent_permlink) {
+    let permlink;
+    if (title && title.trim() !== '') {
+        let s = slug(title);
+        if (s === '') {
+            s = base58.encode(secureRandom.randomBuffer(4));
+        }
+        // ensure the permlink(slug) is unique
+        const slugState = yield call([steem.api, steem.api.getContentAsync], author, s);
         let prefix;
-        if (content.body !== '') {
-          // make sure slug is unique
-          prefix = `${base58.encode(secureRandom.randomBuffer(4))}-`;
+        if (slugState.body !== '') {
+            // make sure slug is unique
+            prefix = base58.encode(secureRandom.randomBuffer(4)) + '-';
         } else {
-          prefix = '';
+            prefix = '';
         }
         permlink = prefix + s;
-        return checkPermLinkLength(permlink);
-      })
-      .catch(err => {
-        console.warn('Error while getting content', err);
-        return permlink;
-      });
-  }
-  // comments: re-parentauthor-parentpermlink-time
-  const timeStr = new Date().toISOString().replace(/[^a-zA-Z0-9]+/g, '');
-  parent_permlink = parent_permlink.replace(/(-\d{8}t\d{9}z)/g, '');
-  permlink = `re-${parent_author}-${parent_permlink}-${timeStr}`;
-  return Promise.resolve(checkPermLinkLength(permlink));
+    } else {
+        // comments: re-parentauthor-parentpermlink-time
+        const timeStr = new Date().toISOString().replace(/[^a-zA-Z0-9]+/g, '');
+        parent_permlink = parent_permlink.replace(/(-\d{8}t\d{9}z)/g, '');
+        permlink = `re-${parent_author}-${parent_permlink}-${timeStr}`;
+    }
+    if (permlink.length > 255) {
+        // STEEMIT_MAX_PERMLINK_LENGTH
+        permlink = permlink.substring(permlink.length - 255, permlink.length);
+    }
+    // only letters numbers and dashes shall survive
+    permlink = permlink.toLowerCase().replace(/[^a-z0-9-]+/g, '');
+    return permlink;
 }
+
 
 // How much STEEM this account has delegated out (minus received).
 // Ref: https://github.com/steemit/condenser/blob/ae1e9534262a19ec163982c71d74e3bd74c9a9d3/src/app/utils/StateFunctions.js
