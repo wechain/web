@@ -120,6 +120,7 @@ class PostView extends Component {
 
   render() {
     const { me, post } = this.props;
+
     const images = post.images.map((image, index) => {
       return (
         <div key={index} className="slide-container">
@@ -212,6 +213,8 @@ class PostView extends Component {
       </Button>
     );
 
+    const shareUrl = window.location.href + (me ? `%3Fref=${me}%26` : '%3F');
+
     return (
       <div className="post-view diagonal-split-view">
         <div className="top-container primary-gradient">
@@ -302,7 +305,7 @@ class PostView extends Component {
             <div className="social-shares">
               <Tooltip title="Share on Facebook">
                 <a
-                  href={'https://www.facebook.com/sharer.php?u=' + encodeURI(window.location.href)}
+                  href={'https://www.facebook.com/sharer.php?u=' + shareUrl + 'type=1'}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="share-icon"
@@ -311,7 +314,7 @@ class PostView extends Component {
                 </a>
               </Tooltip>
               <Tooltip title="Share on Twitter">
-                <a href={'https://twitter.com/intent/tweet?url=' + encodeURI(window.location.href) +
+                <a href={'https://twitter.com/intent/tweet?url=' + shareUrl + 'type=2' +
                     '&text=' + encodeURI(post.title) +
                     '&hashtags=steemhunt,steem'}
                   target="_blank"
@@ -324,7 +327,7 @@ class PostView extends Component {
               <Tooltip title="Share on LinkedIn">
                 <a
                   href={'https://www.linkedin.com/shareArticle?mini=true' +
-                    '&url=' + encodeURI(window.location.href) +
+                    '&url=' + shareUrl + 'type=3' +
                     '&title=' + encodeURI(post.title) +
                     '&summary=' + encodeURI(post.tagline) +
                     '&source=Steemhunt'}

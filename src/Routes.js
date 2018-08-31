@@ -114,10 +114,11 @@ class Right extends Component {
     const AuthorList = isEmpty(this.props.searchTerm) ? HuntedListByAuthor : Search;
     const TopList = isEmpty(this.props.searchTerm) ? HallOfFame : Search;
     const TagRight =  isEmpty(this.props.searchTerm) ? TagList : Search;
+    const params = new URLSearchParams(this.props.location.search);
 
     return (
       <div className="panel-right">
-        {this.props.location.search && <Redirect to="/" /> /* Authentication redirection */ }
+        {params.get('access_token') && params.get('username') && <Redirect to="/" />} {/* Authentication redirection */}
         <Header path={this.props.location.pathname}/>
         <Switch>
           <Route path="/" exact component={List} />

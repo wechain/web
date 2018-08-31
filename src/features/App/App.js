@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet';
 import { selectAppProps } from './selectors';
 import { getAppConfigBegin } from './actions/getAppConfig';
 import { RoutesLeft, RoutesRight } from 'Routes';
+import AppModal from './AppModal';
 
 import 'custom.css';
 
@@ -28,6 +29,7 @@ class App extends Component {
           <RoutesLeft />
           <RoutesRight />
         </div>
+        <AppModal location={this.props.location} />
       </div>
     );
   }
