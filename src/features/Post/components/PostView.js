@@ -326,8 +326,8 @@ class PostView extends Component {
               </Tooltip>
               <Tooltip title="Share on LinkedIn">
                 <a
-                  href={'https://www.linkedin.com/shareArticle?mini=true' +
-                    '&url=' + shareUrl + 'type=3' +
+                  href={'https://www.linkedin.com/shareArticle?url=' + shareUrl + 'type=3' +
+                    '&mini=true' +
                     '&title=' + encodeURI(post.title) +
                     '&summary=' + encodeURI(post.tagline) +
                     '&source=Steemhunt'}
