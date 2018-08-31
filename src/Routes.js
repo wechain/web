@@ -115,9 +115,14 @@ class Right extends Component {
     const TopList = isEmpty(this.props.searchTerm) ? HallOfFame : Search;
     const TagRight =  isEmpty(this.props.searchTerm) ? TagList : Search;
 
+    let redirectPath = null;
+    if (this.props.location.search) {
+      redirectPath = queryString.parse(this.props.location.search).state;
+    }
+
     return (
       <div className="panel-right">
-        {this.props.location.search && <Redirect to="/" /> /* Authentication redirection */ }
+        {redirectPath && <Redirect to={redirectPath} /> /* Authentication redirection */ }
         <Header path={this.props.location.pathname}/>
         <Switch>
           <Route path="/" exact component={List} />
