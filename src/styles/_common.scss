@@ -200,11 +200,9 @@ hr {
   }
 
   .panel-right {
-    padding-top: $header_height;
     z-index: 0;
 
     @include responsive(tablet) {
-      padding-top: 110px;
       left: 0;
       z-index: 101;
     }
