@@ -93,8 +93,6 @@ class Post extends Component {
           <meta name="og:title" content={`${post.title} - Steemhunt`} />
           <meta name="og:description" content={post.tagline} />
           <meta name="og:image" content={post.images[0]['link']} />
-          <meta name="og:url" content={process.env.PUBLIC_URL} />
-
         </Helmet>
 
         { post && <PostView post={post} /> }

@@ -17,11 +17,14 @@ class RelatedTag extends Component {
     tagStatus: PropTypes.object.isRequired,
   };
 
-  renderRelatedTags(relatedTags) {
-
-    const tagArray = Object.keys(relatedTags).map((key, index) => {
-      return [relatedTags[key], key]
+  renderRelatedTags = (array = false) => {
+    const tagArray = Object.keys(this.props.relatedTags).map((key, index) => {
+      return [this.props.relatedTags[key], key];
     }).sort((a, b) => b[0] - a[0]);
+
+    if (array) {
+      return tagArray.map(x => `#${x[1]}`).slice(0, 20);
+    }
 
     return tagArray.slice(0, 20).map((tag, index) => {
       return (
@@ -43,16 +46,35 @@ class RelatedTag extends Component {
 
     const { tagStatus } = this.props;
 
+    const mainImage = tagStatus[tag] && tagStatus[tag].featuredImage ? `${tagStatus[tag].featuredImage}` : null;
     const profileStyle = {
       backgroundColor: COLOR_LIGHT_GREY,
       backgroundSize: 'cover',
-      backgroundImage: `${tagStatus[tag] && tagStatus[tag].featuredImage ? `url(${tagStatus[tag].featuredImage})` : 'none'}`,
+      backgroundImage: `${mainImage ? `url(${mainImage})` : 'none'}`,
     };
+
+    const relatedTagsString = this.renderRelatedTags(true).join(', ');
 
     return (
       <div className="tags diagonal-split-view">
         <Helmet>
           <title>#{tag} - Steemhunt</title>
+
+          { /* Search Engine */ }
+          <meta name="description" content={`Related tags: ${relatedTagsString}`} />
+          <meta name="image" content={mainImage} />
+          { /* Schema.org for Google */ }
+          <meta itemprop="name" content={`#${tag} - Steemhunt`} />
+          <meta itemprop="description" content={`Related tags: ${relatedTagsString}`} />
+          <meta itemprop="image" content={mainImage} />
+          { /* Twitter */ }
+          <meta name="twitter:title" content={`@${tag} - Steemhunt`} />
+          <meta name="twitter:description" content={`Related tags: ${relatedTagsString}`} />
+          <meta name="twitter:image:src" content={mainImage} />
+          { /* Open Graph general (Facebook, Pinterest & Google+) */ }
+          <meta name="og:title" content={`@${tag} - Steemhunt`} />
+          <meta name="og:description" content={`Related tags: ${relatedTagsString}`} />
+          <meta name="og:image" content={mainImage} />
         </Helmet>
         <div className="top-container primary-gradient">
           <h1>#{tag}</h1>
@@ -62,7 +84,7 @@ class RelatedTag extends Component {
         <div className="bottom-container">
           <div className="profile-picture" style={profileStyle}></div>
           <h2 className="related-tags">Related Tags</h2>
-          {this.renderRelatedTags(this.props.relatedTags)}
+          {this.renderRelatedTags()}
         </div>
       </div>
     );

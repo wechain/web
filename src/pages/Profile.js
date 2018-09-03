@@ -80,14 +80,32 @@ class Profile extends Component {
       backgroundColor: COLOR_LIGHT_GREY,
       backgroundImage: `url(https://i.imgur.com/OUdHb2P.png)`,
     };
+
+    const profileImage = `${process.env.REACT_APP_STEEMCONNECT_IMG_HOST}/@${account.name}`;
     if (profile.profile_image) {
-      profileStyle['backgroundImage'] = `url(${process.env.REACT_APP_STEEMCONNECT_IMG_HOST}/@${account.name}?s=280)`;
+      profileStyle['backgroundImage'] = `url(${profileImage}?s=280)`;
     }
 
     return (
       <div className="profile diagonal-split-view">
         <Helmet>
           <title>@{account.name} - Steemhunt</title>
+
+          { /* Search Engine */ }
+          <meta name="description" content={profile.about} />
+          <meta name="image" content={`${profileImage}?s=1200`} />
+          { /* Schema.org for Google */ }
+          <meta itemprop="name" content={`@${account.name} - Steemhunt`} />
+          <meta itemprop="description" content={profile.about} />
+          <meta itemprop="image" content={`${profileImage}?s=1200`} />
+          { /* Twitter */ }
+          <meta name="twitter:title" content={`@${account.name} - Steemhunt`} />
+          <meta name="twitter:description" content={profile.about} />
+          <meta name="twitter:image:src" content={`${profileImage}?s=1200`} />
+          { /* Open Graph general (Facebook, Pinterest & Google+) */ }
+          <meta name="og:title" content={`@${account.name} - Steemhunt`} />
+          <meta name="og:description" content={profile.about} />
+          <meta name="og:image" content={`${profileImage}?s=1200`} />
         </Helmet>
         <div className="top-container primary-gradient" style={coverStyle}>
           <h1>{profile.name || account.name}</h1>
