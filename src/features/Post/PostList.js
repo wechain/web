@@ -29,7 +29,7 @@ class PostList extends Component {
       showAll: false,
     }
 
-    if (props.daysAgo === 0) {
+    if (props.daysAgo <= 0) {
       this.state['showAll'] = true;
     }
   }
@@ -49,7 +49,7 @@ class PostList extends Component {
     const { me, posts, dailyRanking, daysAgo } = this.props;
 
     let ranking = dailyRanking[daysAgo] || [];
-    if (isEmpty(ranking) && daysAgo !== 0) {
+    if (isEmpty(ranking) && daysAgo !== 0) { // Hide except today section
       return null;
     }
 
@@ -82,9 +82,6 @@ class PostList extends Component {
           <div className="sort-option">
             <span className="text-small">Sort by: </span>
             <Select size="small" defaultValue={currentSortOption} onChange={this.handleSortOption}>
-              {daysAgo === 0 &&
-                <Select.Option value="random">Random</Select.Option>
-              }
               <Select.Option value="hunt_score">Hunt Score</Select.Option>
               <Select.Option value="payout">Payout Value</Select.Option>
               <Select.Option value="created">New</Select.Option>

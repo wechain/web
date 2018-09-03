@@ -41,7 +41,11 @@ export class SubHeading extends PureComponent {
 
     return (
       <div className="heading-sub">
-        <b>{huntsCount}</b> products, <b>{formatAmount(dailyTotalReward)}</b> SBD hunter’s rewards were generated.<br/>
+        {daysAgo === -1 ?
+          <div><b>{huntsCount}</b> product{huntsCount === 1 ? ' has' : 's have'} been hunted in the last hour.</div>
+        :
+          <div><b>{huntsCount}</b> product{huntsCount === 1 ? '' : 's'}, <b>{formatAmount(dailyTotalReward)}</b> SBD hunter’s rewards were generated.</div>
+        }
         {daysAgo === 0 && this.state.timer }
       </div>
     );
