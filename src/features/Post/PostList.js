@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import isEmpty from 'lodash/isEmpty';
 import { Button, Select, Icon, Tooltip } from 'antd';
-import { selectPosts, selectDailyRanking } from './selectors';
+import { selectPosts, selectDailyRanking, selectDailyLoadingStatus } from './selectors';
 import { getPostsBegin } from './actions/getPosts';
 import { daysAgoToString } from 'utils/date';
 import PostItem from './components/PostItem';
@@ -46,7 +46,15 @@ class PostList extends Component {
   }
 
   render() {
-    const { me, posts, dailyRanking, daysAgo } = this.props;
+    const { me, posts, dailyRanking, dailyLoadingStatus, daysAgo } = this.props;
+
+    if (dailyLoadingStatus[daysAgo] === 'error') {
+      return (
+        <div className="heading left-padded">
+          Service is temporarily unavailable, Please try again later.
+        </div>
+      );
+    }
 
     let ranking = dailyRanking[daysAgo] || [];
     if (isEmpty(ranking) && daysAgo !== 0) { // Hide except today section
@@ -116,6 +124,7 @@ const mapStateToProps = () => createStructuredSelector({
   me: selectMe(),
   posts: selectPosts(),
   dailyRanking: selectDailyRanking(),
+  dailyLoadingStatus: selectDailyLoadingStatus(),
 });
 
 const mapDispatchToProps = dispatch => ({

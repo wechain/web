@@ -18,8 +18,8 @@ export function getPostsSuccess(daysAgo, posts) {
   return { type: GET_POSTS_SUCCESS, daysAgo, posts };
 }
 
-export function getPostsFailure(message) {
-  return { type: GET_POSTS_FAILURE, message };
+export function getPostsFailure(daysAgo, message) {
+  return { type: GET_POSTS_FAILURE, daysAgo, message };
 }
 
 /*--------- REDUCER ---------*/
@@ -27,7 +27,7 @@ export function getPostsReducer(state, action) {
   switch (action.type) {
     case GET_POSTS_BEGIN: {
       return update(state, {
-        isLoading: { $set: true },
+        dailyLoadingStatus: { [action.daysAgo]: { $set: 'loading' } },
       });
     }
     case GET_POSTS_SUCCESS: {
@@ -46,14 +46,12 @@ export function getPostsReducer(state, action) {
       return update(state, {
         posts: { $merge: newPosts },
         dailyRanking: { [daysAgo]: { $set: dailyRanking } },
-        isLoading: { $set: false },
-        error: { $set: false },
+        dailyLoadingStatus: { [daysAgo]: { $set: 'finished' } },
       });
     }
     case GET_POSTS_FAILURE: {
       return update(state, {
-        isLoading: { $set: false },
-        error: { $set: true },
+        dailyLoadingStatus: { [action.daysAgo]: { $set: 'error' } },
       });
     }
     default:
@@ -68,7 +66,7 @@ function* getPosts({ daysAgo }) {
 
     yield put(getPostsSuccess(daysAgo, posts));
   } catch(e) {
-    yield put(getPostsFailure(e.message));
+    yield put(getPostsFailure(daysAgo, e.message));
   }
 }
 

@@ -24,6 +24,11 @@ export const selectDailyRanking = () => createSelector(
   state => state.dailyRanking,
 );
 
+export const selectDailyLoadingStatus = () => createSelector(
+  selectPostDomain(),
+  state => state.dailyLoadingStatus,
+);
+
 export const selectAuthorPosts = () => createSelector(
   selectPostDomain(),
   state => state.authorPosts,
@@ -37,16 +42,6 @@ export const selectTopPosts = () => createSelector(
 export const selectIsPostLoading = () => createSelector(
   selectPostDomain(),
   state => state.isPostLoading,
-);
-
-export const selectIsLoading = () => createSelector(
-  selectPostDomain(),
-  state => state.isLoading,
-);
-
-export const selectError = () => createSelector(
-  selectPostDomain(),
-  state => state.error,
 );
 
 export const selectAuthorStatus = () => createSelector(
