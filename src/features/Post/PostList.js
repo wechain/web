@@ -79,24 +79,26 @@ class PostList extends Component {
             {daysAgoToString(daysAgo)}
           </h3>
           <SubHeading huntsCount={ranking.length} dailyTotalReward={dailyTotalReward} daysAgo={daysAgo}  />
-          <div className="sort-option">
-            <span className="text-small">Sort by: </span>
-            <Select size="small" defaultValue={currentSortOption} onChange={this.handleSortOption}>
-              <Select.Option value="hunt_score">Hunt Score</Select.Option>
-              <Select.Option value="payout">Payout Value</Select.Option>
-              <Select.Option value="created">New</Select.Option>
-              <Select.Option value="vote_count">Vote Count</Select.Option>
-              <Select.Option value="comment_count">Comment Count</Select.Option>
-              {isModerator(me) &&
-                <Select.Option value="unverified">Unverified</Select.Option>
+          {daysAgo !== -1 &&
+            <div className="sort-option">
+              <span className="text-small">Sort by: </span>
+              <Select size="small" defaultValue={currentSortOption} onChange={this.handleSortOption}>
+                <Select.Option value="hunt_score">Hunt Score</Select.Option>
+                <Select.Option value="payout">Payout Value</Select.Option>
+                <Select.Option value="created">New</Select.Option>
+                <Select.Option value="vote_count">Vote Count</Select.Option>
+                <Select.Option value="comment_count">Comment Count</Select.Option>
+                {isModerator(me) &&
+                  <Select.Option value="unverified">Unverified</Select.Option>
+                }
+              </Select>
+              {currentSortOption === 'hunt_score' &&
+                <Tooltip placement="left" title="Hunt score is calculated by upvoting counts that are weighted by Steem reputation in order to avoid spamming attempts.">
+                  <Icon type="question-circle-o" className="help-hunt-score" />
+                </Tooltip>
               }
-            </Select>
-            {currentSortOption === 'hunt_score' &&
-              <Tooltip placement="left" title="Hunt score is calculated by upvoting counts that are weighted by Steem reputation in order to avoid spamming attempts.">
-                <Icon type="question-circle-o" className="help-hunt-score" />
-              </Tooltip>
-            }
-          </div>
+            </div>
+          }
         </div>
         <div className="daily-posts">
           {rankingItems.slice(0,10)}
