@@ -117,7 +117,8 @@ class Right extends Component {
 
     let redirectPath = null;
     if (this.props.location.search) {
-      redirectPath = queryString.parse(this.props.location.search).state;
+      const parsedParams = queryString.parse(this.props.location.search);
+      redirectPath = parsedParams.state || (parsedParams.access_token ? '/' : null);
     }
 
     return (
