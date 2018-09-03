@@ -77,6 +77,7 @@ class Post extends Component {
       <div className="post-container" id="post-container">
         <Helmet>
           <title>{post.title} - Steemhunt</title>
+          <meta name="description" content={post.tagline} />
         </Helmet>
 
         { post && <PostView post={post} /> }

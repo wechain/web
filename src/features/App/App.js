@@ -23,6 +23,25 @@ class App extends Component {
       <div id="app-container" className="app-container">
         <Helmet>
           <title>Steemhunt - Dig Products, Earn STEEMs</title>
+          { /* Search Engine */ }
+          <meta name="description" content="Daily ranking of effortlessly cool products fueled by STEEM blockchain" />
+          <meta name="image" content={`${process.env.PUBLIC_URL}/og-image-1200.png`} />
+          { /* Schema.org for Google */ }
+          <meta itemprop="name" content="Steemhunt - Dig Products, Earn STEEMs" />
+          <meta itemprop="description" content="Daily ranking of effortlessly cool products fueled by STEEM blockchain" />
+          <meta itemprop="image" content={`${process.env.PUBLIC_URL}/og-image-1200.png`} />
+          { /* Twitter */ }
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:title" content="Steemhunt - Dig Products, Earn STEEMs" />
+          <meta name="twitter:description" content="Daily ranking of effortlessly cool products fueled by STEEM blockchain" />
+          <meta name="twitter:image:src" content={`${process.env.PUBLIC_URL}/og-image-1024.png`} />
+          { /* Open Graph general (Facebook, Pinterest & Google+) */ }
+          <meta name="og:title" content="Steemhunt - Dig Products, Earn STEEMs" />
+          <meta name="og:description" content="Daily ranking of effortlessly cool products fueled by STEEM blockchain" />
+          <meta name="og:image" content={`${process.env.PUBLIC_URL}/og-image-1200.png`} />
+          <meta name="og:url" content={process.env.PUBLIC_URL} />
+          <meta name="og:site_name" content="Steemhunt" />
+          <meta name="og:type" content="website" />
         </Helmet>
         <div className="split-container">
           <RoutesLeft />
