@@ -117,7 +117,7 @@ class Right extends Component {
     const params = new URLSearchParams(this.props.location.search);
 
     return (
-      <div className="panel-right">
+      <div className="panel-right" id="panel-right">
         {params.get('access_token') && params.get('username') && <Redirect to="/" />} {/* Authentication redirection */}
         <Header path={this.props.location.pathname}/>
         <Switch>

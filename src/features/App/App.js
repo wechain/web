@@ -7,11 +7,16 @@ import { Helmet } from 'react-helmet';
 import { selectAppProps } from './selectors';
 import { getAppConfigBegin } from './actions/getAppConfig';
 import { RoutesLeft, RoutesRight } from 'Routes';
-import AppModal from './AppModal';
+import Referral from './Referral';
 
 import 'custom.css';
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.params = new URLSearchParams(this.props.location.search);
+  }
 
   componentDidMount() {
     if (isEmpty(this.props.appProps)) {
@@ -29,7 +34,7 @@ class App extends Component {
           <RoutesLeft />
           <RoutesRight />
         </div>
-        <AppModal location={this.props.location} />
+        {this.params.get('ref') && <Referral params={this.params} pathname={this.props.location.pathname} />}
       </div>
     );
   }
