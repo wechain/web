@@ -514,7 +514,7 @@ class PostForm extends Component {
                 onPreview={this.handleImagePreview}
                 onChange={this.handleImageChange}
                 multiple={true}
-                accept="image/*"
+                accept="image/x-png,image/gif,image/jpeg"
               >
                 <p className="ant-upload-drag-icon">
                   <Icon type="inbox" />
