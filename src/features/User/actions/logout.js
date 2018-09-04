@@ -37,8 +37,8 @@ export function logoutReducer(state, action) {
 function* logout() {
   try {
     yield steemConnectAPI.revokeToken();
-    yield put(logoutSuccess());
     removeToken();
+    yield put(logoutSuccess());
   } catch(e) {
     yield put(logoutFailure(e.message));
   }
