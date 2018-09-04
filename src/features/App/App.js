@@ -7,13 +7,14 @@ import { Helmet } from 'react-helmet';
 import { selectAppProps } from './selectors';
 import { getAppConfigBegin } from './actions/getAppConfig';
 import { RoutesLeft, RoutesRight } from 'Routes';
+import { isPrerenderer } from 'utils/userAgent';
 
 import 'custom.css';
 
 class App extends Component {
 
   componentDidMount() {
-    if (isEmpty(this.props.appProps)) {
+    if (isEmpty(this.props.appProps) && !isPrerenderer()) {
       this.props.getAppConfig();
     }
   }

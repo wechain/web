@@ -22,6 +22,7 @@ import CommentReplyForm from 'features/Comment/CommentReplyForm';
 import { scrollTop } from 'utils/scroller';
 import NotFound from 'components/NotFound';
 import CircularProgress from 'components/CircularProgress';
+import { isPrerenderer } from 'utils/userAgent';
 
 class Post extends Component {
   static propTypes = {
@@ -40,7 +41,9 @@ class Post extends Component {
   componentDidMount() {
     const { match: { params : { author, permlink }} } = this.props;
     this.props.getPost(author, permlink);
-    this.props.getCommentsFromPost('steemhunt', author, permlink);
+    if (!isPrerenderer()) {
+      this.props.getCommentsFromPost('steemhunt', author, permlink);
+    }
 
     scrollTop();
   }
