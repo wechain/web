@@ -72,9 +72,9 @@ class RelatedTag extends Component {
           <meta name="twitter:description" content={`Related tags: ${relatedTagsString}`} />
           <meta name="twitter:image:src" content={mainImage} />
           { /* Open Graph general (Facebook, Pinterest & Google+) */ }
-          <meta name="og:title" content={`@${tag} - Steemhunt`} />
-          <meta name="og:description" content={`Related tags: ${relatedTagsString}`} />
-          <meta name="og:image" content={mainImage} />
+          <meta property="og:title" content={`@${tag} - Steemhunt`} />
+          <meta property="og:description" content={`Related tags: ${relatedTagsString}`} />
+          <meta property="og:image" content={mainImage} />
         </Helmet>
         <div className="top-container primary-gradient">
           <h1>#{tag}</h1>

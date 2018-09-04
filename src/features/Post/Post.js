@@ -93,9 +93,9 @@ class Post extends Component {
           <meta name="twitter:description" content={post.tagline} />
           <meta name="twitter:image:src" content={post.images[0]['link']} />
           { /* Open Graph general (Facebook, Pinterest & Google+) */ }
-          <meta name="og:title" content={`${post.title} - Steemhunt`} />
-          <meta name="og:description" content={post.tagline} />
-          <meta name="og:image" content={post.images[0]['link']} />
+          <meta property="og:title" content={`${post.title} - Steemhunt`} />
+          <meta property="og:description" content={post.tagline} />
+          <meta property="og:image" content={post.images[0]['link']} />
         </Helmet>
 
         { post && <PostView post={post} /> }

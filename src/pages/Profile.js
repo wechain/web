@@ -103,9 +103,9 @@ class Profile extends Component {
           <meta name="twitter:description" content={profile.about} />
           <meta name="twitter:image:src" content={`${profileImage}?s=1200`} />
           { /* Open Graph general (Facebook, Pinterest & Google+) */ }
-          <meta name="og:title" content={`@${account.name} - Steemhunt`} />
-          <meta name="og:description" content={profile.about} />
-          <meta name="og:image" content={`${profileImage}?s=1200`} />
+          <meta property="og:title" content={`@${account.name} - Steemhunt`} />
+          <meta property="og:description" content={profile.about} />
+          <meta property="og:image" content={`${profileImage}?s=1200`} />
         </Helmet>
         <div className="top-container primary-gradient" style={coverStyle}>
           <h1>{profile.name || account.name}</h1>
