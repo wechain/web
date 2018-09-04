@@ -6,7 +6,7 @@ export const toCustomISOString = function(date) {
 
 export const daysAgoToString = function(daysAgo) {
   if (daysAgo === -1) {
-    return 'New Hunts';
+    return 'Live';
   }
   if (daysAgo === 0) {
     return 'Today';
