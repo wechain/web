@@ -92,6 +92,9 @@ class PostList extends Component {
               <span className="text-small">Sort by: </span>
               <Select size="small" defaultValue={currentSortOption} onChange={this.handleSortOption}>
                 <Select.Option value="hunt_score">Hunt Score</Select.Option>
+                {daysAgo === 0 &&
+                  <Select.Option value="random">Random</Select.Option>
+                }
                 <Select.Option value="payout">Payout Value</Select.Option>
                 <Select.Option value="created">New</Select.Option>
                 <Select.Option value="vote_count">Vote Count</Select.Option>
