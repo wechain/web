@@ -27,7 +27,6 @@ class PostList extends Component {
 
     this.state = {
       showAll: false,
-      currentSortOption: getSortOption('daily-' + props.daysAgo),
     }
 
     if (props.daysAgo <= 0) {
@@ -48,9 +47,6 @@ class PostList extends Component {
 
   render() {
     const { me, posts, dailyRanking, dailyLoadingStatus, daysAgo } = this.props;
-    const { currentSortOption } = this.state;
-
-    console.log('rerender ---------------', this.state);
 
     if (dailyLoadingStatus[daysAgo] === 'error') {
       return (
@@ -81,6 +77,8 @@ class PostList extends Component {
     if (this.state.showAll) {
       buttonClass += ' hide';
     }
+
+    const currentSortOption = getSortOption('daily-' + daysAgo);
 
     return (
       <div className={`post-list day-ago-${daysAgo}`}>
