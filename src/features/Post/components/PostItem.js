@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
+import LazyLoad from 'react-lazyload';
 import { selectMe } from 'features/User/selectors';
 import { getPostPath, getCachedImage } from '../utils';
 import { isModerator } from 'features/User/utils';
@@ -25,7 +26,9 @@ class PostItem extends Component {
       <div className={`post${rank === 1 ? ' top-border' : ''}${post.is_active ? '' : ' faded'}`}>
         <div className="rank">{rank}</div>
         <Link to={getPostPath(post, pathPrefix)}>
-          <img src={post.images && getCachedImage(post.images[0].link, 240, 240)} alt={post.title} className="thumbnail"/>
+          <LazyLoad height={0} offset={500} once={true} scroll={false}>
+            <img src={post.images && getCachedImage(post.images[0].link, 240, 240)} alt={post.title} className="thumbnail"/>
+          </LazyLoad>
         </Link>
         <div className="summary">
           <div className="title">
