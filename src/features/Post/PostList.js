@@ -27,6 +27,7 @@ class PostList extends Component {
 
     this.state = {
       showAll: false,
+      currentSortOption: getSortOption('daily-' + props.daysAgo),
     }
 
     if (props.daysAgo <= 0) {
@@ -47,6 +48,9 @@ class PostList extends Component {
 
   render() {
     const { me, posts, dailyRanking, dailyLoadingStatus, daysAgo } = this.props;
+    const { currentSortOption } = this.state;
+
+    console.log('rerender ---------------', this.state);
 
     if (dailyLoadingStatus[daysAgo] === 'error') {
       return (
@@ -78,19 +82,27 @@ class PostList extends Component {
       buttonClass += ' hide';
     }
 
-    const currentSortOption = getSortOption('daily-' + daysAgo);
-
     return (
       <div className={`post-list day-ago-${daysAgo}`}>
         <div className="heading left-padded">
           <h3>
             {daysAgoToString(daysAgo)}
+            {daysAgo === 0 &&
+              <Button
+                type="primary"
+                shape="circle"
+                icon="retweet"
+                size="small"
+                className="left-margin"
+                ghost
+                onClick={() => this.handleSortOption('random')}/>
+            }
           </h3>
           <SubHeading huntsCount={ranking.length} dailyTotalReward={dailyTotalReward} daysAgo={daysAgo}  />
           {daysAgo !== -1 &&
             <div className="sort-option">
               <span className="text-small">Sort by: </span>
-              <Select size="small" defaultValue={currentSortOption} onChange={this.handleSortOption}>
+              <Select size="small" value={currentSortOption} onChange={this.handleSortOption}>
                 <Select.Option value="hunt_score">Hunt Score</Select.Option>
                 {daysAgo === 0 &&
                   <Select.Option value="random">Random</Select.Option>
