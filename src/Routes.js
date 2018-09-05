@@ -7,7 +7,6 @@ import queryString from 'query-string';
 import asyncComponent from 'asyncComponent';
 import { Icon } from 'antd';
 import isEmpty from 'lodash/isEmpty';
-import { forceCheck } from 'react-lazyload';
 import { getMeBegin, refreshMeBegin } from 'features/User/actions/getMe';
 import { selectMe } from 'features/User/selectors';
 import { selectSearchTerm } from 'features/Post/selectors';
@@ -110,14 +109,6 @@ class Right extends Component {
     clearInterval(this.refresher);
   }
 
-  handleScroll = (e) => {
-    // Check on every 300px difference - for better performence
-    if (!window.lastScrollTop || Math.abs(window.lastScrollTop - e.target.scrollTop) > 300) {
-      window.lastScrollTop = e.target.scrollTop;
-      forceCheck();
-    }
-  };
-
   render() {
     const List = isEmpty(this.props.searchTerm) ? HuntedList : Search;
     const AuthorList = isEmpty(this.props.searchTerm) ? HuntedListByAuthor : Search;
@@ -131,7 +122,7 @@ class Right extends Component {
     }
 
     return (
-      <div className="panel-right" onScroll={this.handleScroll}>
+      <div className="panel-right">
         {redirectPath && <Redirect to={redirectPath} /> /* Authentication redirection */ }
         <Header path={this.props.location.pathname}/>
         <Switch>
