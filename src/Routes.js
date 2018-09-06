@@ -124,7 +124,7 @@ class Right extends Component {
 
     return (
       <div className="panel-right" id="panel-right">
-        {params.get('access_token') && params.get('username') && <Redirect to="/" />} {/* Authentication redirection */}
+        {redirectPath && <Redirect to={redirectPath} /> /* Authentication redirection */ }
         <Header path={this.props.location.pathname}/>
         <Switch>
           <Route path="/" exact component={List} />

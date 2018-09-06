@@ -39,9 +39,13 @@ class ResteemButton extends PureComponent {
   render() {
     const { post } = this.props;
 
+    if (this.state.alreadyResteemed) {
+      return <Icon className="resteem-button" type="retweet" theme="outlined" style={{color: '#EEE'}} />;
+    }
+
     return (
       <Popconfirm title="Are you sure to resteem this post?" onConfirm={() => this.clickResteem(post)} okText="Yes" cancelText="No">
-          {this.state.alreadyResteemd ? null : (post.isResteeming ? <Icon className="resteem-button" type="loading" /> : <Icon className="resteem-button" type="retweet" theme="outlined" />)}
+          {post.isResteeming ? <Icon className="resteem-button" type="loading" /> : <Icon className="resteem-button" type="retweet" theme="outlined" />}
       </Popconfirm>
     );
   }
