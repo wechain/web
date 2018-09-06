@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 import api from 'utils/api';
+import { Icon } from 'antd';
 
 class Referral extends Component {
 
@@ -21,7 +23,7 @@ class Referral extends Component {
   }
 
   scrollDetector(e) {
-    if ((e.srcElement.scrollTop > 1000) && !this.state.reported) {
+    if ((e.srcElement.scrollTop > 300) && !this.state.reported) {
       this.postReferral()
     }
   }
@@ -38,7 +40,14 @@ class Referral extends Component {
 
   render() {
     return (
-      null
+      <div className="top-banner-bar">
+        <Link to="/about">
+          Welcome to Steemhunt <Icon type="right-circle-o" />
+        </Link>
+        <button onClick={() => this.props.setBannerState(false)}>
+          <Icon type="close-circle-o" theme="outlined" />
+        </button>
+      </div>
     )
   }
 }
