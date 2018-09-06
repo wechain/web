@@ -13,7 +13,7 @@ class Draft extends Component {
 
   render() {
     return (
-      <PostView post={this.props.post} />
+      <PostView post={this.props.post} draft />
     );
   }
 }

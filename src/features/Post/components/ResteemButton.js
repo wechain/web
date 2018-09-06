@@ -1,22 +1,51 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Icon, Popconfirm } from 'antd';
 import { resteemBegin } from '../actions/resteem';
+import steem from 'steem';
 
-function ResteemButton(props) {
-  const { post } = props;
+class ResteemButton extends PureComponent {
+  static propTypes = {
+    post: PropTypes.object.isRequired,
+    me: PropTypes.string.isRequired,
+  };
 
-  return (
-    <Popconfirm title="Are you sure to resteem this post?" onConfirm={() => props.resteem(post)} okText="Yes" cancelText="No">
-      {post.isResteeming ? <Icon className="resteem-button" type="loading" /> : <Icon className="resteem-button" type="retweet" theme="outlined" />}
-    </Popconfirm>
-  );
+  constructor(props) {
+    super(props);
+    this.state = {
+      alreadyResteemed: true
+    }
+  }
+
+  componentDidMount() {
+    this.getRebloogers()
+      .then((reblogged) => {
+        this.setState({ alreadyResteemed: reblogged })
+      })
+  }
+
+  async getRebloogers() {
+    const { author, permlink } = this.props.post;
+    const rebloggers = await steem.api.getRebloggedByAsync(author, permlink);
+    return rebloggers.includes(this.props.me)
+  }
+
+  clickResteem = async (post) => {
+    await this.props.resteem(post)
+    this.setState({ alreadyResteemed: true })
+  }
+
+  render() {
+    const { post } = this.props;
+
+    return (
+      <Popconfirm title="Are you sure to resteem this post?" onConfirm={() => this.clickResteem(post)} okText="Yes" cancelText="No">
+          {this.state.alreadyResteemd ? null : (post.isResteeming ? <Icon className="resteem-button" type="loading" /> : <Icon className="resteem-button" type="retweet" theme="outlined" />)}
+      </Popconfirm>
+    );
+  }
 }
-
-ResteemButton.propTypes = {
-  post: PropTypes.object.isRequired,
-};
 
 const mapDispatchToProps = dispatch => ({
   resteem: post => dispatch(resteemBegin(post)),

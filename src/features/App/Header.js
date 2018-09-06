@@ -135,6 +135,11 @@ class Header extends Component {
             </Link>
           </Menu.Item>
           <Menu.Item key="5">
+            <a href="https://discord.gg/mWXpgks" rel="noopener noreferrer" target="_blank">
+              <Icon type="message" /> CHAT ON DISCORD
+            </a>
+          </Menu.Item>
+          <Menu.Item key="6">
             <span onClick={this.props.logout}>
               <Icon type="poweroff" /> LOGOUT
             </span>
@@ -158,6 +163,11 @@ class Header extends Component {
             <Link to="/hall-of-fame" onClick={() => this.changeVisibility(false)}>
               <Icon type="trophy" /> HALL OF FAME
             </Link>
+          </Menu.Item>
+          <Menu.Item key="3">
+            <a href="https://discord.gg/mWXpgks" rel="noopener noreferrer" target="_blank">
+              <Icon type="message" /> CHAT ON DISCORD
+            </a>
           </Menu.Item>
         </Menu>
       );

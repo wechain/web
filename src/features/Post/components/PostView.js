@@ -296,7 +296,6 @@ class PostView extends Component {
 
           <div className="vote-container">
             <VoteButton post={post} type="post" layout="detail-page" />
-
             <div className="social-shares">
               <Tooltip title="Share on Facebook">
                 <a

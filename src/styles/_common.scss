@@ -179,7 +179,7 @@ hr {
     width: 50%;
     height: 100%;
     float: left;
-    overflow-x: hidden;
+    overflow-x: auto;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
@@ -245,7 +245,6 @@ hr {
   }
 
   .panel-right {
-    padding-top: $header_height;
     z-index: 0;
 
     @include responsive(tablet) {
@@ -404,6 +403,10 @@ hr {
     } // .timeline-container
   } // .bottom-container
 } // .diagonal-split-view
+
+.left-margin {
+  margin-left: 0.5rem;
+}
 
 .left-padded {
   padding-left: 80px;

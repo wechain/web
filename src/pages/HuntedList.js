@@ -5,18 +5,17 @@ import { connect } from 'react-redux';
 import { Spin } from 'antd';
 import PostList from 'features/Post/PostList';
 import InfiniteScroll from 'components/InfiniteScroll';
-import { selectIsLoading, selectError } from 'features/Post/selectors';
+import { selectDailyLoadingStatus } from 'features/Post/selectors';
 
 class HuntedList extends Component {
   static propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    error: PropTypes.bool.isRequired,
+    dailyLoadingStatus: PropTypes.object.isRequired,
   };
 
   constructor() {
     super();
     this.state = {
-      daysAgoArray: [0],
+      daysAgoArray: [-1],
     };
   }
 
@@ -28,16 +27,9 @@ class HuntedList extends Component {
   };
 
   render() {
-    const { isLoading, error } = this.props;
+    const { dailyLoadingStatus } = this.props;
     const { daysAgoArray } = this.state;
-
-    if (error) {
-      return (
-        <div className="heading left-padded right-padded">
-          Service is temporarily unavailable, Please try again later.
-        </div>
-      );
-    }
+    const maxPage = Math.max(...daysAgoArray);
 
     const items = daysAgoArray.map((daysAgo) =>
       <PostList key={daysAgo} daysAgo={daysAgo} />
@@ -46,8 +38,8 @@ class HuntedList extends Component {
     return (
       <InfiniteScroll
         loadMore={this.addMorePostList}
-        hasMore={true}
-        isLoading={isLoading}
+        hasMore={dailyLoadingStatus[maxPage] === 'finished'}
+        isLoading={dailyLoadingStatus[maxPage] === 'loading'}
         loader={<Spin className="center-loading" key={0} />}
         useWindow={false}
       >
@@ -58,8 +50,7 @@ class HuntedList extends Component {
 }
 
 const mapStateToProps = () => createStructuredSelector({
-  isLoading: selectIsLoading(),
-  error: selectError(),
+  dailyLoadingStatus: selectDailyLoadingStatus(),
 });
 
 export default connect(mapStateToProps, null)(HuntedList);

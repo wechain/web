@@ -23,6 +23,7 @@ import { scrollTop } from 'utils/scroller';
 import NotFound from 'components/NotFound';
 import CircularProgress from 'components/CircularProgress';
 import ResteemButton from './components/ResteemButton';
+import { isPrerenderer } from 'utils/userAgent';
 
 class Post extends Component {
   static propTypes = {
@@ -41,7 +42,9 @@ class Post extends Component {
   componentDidMount() {
     const { match: { params : { author, permlink }} } = this.props;
     this.props.getPost(author, permlink);
-    this.props.getCommentsFromPost('steemhunt', author, permlink);
+    if (!isPrerenderer()) {
+      this.props.getCommentsFromPost('steemhunt', author, permlink);
+    }
 
     scrollTop();
   }
@@ -78,6 +81,23 @@ class Post extends Component {
       <div className="post-container" id="post-container">
         <Helmet>
           <title>{post.title} - Steemhunt</title>
+
+          { /* Search Engine */ }
+          <meta name="description" content={post.tagline} />
+          <meta name="image" content={post.images[0]['link']} />
+          { /* Schema.org for Google */ }
+          <meta itemprop="name" content={`${post.title} - Steemhunt`} />
+          <meta itemprop="description" content={post.tagline} />
+          <meta itemprop="image" content={post.images[0]['link']} />
+          { /* Twitter */ }
+          <meta name="twitter:title" content={`${post.title} - Steemhunt`} />
+          <meta name="twitter:description" content={post.tagline} />
+          <meta name="twitter:image:src" content={post.images[0]['link']} />
+          { /* Open Graph general (Facebook, Pinterest & Google+) */ }
+          <meta property="og:title" content={`${post.title} - Steemhunt`} />
+          <meta property="og:description" content={post.tagline} />
+          <meta property="og:image" content={post.images[0]['link']} />
+          <meta property="og:url" content={`${process.env.PUBLIC_URL}/@${post.author}/${post.permlink}`} />
         </Helmet>
 
         { post && <PostView post={post} /> }
@@ -93,8 +113,8 @@ class Post extends Component {
             :
               <span>{post.children} comments</span>
             }
-            { me && me !== post.author &&
-              <ResteemButton post={post} />
+            { me && me !== post.author && !this.props.draft &&
+              <ResteemButton post={post} me={me} />
             }
           </h3>
 

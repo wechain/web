@@ -116,6 +116,12 @@ class Right extends Component {
     const TagRight =  isEmpty(this.props.searchTerm) ? TagList : Search;
     const params = new URLSearchParams(this.props.location.search);
 
+    let redirectPath = null;
+    if (this.props.location.search) {
+      const parsedParams = queryString.parse(this.props.location.search);
+      redirectPath = parsedParams.state || (parsedParams.access_token ? '/' : null);
+    }
+
     return (
       <div className="panel-right" id="panel-right">
         {params.get('access_token') && params.get('username') && <Redirect to="/" />} {/* Authentication redirection */}

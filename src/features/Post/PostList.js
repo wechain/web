@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import isEmpty from 'lodash/isEmpty';
 import { Button, Select, Icon, Tooltip } from 'antd';
-import { selectPosts, selectDailyRanking } from './selectors';
+import { selectPosts, selectDailyRanking, selectDailyLoadingStatus } from './selectors';
 import { getPostsBegin } from './actions/getPosts';
 import { daysAgoToString } from 'utils/date';
 import PostItem from './components/PostItem';
@@ -29,7 +29,7 @@ class PostList extends Component {
       showAll: false,
     }
 
-    if (props.daysAgo === 0) {
+    if (props.daysAgo <= 0) {
       this.state['showAll'] = true;
     }
   }
@@ -46,10 +46,18 @@ class PostList extends Component {
   }
 
   render() {
-    const { me, posts, dailyRanking, daysAgo } = this.props;
+    const { me, posts, dailyRanking, dailyLoadingStatus, daysAgo } = this.props;
+
+    if (dailyLoadingStatus[daysAgo] === 'error') {
+      return (
+        <div className="heading left-padded">
+          Service is temporarily unavailable, Please try again later.
+        </div>
+      );
+    }
 
     let ranking = dailyRanking[daysAgo] || [];
-    if (isEmpty(ranking) && daysAgo !== 0) {
+    if (isEmpty(ranking) && daysAgo !== 0) { // Hide except today section
       return null;
     }
 
@@ -77,29 +85,41 @@ class PostList extends Component {
         <div className="heading left-padded">
           <h3>
             {daysAgoToString(daysAgo)}
+            {daysAgo === 0 &&
+              <Button
+                type="primary"
+                shape="circle"
+                icon="retweet"
+                size="small"
+                className="left-margin"
+                ghost
+                onClick={() => this.handleSortOption('random')}/>
+            }
           </h3>
           <SubHeading huntsCount={ranking.length} dailyTotalReward={dailyTotalReward} daysAgo={daysAgo}  />
-          <div className="sort-option">
-            <span className="text-small">Sort by: </span>
-            <Select size="small" defaultValue={currentSortOption} onChange={this.handleSortOption}>
-              {daysAgo === 0 &&
-                <Select.Option value="random">Random</Select.Option>
+          {daysAgo !== -1 &&
+            <div className="sort-option">
+              <span className="text-small">Sort by: </span>
+              <Select size="small" value={currentSortOption} onChange={this.handleSortOption}>
+                <Select.Option value="hunt_score">Hunt Score</Select.Option>
+                {daysAgo === 0 &&
+                  <Select.Option value="random">Random</Select.Option>
+                }
+                <Select.Option value="payout">Payout Value</Select.Option>
+                <Select.Option value="created">New</Select.Option>
+                <Select.Option value="vote_count">Vote Count</Select.Option>
+                <Select.Option value="comment_count">Comment Count</Select.Option>
+                {isModerator(me) &&
+                  <Select.Option value="unverified">Unverified</Select.Option>
+                }
+              </Select>
+              {currentSortOption === 'hunt_score' &&
+                <Tooltip placement="left" title="Hunt score is calculated by upvoting counts that are weighted by Steem reputation in order to avoid spamming attempts.">
+                  <Icon type="question-circle-o" className="help-hunt-score" />
+                </Tooltip>
               }
-              <Select.Option value="hunt_score">Hunt Score</Select.Option>
-              <Select.Option value="payout">Payout Value</Select.Option>
-              <Select.Option value="created">New</Select.Option>
-              <Select.Option value="vote_count">Vote Count</Select.Option>
-              <Select.Option value="comment_count">Comment Count</Select.Option>
-              {isModerator(me) &&
-                <Select.Option value="unverified">Unverified</Select.Option>
-              }
-            </Select>
-            {currentSortOption === 'hunt_score' &&
-              <Tooltip placement="left" title="Hunt score is calculated by upvoting counts that are weighted by Steem reputation in order to avoid spamming attempts.">
-                <Icon type="question-circle-o" className="help-hunt-score" />
-              </Tooltip>
-            }
-          </div>
+            </div>
+          }
         </div>
         <div className="daily-posts">
           {rankingItems.slice(0,10)}
@@ -117,6 +137,7 @@ const mapStateToProps = () => createStructuredSelector({
   me: selectMe(),
   posts: selectPosts(),
   dailyRanking: selectDailyRanking(),
+  dailyLoadingStatus: selectDailyLoadingStatus(),
 });
 
 const mapDispatchToProps = dispatch => ({

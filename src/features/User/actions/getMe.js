@@ -94,6 +94,10 @@ export function* getMeManager() {
 }
 
 function* refreshMe() {
+  if (!getToken()) {
+    return;
+  }
+
   try {
     const me = yield steemConnectAPI.me();
     const appProps = yield select(selectAppProps());

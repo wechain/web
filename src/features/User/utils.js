@@ -23,7 +23,7 @@ export function format(user, appProps) {
 
 export function isModerator(username) {
   const moderators = [
-    'tabris', 'project7',
+    'tabris', 'project7', 'astrocket',
     'teamhumble', 'urbangladiator', 'dayleeo', 'fknmayhem', 'jayplayco', 'bitrocker2020', 'joannewong',
     'geekgirl', 'playitforward', 'monajam', 'pialejoana'
   ];
@@ -32,7 +32,7 @@ export function isModerator(username) {
 
 export function isInfluencer(username) {
   const influencer = [
-    'dontstopmenow', 'ogochukwu', 'theversatileguy', 'guyfawkes4-20', 'pialejoana', 'tobias-g',
+    'dontstopmenow', 'ogochukwu', 'theversatileguy', 'guyfawkes4-20', 'tobias-g', 'elleok',
     'themanualbot', 'redtravels', 'joythewanderer', 'ady-was-here', 'raulmz', 'chuuuckie', 'shaphir', 'mobi72',
     'fruitdaddy', 'jonsnow1983', 'karamyog', 'josephace135', 'elsiekjay', 'calprut'
   ];

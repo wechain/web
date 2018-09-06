@@ -142,6 +142,15 @@ class PostForm extends Component {
     }
   }
 
+  beforeUpload(file) {
+    if (file.size / 1024 / 1024 >= 5) {
+      notification['error']({ message: 'Image file size must be smaller than 5MB.' })
+      return false;
+    }
+
+    return true;
+  }
+
   saveAndUpdateDraft = (field, value) => {
     this.props.updateDraft(field, value);
 
@@ -514,12 +523,13 @@ class PostForm extends Component {
                 onPreview={this.handleImagePreview}
                 onChange={this.handleImageChange}
                 multiple={true}
-                accept="image/*"
+                accept="image/x-png,image/gif,image/jpeg"
+                beforeUpload={this.beforeUpload}
               >
                 <p className="ant-upload-drag-icon">
                   <Icon type="inbox" />
                 </p>
-                <p className="ant-upload-hint">Click or drag image(s) to this area to upload (10MB Max)</p>
+                <p className="ant-upload-hint">Click or drag image(s) to this area to upload (5MB Max)</p>
               </Upload.Dragger>
             )}
           </div>

@@ -5,6 +5,9 @@ export const toCustomISOString = function(date) {
 }
 
 export const daysAgoToString = function(daysAgo) {
+  if (daysAgo === -1) {
+    return 'Most Recent';
+  }
   if (daysAgo === 0) {
     return 'Today';
   }

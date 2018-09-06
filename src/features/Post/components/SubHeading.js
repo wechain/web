@@ -29,7 +29,7 @@ export class SubHeading extends PureComponent {
     const timeLeft = timeUntilMidnightSeoul(true)
 
     if (timeLeft === '00:00:00') {
-      this.setState({ timer: (<div>Today's ranking competition is finished. Please <a onClick={() => window.location.reload()}>refresh your page.</a></div>) });
+      this.setState({ timer: (<div>Today&apos;s ranking competition is finished. Please <a onClick={() => window.location.reload()}>refresh your page.</a></div>) });
       clearInterval(this.interval);
     } else {
       this.setState({ timer: (<div><b>{timeLeft}</b> left till midnight (KST)</div>) });
@@ -41,8 +41,11 @@ export class SubHeading extends PureComponent {
 
     return (
       <div className="heading-sub">
-        <b>{huntsCount}</b> products, <b>{formatAmount(dailyTotalReward)}</b> SBD hunter’s rewards were generated.<br/>
-        {daysAgo === 0 && this.state.timer }
+        {daysAgo === -1 ?
+          <div>{this.state.timer}</div>
+        :
+          <div><b>{huntsCount}</b> product{huntsCount === 1 ? '' : 's'}, <b>{formatAmount(dailyTotalReward)}</b> SBD hunter’s rewards were generated.</div>
+        }
       </div>
     );
   }
