@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import { getPostPath, getTagPath, isEditable, addReferral } from '../utils';
 import VoteButton from 'features/Vote/VoteButton';
-import ResteemButton from './ResteemButton';
 import Author from 'components/Author';
 import { selectMe } from 'features/User/selectors';
 import { getHtml } from 'components/Body';
@@ -297,10 +296,6 @@ class PostView extends Component {
 
           <div className="vote-container">
             <VoteButton post={post} type="post" layout="detail-page" />
-
-            { me && me !== post.author &&
-              <ResteemButton post={post} />
-            }
 
             <div className="social-shares">
               <Tooltip title="Share on Facebook">
