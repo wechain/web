@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Button, Carousel, Icon, Timeline, Tag, Tooltip, Modal, Input, Row, Col } from 'antd';
-import IconFacebook from 'react-icons/lib/fa/facebook-square';
-import IconTwitter from 'react-icons/lib/fa/twitter-square';
-import IconLinkedIn from 'react-icons/lib/fa/linkedin-square';
 import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import { getPostPath, getTagPath, isEditable, addReferral } from '../utils';
@@ -19,6 +16,7 @@ import { setModeratorBegin, moderatePostBegin } from 'features/Post/actions/mode
 import { replyBegin } from 'features/Comment/actions/reply';
 import { selectIsCommentPublishing, selectHasCommentSucceeded } from 'features/Comment/selectors';
 import { getCachedImage } from 'features/Post/utils';
+import ShareButton from './ShareButton';
 
 class PostView extends Component {
   static propTypes = {
@@ -296,43 +294,7 @@ class PostView extends Component {
 
           <div className="vote-container">
             <VoteButton post={post} type="post" layout="detail-page" />
-            <div className="social-shares">
-              <Tooltip title="Share on Facebook">
-                <a
-                  href={'https://www.facebook.com/sharer.php?u=' + shareUrl + 'type=1'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="share-icon"
-                >
-                  <IconFacebook />
-                </a>
-              </Tooltip>
-              <Tooltip title="Share on Twitter">
-                <a href={'https://twitter.com/intent/tweet?url=' + shareUrl + 'type=2' +
-                    '&text=' + encodeURI(post.title) +
-                    '&hashtags=steemhunt,steem'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="share-icon"
-                >
-                  <IconTwitter />
-                </a>
-              </Tooltip>
-              <Tooltip title="Share on LinkedIn">
-                <a
-                  href={'https://www.linkedin.com/shareArticle?url=' + shareUrl + 'type=3' +
-                    '&mini=true' +
-                    '&title=' + encodeURI(post.title) +
-                    '&summary=' + encodeURI(post.tagline) +
-                    '&source=Steemhunt'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="share-icon"
-                >
-                  <IconLinkedIn />
-                </a>
-              </Tooltip>
-            </div>
+            <ShareButton post={post} me={me} />
           </div>
 
           <div className="tags">
