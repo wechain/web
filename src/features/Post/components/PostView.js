@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { Button, Carousel, Icon, Timeline, Tag, Tooltip, Modal, Input, Row, Col } from 'antd';
+import { Button, Carousel, Icon, Timeline, Tag, Modal, Input, Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import { getPostPath, getTagPath, isEditable, addReferral } from '../utils';
@@ -209,8 +209,6 @@ class PostView extends Component {
         Unverify
       </Button>
     );
-
-    const shareUrl = window.location.href + (me ? `%3Fref=${me}%26` : '%3F');
 
     return (
       <div className="post-view diagonal-split-view">

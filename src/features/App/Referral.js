@@ -23,7 +23,7 @@ class Referral extends Component {
   }
 
   scrollDetector(e) {
-    if ((e.srcElement.scrollTop > 300) && !this.state.reported) {
+    if ((e.srcElement.scrollTop > 100) && !this.state.reported) {
       this.postReferral()
     }
   }

@@ -114,7 +114,6 @@ class Right extends Component {
     const AuthorList = isEmpty(this.props.searchTerm) ? HuntedListByAuthor : Search;
     const TopList = isEmpty(this.props.searchTerm) ? HallOfFame : Search;
     const TagRight =  isEmpty(this.props.searchTerm) ? TagList : Search;
-    const params = new URLSearchParams(this.props.location.search);
 
     let redirectPath = null;
     if (this.props.location.search) {
