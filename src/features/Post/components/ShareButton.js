@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Popover, Icon, message, Modal } from 'antd';
+import { Popover, Icon, message, Modal, Button } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 class ShareButton extends Component {
@@ -35,31 +35,31 @@ class ShareButton extends Component {
         >
           <i className="icon-facebook share-icon"></i>
         </a>
-        <div class="vertical-line"></div>
+        <div className="vertical-line"></div>
         <a
           className="share-button"
           href={'https://twitter.com/intent/tweet?url=' + shareUrl +
-          '&text=' + encodeURI(post.title) +
-          '&hashtags=steemhunt,steem'}
+            '&text=' + encodeURI(post.title) +
+            '&hashtags=steemhunt'}
           target="_blank"
           rel="noopener noreferrer"
         >
           <i className="icon-twitter share-icon"></i>
         </a>
-        <div class="vertical-line"></div>
+        <div className="vertical-line"></div>
         <a
           className="share-button"
           href={'https://pinterest.com/pin/create/button/?url=' + shareUrl +
-          '&media=' + post.images[0].link +
-          '&description=' + encodeURI(post.title + ' : ' + post.tagline)}
+            '&media=' + post.images[0].link +
+            '&description=' + encodeURI(post.title + ' : ' + post.tagline)}
           target="_blank"
           rel="noopener noreferrer"
         >
           <i className="icon-pinterest-p share-icon"></i>
         </a>
-        <div class="vertical-line"></div>
+        <div className="vertical-line"></div>
         <CopyToClipboard text={window.location.href + (me ? `?ref=${me}` : '')} onCopy={() => message.success('Successfully copied to your clipboard.')}>
-          <div class="share-button">
+          <div className="share-button">
             <i className="icon-link share-icon"></i>
           </div>
         </CopyToClipboard>
@@ -85,15 +85,13 @@ class ShareButton extends Component {
     return (
       <div className="share-container">
         <Popover content={content} trigger="hover" overlayClassName	="social-popup"  >
-          <a className="share-button">
-            <Icon type="share-alt" theme="outlined" /> SHARE
-          </a>
+          <Button icon="share-alt" className="share-button">SHARE</Button>
         </Popover>
-        <p className="share-comment">Get social share airdrop !
+        <div className="share-comment">Get social share airdrop!
           <a onClick={this.toggleModal}>
             &nbsp;<Icon type="question-circle-o" />
           </a>
-        </p>
+        </div>
         <Modal
           title="Share the hunt and get free HUNT tokens!"
           visible={this.state.modalVisible}

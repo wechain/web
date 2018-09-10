@@ -305,9 +305,13 @@ hr {
   color: $primary;
 
   &.full-page {
+    svg { // override ant.design
+      display: inline-block;
+    }
+
     margin: 0;
-    height: 100vh;
-    line-height: 100vh;
+    height: 70vh;
+    line-height: 70vh;
   }
 }
 

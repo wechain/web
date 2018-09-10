@@ -21,12 +21,11 @@
       height: 120px;
 
       i {
-        font-size: 1rem;
-        display: block;
         margin-bottom: 0.5rem;
         margin-top: -0.5rem;
       }
       span { /* override */
+        display: block;
         margin-left: 0;
       }
     }
