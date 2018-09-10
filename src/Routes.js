@@ -15,7 +15,6 @@ import Post from 'features/Post/Post';
 import PostForm from 'features/Post/PostForm';
 import Draft from 'features/Post/Draft';
 import NotFound from 'components/NotFound';
-import axios from 'axios'
 
 const Home = asyncComponent(() => import('pages/Home'));
 const Terms = asyncComponent(() => import('pages/Terms'));

@@ -292,7 +292,7 @@ class PostView extends Component {
 
           <div className="vote-container">
             <VoteButton post={post} type="post" layout="detail-page" />
-            <ShareButton post={post} me={me} />
+            {!this.props.draft && <ShareButton post={post} me={me} />}
           </div>
 
           <div className="tags">
