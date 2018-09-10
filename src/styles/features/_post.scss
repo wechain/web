@@ -681,6 +681,8 @@
       .share-container {
         .share-button {
           width: 120px;
+          border: 1px solid #979797;
+          display: inline-block;
           color: $text-grey;
           border-radius: 100px;
           margin-top: 20px;
@@ -712,12 +714,12 @@
   display: flex;
   .vertical-line {
     border-left: 1px solid #757575;
-    height: 25px;
+    height: 28px;
     margin: auto 0;
   }
   .share-button {
-    height: 40px;
-    width: 40px;
+    height: 44px;
+    width: 44px;
     i.share-icon {
       display: flex;
       align-items: center;
@@ -733,10 +735,10 @@
 .social-popup {
   .ant-popover-content {
     .ant-popover-arrow {
-      background-color: rgba(0, 0, 0, 0.75);
+      background-color: #262625;
     }
     .ant-popover-inner {
-      background-color: rgba(0, 0, 0, 0.75);
+      background-image: linear-gradient(to bottom,rgba(49,49,47,.99),#262625);
       .ant-popover-inner-content {
         padding: 0px;
       }

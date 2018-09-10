@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Tooltip, Popover, Button, Icon, message, Modal } from 'antd';
+import { Popover, Icon, message, Modal } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 class ShareButton extends Component {
@@ -85,9 +85,9 @@ class ShareButton extends Component {
     return (
       <div className="share-container">
         <Popover content={content} trigger="hover" overlayClassName	="social-popup"  >
-          <Button className="share-button">
+          <a className="share-button">
             <Icon type="share-alt" theme="outlined" /> SHARE
-          </Button>
+          </a>
         </Popover>
         <p className="share-comment">Get social share airdrop !
           <a onClick={this.toggleModal}>

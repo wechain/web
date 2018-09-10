@@ -32,7 +32,6 @@ class Referral extends Component {
     this.setState({ reported: true }, () => {
       api.post('/referral', {
         ref: this.props.params.get('ref'),
-        type: document.referrer,
         path: this.props.pathname
       }, false);
     })
@@ -44,9 +43,9 @@ class Referral extends Component {
         <Link to="/about">
           Welcome to Steemhunt <Icon type="right-circle-o" />
         </Link>
-        <button onClick={() => this.props.setBannerState(false)}>
-          <Icon type="close-circle-o" theme="outlined" />
-        </button>
+        <a onClick={() => this.props.setBannerState(false)}>
+          <Icon type="close-circle-o" />
+        </a>
       </div>
     )
   }
