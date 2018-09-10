@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Popconfirm } from 'antd';
+import { Icon, Popconfirm } from 'antd';
 import { resteemBegin } from '../actions/resteem';
 import steem from 'steem';
 
@@ -39,18 +39,13 @@ class ResteemButton extends PureComponent {
   render() {
     const { post } = this.props;
 
+    if (this.state.alreadyResteemed) {
+      return <Icon className="resteem-button" type="retweet" theme="outlined" style={{color: '#EEE'}} />;
+    }
+
     return (
       <Popconfirm title="Are you sure to resteem this post?" onConfirm={() => this.clickResteem(post)} okText="Yes" cancelText="No">
-        <Button
-          type="default"
-          disabled={this.state.alreadyResteemed}
-          size="small"
-          icon="retweet"
-          className="resteem-button"
-          loading={post.isResteeming}
-        >
-          Resteem
-          </Button>
+          {post.isResteeming ? <Icon className="resteem-button" type="loading" /> : <Icon className="resteem-button" type="retweet" theme="outlined" />}
       </Popconfirm>
     );
   }

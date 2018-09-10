@@ -14,7 +14,7 @@ import {
   selectCommentsIsLoading
 } from 'features/Comment/selectors';
 import { getLoginURL } from 'utils/token';
-import { selectIsConnected } from 'features/User/selectors';
+import { selectMe, selectIsConnected } from 'features/User/selectors';
 import { selectCurrentComments, selectCurrentPost, selectIsPostLoading } from './selectors';
 import { getPostBegin, setCurrentPostKey } from './actions/getPost';
 import PostView from './components/PostView';
@@ -22,6 +22,7 @@ import CommentReplyForm from 'features/Comment/CommentReplyForm';
 import { scrollTop } from 'utils/scroller';
 import NotFound from 'components/NotFound';
 import CircularProgress from 'components/CircularProgress';
+import ResteemButton from './components/ResteemButton';
 import { isPrerenderer } from 'utils/userAgent';
 
 class Post extends Component {
@@ -68,7 +69,7 @@ class Post extends Component {
   }
 
   render() {
-    const { post, currentComments, commentsData, commentsChild, commentsIsLoading, isConnected, isPostLoading } = this.props;
+    const { me, post, currentComments, commentsData, commentsChild, commentsIsLoading, isConnected, isPostLoading } = this.props;
 
     if (isPostLoading) {
       return <CircularProgress />;
@@ -111,6 +112,9 @@ class Post extends Component {
               <span><Icon type="loading" /> comments</span>
             :
               <span>{post.children} comments</span>
+            }
+            { me && me !== post.author && !this.props.draft &&
+              <ResteemButton post={post} me={me} />
             }
           </h3>
 
@@ -160,6 +164,7 @@ class Post extends Component {
 }
 
 const mapStateToProps = () => createStructuredSelector({
+  me: selectMe(),
   post: selectCurrentPost(),
   commentsData: selectCommentsData(),
   commentsChild: selectCommentsChild(),

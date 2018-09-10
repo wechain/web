@@ -7,17 +7,28 @@ import { Helmet } from 'react-helmet';
 import { selectAppProps } from './selectors';
 import { getAppConfigBegin } from './actions/getAppConfig';
 import { RoutesLeft, RoutesRight } from 'Routes';
+import Referral from './Referral';
 import { isPrerenderer } from 'utils/userAgent';
 
 import 'custom.css';
 
 class App extends Component {
 
+  constructor(props) {
+    super(props);
+    this.params = new URLSearchParams(this.props.location.search);
+    this.state = {
+      showBanner: this.params.get('ref') !== null
+    }
+  }
+
   componentDidMount() {
     if (isEmpty(this.props.appProps) && !isPrerenderer()) {
       this.props.getAppConfig();
     }
   }
+
+  setBannerState = async (showBanner) => await this.setState({ showBanner })
 
   render() {
     return (
@@ -44,7 +55,8 @@ class App extends Component {
           <meta property="og:site_name" content="Steemhunt" />
           <meta property="og:type" content="website" />
         </Helmet>
-        <div className="split-container">
+        {this.params.get('ref') && this.state.showBanner && <Referral params={this.params} pathname={this.props.location.pathname} setBannerState={this.setBannerState} />}
+        <div className={`split-container${this.params.get('ref') && this.state.showBanner ? ' with-banner' : ''}`}>
           <RoutesLeft />
           <RoutesRight />
         </div>

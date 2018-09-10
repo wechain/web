@@ -331,6 +331,10 @@
         margin: 0 0.5em;
         font-weight: 200;
       }
+
+      .resteem-button {
+        float: right;
+      }
     }
 
     .reply-form {
@@ -674,11 +678,24 @@
         padding-right: 1.5em;
       }
 
-      .social-shares {
-        margin-top: 0.5em;
-        a.share-icon {
-          margin: 2px;
-          color: $text-dark;
+      .share-container {
+        .share-button {
+          width: 120px;
+          border: 1px solid #979797;
+          display: inline-block;
+          color: $text-grey;
+          border-radius: 100px;
+          margin-top: 20px;
+          margin-bottom: 10px;
+          i {
+            margin-left: 0px;
+          }
+        }
+        .share-comment {
+          color: $text-grey;
+          i {
+            color: $text-grey;
+          }
         }
       }
     }
@@ -692,6 +709,42 @@
     }
   } // .bottom-container
 } // .post-view
+
+.social-shares {
+  display: flex;
+  .vertical-line {
+    border-left: 1px solid #757575;
+    height: 28px;
+    margin: auto 0;
+  }
+  .share-button {
+    height: 44px;
+    width: 44px;
+    i.share-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding-top: 3px;
+      font-size: 25px;
+      color: white;
+    }
+  }
+}
+
+.social-popup {
+  .ant-popover-content {
+    .ant-popover-arrow {
+      background-color: #262625;
+    }
+    .ant-popover-inner {
+      background-image: linear-gradient(to bottom,rgba(49,49,47,.99),#262625);
+      .ant-popover-inner-content {
+        padding: 0px;
+      }
+    }
+  }
+}
 
 .preview-modal {
   img {

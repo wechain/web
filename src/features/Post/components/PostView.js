@@ -2,15 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { Button, Carousel, Icon, Timeline, Tag, Tooltip, Modal, Input, Row, Col } from 'antd';
-import IconFacebook from 'react-icons/lib/fa/facebook-square';
-import IconTwitter from 'react-icons/lib/fa/twitter-square';
-import IconLinkedIn from 'react-icons/lib/fa/linkedin-square';
+import { Button, Carousel, Icon, Timeline, Tag, Modal, Input, Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import { getPostPath, getTagPath, isEditable, addReferral } from '../utils';
 import VoteButton from 'features/Vote/VoteButton';
-import ResteemButton from './ResteemButton';
 import Author from 'components/Author';
 import { selectMe } from 'features/User/selectors';
 import { getHtml } from 'components/Body';
@@ -20,6 +16,7 @@ import { setModeratorBegin, moderatePostBegin } from 'features/Post/actions/mode
 import { replyBegin } from 'features/Comment/actions/reply';
 import { selectIsCommentPublishing, selectHasCommentSucceeded } from 'features/Comment/selectors';
 import { getCachedImage } from 'features/Post/utils';
+import ShareButton from './ShareButton';
 
 class PostView extends Component {
   static propTypes = {
@@ -120,6 +117,7 @@ class PostView extends Component {
 
   render() {
     const { me, post } = this.props;
+
     const images = post.images.map((image, index) => {
       return (
         <div key={index} className="slide-container">
@@ -294,48 +292,7 @@ class PostView extends Component {
 
           <div className="vote-container">
             <VoteButton post={post} type="post" layout="detail-page" />
-
-            { me && me !== post.author && !this.props.draft &&
-              <ResteemButton post={post} me={me} />
-            }
-
-            <div className="social-shares">
-              <Tooltip title="Share on Facebook">
-                <a
-                  href={'https://www.facebook.com/sharer.php?u=' + encodeURI(window.location.href)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="share-icon"
-                >
-                  <IconFacebook />
-                </a>
-              </Tooltip>
-              <Tooltip title="Share on Twitter">
-                <a href={'https://twitter.com/intent/tweet?url=' + encodeURI(window.location.href) +
-                    '&text=' + encodeURI(post.title) +
-                    '&hashtags=steemhunt,steem'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="share-icon"
-                >
-                  <IconTwitter />
-                </a>
-              </Tooltip>
-              <Tooltip title="Share on LinkedIn">
-                <a
-                  href={'https://www.linkedin.com/shareArticle?mini=true' +
-                    '&url=' + encodeURI(window.location.href) +
-                    '&title=' + encodeURI(post.title) +
-                    '&summary=' + encodeURI(post.tagline) +
-                    '&source=Steemhunt'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="share-icon"
-                >
-                  <IconLinkedIn />
-                </a>
-              </Tooltip>
-            </div>
+            {!this.props.draft && <ShareButton post={post} me={me} />}
           </div>
 
           <div className="tags">
