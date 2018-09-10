@@ -30,9 +30,10 @@ class Referral extends Component {
 
   postReferral() {
     this.setState({ reported: true }, () => {
-      api.post('/referral', {
+      api.post('/referral.json', {
         ref: this.props.params.get('ref'),
-        path: this.props.pathname
+        path: this.props.pathname,
+        referrer: document.referrer
       }, false);
     })
   }
