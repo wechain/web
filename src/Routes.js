@@ -15,6 +15,7 @@ import Post from 'features/Post/Post';
 import PostForm from 'features/Post/PostForm';
 import Draft from 'features/Post/Draft';
 import NotFound from 'components/NotFound';
+import axios from 'axios'
 
 const Home = asyncComponent(() => import('pages/Home'));
 const Terms = asyncComponent(() => import('pages/Terms'));
@@ -30,12 +31,13 @@ const Search = asyncComponent(() => import('pages/Search'));
 const Airdrop = asyncComponent(() => import('pages/Airdrop'));
 const Wallet = asyncComponent(() => import('pages/Wallet'));
 
+
 const BackButton = withRouter(({ history }) => (
   <Icon
     type="left"
     className="back-button"
-    onClick={() => {
-      if (history.length === 2) {
+    onClick={async () => {
+      if (history.length <= 2) {
         history.replace('/')
       } else {
         history.go(-1)
