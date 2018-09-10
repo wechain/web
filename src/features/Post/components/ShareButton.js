@@ -70,10 +70,10 @@ class ShareButton extends Component {
       return (
         <div className="pop-content">
           <p>
-            90,000 tokens per day are distributed to people who share hunting posts to their social media channels including Facebook, Twitter, Pinterest, and Linkedin.
+            90,000 tokens per day are distributed to people who share hunting posts to their social media channels including Facebook, Twitter, Pinterest, etc.
           </p>
           <p>
-            HUNT tokens will be assigned based on the share of the total daily traffic generated from all the shared posts via the social channels. For example, if today’s shared social media posts have reached 10,000 people and your shared post has generated 100 visitors, your share will be 1%. In this case, you will get 900 HUNT tokens (90,000*1%).
+            HUNT tokens will be assigned based on the share of the total daily traffic generated from all the shared posts via the social channels. For example, if all of today’s shared social media posts have encouraged 10,000 people to visit the hunt posts, 9 HUNT tokens will be assigned per visitor (90,000 tokens / 10,000 visitors). If your shared post has generated 100 visitors that day, you will get 900 HUNT tokens (100*9 = 900).
           </p>
           <p>
             A maximum of 100 tokens per traffic (click) can be issued.
@@ -84,7 +84,7 @@ class ShareButton extends Component {
 
     return (
       <div className="share-container">
-        <Popover content={content} trigger="hover" overlayClassName	="social-popup"  >
+        <Popover content={content} trigger="click" overlayClassName="social-popup">
           <Button icon="share-alt" className="share-button">SHARE</Button>
         </Popover>
         <div className="share-comment">Get social share airdrop!
