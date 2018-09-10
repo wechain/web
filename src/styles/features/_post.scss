@@ -680,11 +680,19 @@
 
       .share-container {
         .share-button {
+          width: 120px;
+          color: $text-grey;
           border-radius: 100px;
           margin-top: 20px;
           margin-bottom: 10px;
           i {
             margin-left: 0px;
+          }
+        }
+        .share-comment {
+          color: $text-grey;
+          i {
+            color: $text-grey;
           }
         }
       }
@@ -701,10 +709,38 @@
 } // .post-view
 
 .social-shares {
+  display: flex;
+  .vertical-line {
+    border-left: 1px solid #757575;
+    height: 25px;
+    margin: auto 0;
+  }
+  .share-button {
+    height: 40px;
+    width: 40px;
+    i.share-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding-top: 3px;
+      font-size: 25px;
+      color: white;
+    }
+  }
+}
 
-  i.share-icon {
-    font-size: 25px;
-    color: $text-dark;
+.social-popup {
+  .ant-popover-content {
+    .ant-popover-arrow {
+      background-color: rgba(0, 0, 0, 0.75);
+    }
+    .ant-popover-inner {
+      background-color: rgba(0, 0, 0, 0.75);
+      .ant-popover-inner-content {
+        padding: 0px;
+      }
+    }
   }
 }
 
