@@ -40,6 +40,7 @@
     "secure-random": "^1.1.1",
     "speakingurl": "^14.0.1",
     "steem": "^0.6.7",
+    "url-search-params-polyfill": "^5.0.0",
     "xmldom": "^0.1.27"
   },
   "scripts": {
