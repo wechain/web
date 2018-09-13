@@ -18,8 +18,15 @@
     margin-left: 5px;
   }
   .dropbox {
-    height: 150px;
-    line-height: 1.5;
+
+    .ant-upload-list {
+      display: block;
+      float: none;
+    }
+
+    .error {
+      color: $red;
+    }
   }
   .ant-upload-list-item {
     margin-top: 8px;
@@ -593,6 +600,10 @@
         .anticon {
           font-size: 3.125rem;
           line-height: 270px;
+
+          svg {
+            display: inline-block;
+          }
         }
 
         .slide-container {

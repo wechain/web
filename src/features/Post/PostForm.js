@@ -38,6 +38,7 @@ class PostForm extends Component {
       previewImageVisible: false,
       previewImage: '',
       fileList: [],
+      uploadError: null,
       beneficiariesValid: true,
       shouldRecalculateBeneficiary: false,
       duplicatedUrl: null,
@@ -142,12 +143,18 @@ class PostForm extends Component {
     }
   }
 
-  beforeUpload(file) {
-    if (file.size / 1024 / 1024 >= 5) {
-      notification['error']({ message: 'Image file size must be smaller than 5MB.' })
+  beforeUpload = (file) => {
+    if (!file.type.match(/png|jpg|jpeg|gif/)) { // because `accept` doesn't work on some browsers
+      this.setState({ uploadError: 'You can only upload standard image files (png, gif, jpg).' });
       return false;
     }
 
+    if (file.size / 1024 / 1024 >= 5) {
+      this.setState({ uploadError: 'Image file size must be smaller than 5MB.' });
+      return false;
+    }
+
+    this.setState({ uploadError: null });
     return true;
   }
 
@@ -532,6 +539,9 @@ class PostForm extends Component {
                 <p className="ant-upload-hint">Click or drag image(s) to this area to upload (5MB Max)</p>
               </Upload.Dragger>
             )}
+            {this.state.uploadError &&
+              <div className="error">{this.state.uploadError}</div>
+            }
           </div>
           <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleImagePreviewCancel}>
             <img alt="Preview" style={{ width: '100%' }} src={this.state.previewImage} />
