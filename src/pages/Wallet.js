@@ -5,20 +5,17 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import isEmpty from 'lodash/isEmpty';
 import { keccak256 } from 'js-sha3';
-import { List, Avatar, Button, Tooltip, Modal, Icon, Input, InputNumber, Tabs, Progress } from 'antd';
+import { List, Avatar, Button, Tooltip, Modal, Icon, Input, InputNumber, Tabs } from 'antd';
 import { formatNumber } from "utils/helpers/steemitHelpers";
 import {
   selectBalance,
-  selectSPClaim,
   selectEthAddress,
   selectTransactions,
   selectWithdrawals,
   selectIsLoading,
-  selectIsClaiming,
   selectIsUpdating,
 } from 'features/Wallet/selectors';
 import { getTransactionsBegin } from 'features/Wallet/actions/getTransactions';
-import { claimTokensBegin } from 'features/Wallet/actions/claimTokens';
 import { withdrawBegin } from 'features/Wallet/actions/withdraw';
 import { setEthAddressBegin } from 'features/Wallet/actions/setEthAddress';
 import CircularProgress from 'components/CircularProgress';
@@ -30,23 +27,16 @@ class Wallet extends Component {
   static propTypes = {
     me: PropTypes.string.isRequired,
     balance: PropTypes.string.isRequired,
-    spClaim: PropTypes.shape({
-      sp_to_claim: PropTypes.number.isRequired,
-      total_claimed: PropTypes.number.isRequired,
-      total_claimed_count: PropTypes.number.isRequired,
-    }).isRequired,
     withdrawals: PropTypes.array.isRequired,
     transactions: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     getTransactions: PropTypes.func.isRequired,
-    claimTokens: PropTypes.func.isRequired,
     withdraw: PropTypes.func.isRequired,
     ethAddress: PropTypes.string,
     isUpdating: PropTypes.bool.isRequired,
   };
 
   state = {
-    modalVisible: false,
     withdrawStepVisible: false,
     ethAddress: null,
     ethModalVisible: false,
@@ -90,8 +80,6 @@ class Wallet extends Component {
     return true;
   }
 
-  showModal = () => this.setState({ modalVisible: true });
-  handleCancel = (e) => this.setState({ modalVisible: false });
   handleEthAddressChanged = (e) => this.setState({ ethAddress: e.target.value });
   handleWithdrawalAmountChanged = (amount) => this.setState({ withdrawalAmount: amount });
   handleWithdraw = () => {
@@ -111,18 +99,11 @@ class Wallet extends Component {
   }
 
   render() {
-    const { me, balance, isLoading, transactions, withdrawals, spClaim, ethAddress, isClaiming, isUpdating } = this.props;
+    const { me, balance, isLoading, transactions, withdrawals, ethAddress, isUpdating } = this.props;
 
     if (isLoading || isEmpty(me)) {
       return <CircularProgress />;
     }
-
-    const spClaimStats = (
-      <div>
-        <Progress percent={Math.floor(100 * spClaim.total_claimed / 100000000)} />
-        <p><span className="pink">{formatNumber(spClaim.total_claimed)} HUNT</span> tokens have been claimed so far by {formatNumber(spClaim.total_claimed_count, '0,0')} users.</p>
-      </div>
-    );
 
     return (
       <div className="wallet">
@@ -136,50 +117,6 @@ class Wallet extends Component {
             <div className="sans balance">{formatNumber(balance)} HUNT</div>
           </div>
           <div className="right">
-            <Button
-              type="primary"
-              onClick={this.showModal}
-              className="submit-button"
-              ghost
-            >
-              SP CLAIM
-            </Button>
-
-            {spClaim.sp_to_claim > 0 ?
-              <Modal
-                title="Airdrop for SP Holders"
-                visible={this.state.modalVisible}
-                onCancel={this.handleCancel}
-                footer={[
-                  <Button key="back" onClick={this.handleCancel}>Cancel</Button>,
-                  <Button key="submit" type="primary" loading={isClaiming} onClick={this.props.claimTokens}>
-                    Claim HUNT Tokens
-                  </Button>,
-                ]}
-              >
-                <div>
-                  {spClaimStats}
-                  You have <span className="pink">{formatNumber(spClaim.sp_to_claim)} HUNT</span> tokens to claim
-                  <div className="text-small">1:1 ratio of your Steem Power (based on STEEM per VEST: 0.000495)</div>
-                </div>
-                <div className="top-margin">Do you want to claim your HUNT tokens?</div>
-              </Modal>
-            :
-              <Modal
-                title="Airdrop for SP Holders"
-                visible={this.state.modalVisible}
-                onCancel={this.handleCancel}
-                footer={[
-                  <Button key="ok" onClick={this.handleCancel} type="primary">OK</Button>
-                ]}
-              >
-                <div>
-                  {spClaimStats}
-                  <Icon type="check-circle" className="pink"/>&nbsp;
-                  You have successfully claimed your tokens.
-                </div>
-              </Modal>
-            }
             <Tooltip title="ERC-20 token withdraw feature is currently under development. We will announce it once we're ready.">
               <Button
                 type="primary"
@@ -376,15 +313,12 @@ const mapStateToProps = (state, props) => createStructuredSelector({
   transactions: selectTransactions(),
   withdrawals: selectWithdrawals(),
   isLoading: selectIsLoading(),
-  spClaim: selectSPClaim(),
-  isClaiming: selectIsClaiming(),
   ethAddress: selectEthAddress(),
   isUpdating: selectIsUpdating(),
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
   getTransactions: () => dispatch(getTransactionsBegin()),
-  claimTokens: () => dispatch(claimTokensBegin()),
   setEthAddress: (address) => dispatch(setEthAddressBegin(address)),
   withdraw: (amount) => dispatch(withdrawBegin(amount)),
 });

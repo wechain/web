@@ -29,14 +29,12 @@ export function getTransactionsReducer(state, action) {
       });
     case GET_TRANSACTION_SUCCESS:
       const { result } = action;
-      result.sp_claim.total_claimed = parseFloat(result.sp_claim.total_claimed);
 
       return update(state, {
         balance: { $set: result.balance },
         ethAddress: { $set: result.eth_address },
         transactions: { $set: result.transactions },
         withdrawals: { $set: result.withdrawals },
-        spClaim: { $set: result.sp_claim },
         isLoading: { $set: false },
       });
     case GET_TRANSACTION_FAILURE:
