@@ -86,7 +86,7 @@ class PostList extends Component {
         <div className="heading left-padded">
           <h3>
             <span className="days-ago-text">{daysAgoToString(daysAgo)}</span>
-            {daysAgo === 0 && <ShuffleButton handleSortOption={this.handleSortOption} />}
+            {daysAgo === 0 && <ShuffleButton handleSortOption={this.handleSortOption} me={me}/>}
           </h3>
           <SubHeading huntsCount={ranking.length} dailyTotalReward={dailyTotalReward} daysAgo={daysAgo}  />
           {daysAgo !== -1 &&

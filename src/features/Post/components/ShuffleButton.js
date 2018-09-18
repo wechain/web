@@ -1,8 +1,14 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { Icon } from 'antd';
 import api from 'utils/api';
 
 class ShuffleButton extends PureComponent {
+  static propTypes = {
+    handleSortOption: PropTypes.func.isRequired,
+    me: PropTypes.string.isRequired,
+  }
+
   constructor(props) {
     super(props);
 
@@ -33,7 +39,7 @@ class ShuffleButton extends PureComponent {
       $button.style.top = '0';
     }, 150);
 
-    if (this.state.claimed) {
+    if (this.state.claimed || !this.props.me) {
       return this.props.handleSortOption('random');
     }
 
