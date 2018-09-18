@@ -16,13 +16,17 @@ function checkError(json) {
   return json
 }
 
+function defaultCallback(res) {
+  return res;
+}
+
 function getQueryString(params) {
   return Object.keys(params)
     .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
     .join('&');
 }
 
-function request(method, path, params, shouldAuthenticate) {
+function request(method, path, params, shouldAuthenticate, callback = defaultCallback) {
   var qs = '';
   var body;
   var headers = (params && params.headers) || {
@@ -42,14 +46,15 @@ function request(method, path, params, shouldAuthenticate) {
 
   return fetch(url, { method, headers, body })
     .then(parseJSON)
-    .then(checkError);
+    .then(checkError)
+    .then(callback);
 }
 
 export default {
-  get: (path, params, shouldAuthenticate = false) => request('GET', path, params, shouldAuthenticate),
-  post: (path, params, shouldAuthenticate = false) => request('POST', path, params, shouldAuthenticate),
-  put: (path, params, shouldAuthenticate = false) => request('PUT', path, params, shouldAuthenticate),
-  delete: (path, params, shouldAuthenticate = false) => request('DELETE', path, params, shouldAuthenticate),
+  get: (path, params, shouldAuthenticate = false, callback = defaultCallback) => request('GET', path, params, shouldAuthenticate, callback),
+  post: (path, params, shouldAuthenticate = false, callback = defaultCallback) => request('POST', path, params, shouldAuthenticate, callback),
+  put: (path, params, shouldAuthenticate = false, callback = defaultCallback) => request('PUT', path, params, shouldAuthenticate, callback),
+  delete: (path, params, shouldAuthenticate = false, callback = defaultCallback) => request('DELETE', path, params, shouldAuthenticate, callback),
   setModerator: (post) => request('PATCH', `/posts/set_moderator/@${post.author}/${post.permlink}.json`, null , true),
   moderatePost: (post, is_active, is_verified) => request('PATCH', `/posts/moderate/@${post.author}/${post.permlink}.json`, {
     post: {
