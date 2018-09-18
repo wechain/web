@@ -27,7 +27,7 @@ export default class InfiniteScroll extends Component {
     initialLoad: true,
     pageStart: 0,
     ref: null,
-    threshold: 250,
+    threshold: 800,
     useWindow: true,
     isReverse: false,
     useCapture: false,
