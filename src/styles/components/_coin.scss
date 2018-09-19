@@ -15,6 +15,7 @@ $size: 26px;
   &.play {
     top: -50px;
     opacity: 1;
+    z-index: 1000;
   }
 
   .text {
@@ -226,6 +227,7 @@ $box-shadow2: ();
   width: 5px;
   height: 5px;
   border-radius: 50%;
+  z-index: 1010;
   box-shadow: $box-shadow2;
   @include animation((1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards));
 }

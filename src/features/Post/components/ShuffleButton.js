@@ -118,7 +118,7 @@ class ShuffleButton extends PureComponent {
             </div>
           </div>
           {amount === 0 ?
-            <div className="text">Already Claimed</div>
+            <div className="text">Already claimed</div>
           : (amount === 1000 ?
             <div className="text">Jackpot! + {amount} HUNT</div>
           :
