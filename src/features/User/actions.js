@@ -17,6 +17,7 @@ export const initialState = {
   accounts: {},
   followers: {},
   followings: {},
+  isLoading: false,
 };
 
 export const reducer = (state = initialState, action) => combine(

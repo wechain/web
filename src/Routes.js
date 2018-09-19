@@ -8,7 +8,7 @@ import asyncComponent from 'asyncComponent';
 import { Icon } from 'antd';
 import isEmpty from 'lodash/isEmpty';
 import { getMeBegin, refreshMeBegin } from 'features/User/actions/getMe';
-import { selectMe } from 'features/User/selectors';
+import { selectMe, selectIsLoading } from 'features/User/selectors';
 import { selectSearchTerm } from 'features/Post/selectors';
 import Header from 'features/App/Header';
 import Post from 'features/Post/Post';
@@ -91,6 +91,7 @@ export class RoutesLeft extends Component {
 class Right extends Component {
   static propTypes = {
     me: PropTypes.string.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     searchTerm: PropTypes.string,
     getMe: PropTypes.func.isRequired,
     refreshMe: PropTypes.func.isRequired,
@@ -123,6 +124,8 @@ class Right extends Component {
       redirectPath = parsedParams.state || (parsedParams.access_token ? '/' : null);
     }
 
+    const { me, isLoading } = this.props;
+
     return (
       <div className="panel-right" id="panel-right">
         {redirectPath && <Redirect to={redirectPath} /> /* Authentication redirection */ }
@@ -137,7 +140,7 @@ class Right extends Component {
           <Route path="/author/@:author" component={AuthorList} />
           <Route path="/tag/:tag" component={TagRight} />
           <Route path="/wallet" exact component={Wallet} />
-          <Route path="/airdrop" exact component={Wallet} />
+          <Route path="/airdrop" exact component={me || isLoading ? Wallet : List} />
           <Route path='*' component={List} />
         </Switch>
 
@@ -148,6 +151,7 @@ class Right extends Component {
 
 const mapStateToProps = (state, ownProps) => createStructuredSelector({
   me: selectMe(),
+  isLoading: selectIsLoading(),
   searchTerm: selectSearchTerm(),
 });
 
