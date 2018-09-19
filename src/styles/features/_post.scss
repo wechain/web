@@ -58,6 +58,47 @@
       padding-right: 20px;
     }
 
+    h3 {
+      display: block;
+      height: 2.1rem;
+
+      .days-ago-text {
+        display: block;
+        float: left;
+      }
+
+      .shuffle-container {
+        display: block;
+        float: left;
+        position: relative;
+        margin-top: 3px;
+        margin-left: 0.7rem;
+
+        .shuffle-button {
+          position: absolute;
+          top: 0;
+          left: 0;
+          background-color: #fff;
+          display: block;
+          border: 1px solid $primary;
+          width: 26px;
+          height: 26px;
+          border-radius: 50%;
+          font-size: 12px;
+          text-align: center;
+          line-height: 24px;
+          cursor: pointer;
+          transition: top .15s;
+          z-index: 10;
+
+          &:hover, &:active {
+            color: #ff9c99;
+            border-color: #ff9c99;
+          }
+        }
+      }
+    }
+
     .radio-option {
       text-align: right;
       position: absolute;
@@ -83,7 +124,7 @@
       text-align: right;
       position: absolute;
       right: 80px;
-      top: 0;
+      top: 2px;
 
       @include responsive(ipadpro) {
         right: 40px;

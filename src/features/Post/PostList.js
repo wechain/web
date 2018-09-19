@@ -8,6 +8,7 @@ import { selectPosts, selectDailyRanking, selectDailyLoadingStatus } from './sel
 import { getPostsBegin } from './actions/getPosts';
 import { daysAgoToString } from 'utils/date';
 import PostItem from './components/PostItem';
+import ShuffleButton from './components/ShuffleButton';
 import { getSortOption, setSortOption } from 'utils/sortOptions';
 import { isModerator } from 'features/User/utils';
 import { selectMe } from 'features/User/selectors';
@@ -84,17 +85,8 @@ class PostList extends Component {
       <div className={`post-list day-ago-${daysAgo}`}>
         <div className="heading left-padded">
           <h3>
-            {daysAgoToString(daysAgo)}
-            {daysAgo === 0 &&
-              <Button
-                type="primary"
-                shape="circle"
-                icon="retweet"
-                size="small"
-                className="left-margin"
-                ghost
-                onClick={() => this.handleSortOption('random')}/>
-            }
+            <span className="days-ago-text">{daysAgoToString(daysAgo)}</span>
+            {daysAgo === 0 && <ShuffleButton handleSortOption={this.handleSortOption} me={me}/>}
           </h3>
           <SubHeading huntsCount={ranking.length} dailyTotalReward={dailyTotalReward} daysAgo={daysAgo}  />
           {daysAgo !== -1 &&
