@@ -13,7 +13,7 @@ import {
   selectCommentsData,
   selectCommentsIsLoading
 } from 'features/Comment/selectors';
-import { getCachedImage } from 'features/Post/utils';
+import { getCachedImageHack } from 'features/Post/utils';
 import { getLoginURL } from 'utils/token';
 import { selectMe, selectIsConnected } from 'features/User/selectors';
 import { selectCurrentComments, selectCurrentPost, selectIsPostLoading } from './selectors';
@@ -85,19 +85,19 @@ class Post extends Component {
 
           { /* Search Engine */ }
           <meta name="description" content={post.tagline} />
-          <meta name="image" content={getCachedImage(post.images[0]['link'], 1200, 630)} />
+          <meta name="image" content={getCachedImageHack(post.images[0]['link'], 1200, 630)} />
           { /* Schema.org for Google */ }
           <meta itemprop="name" content={`${post.title} - Steemhunt`} />
           <meta itemprop="description" content={post.tagline} />
-          <meta itemprop="image" content={getCachedImage(post.images[0]['link'], 1200, 630)} />
+          <meta itemprop="image" content={getCachedImageHack(post.images[0]['link'], 1200, 630)} />
           { /* Twitter */ }
           <meta name="twitter:title" content={`${post.title} - Steemhunt`} />
           <meta name="twitter:description" content={post.tagline} />
-          <meta name="twitter:image:src" content={getCachedImage(post.images[0]['link'], 1200, 630)} />
+          <meta name="twitter:image:src" content={getCachedImageHack(post.images[0]['link'], 1200, 630)} />
           { /* Open Graph general (Facebook, Pinterest & Google+) */ }
           <meta property="og:title" content={`${post.title} - Steemhunt`} />
           <meta property="og:description" content={post.tagline} />
-          <meta property="og:image" content={getCachedImage(post.images[0]['link'], 1200, 630)} />
+          <meta property="og:image" content={getCachedImageHack(post.images[0]['link'], 1200, 630)} />
           <meta property="og:url" content={`${process.env.PUBLIC_URL}/@${post.author}/${post.permlink}`} />
         </Helmet>
 

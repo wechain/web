@@ -77,6 +77,15 @@ export const getCachedImage = function(url, width = 0, height = 0) {
   return `https://steemitimages.com/${width}x${height}/${url}`;
 }
 
+// HACK: to avoid image server blocks on FB
+export const getCachedImageHack = function(url, width = 0, height = 0) {
+  if (url.includes('https://huntimages.s3.us-west-2.amazonaws.com/production/steemhunt/')) {
+    return getCachedImage(url.replace('https://huntimages.s3.us-west-2.amazonaws.com/production/steemhunt/', 'https://s3-us-west-2.amazonaws.com/huntimages/production/steemhunt/'), width, height);
+  }
+
+  return getCachedImage(url, width, height);
+}
+
 export const stripCachedURL = function(url) {
   return url.replace(/https:\/\/steemitimages\.com\/\d+x\d+\//, '')
 }
