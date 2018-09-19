@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'antd';
 import api from 'utils/api';
+import coinSound from 'assets/sounds/coin.mp3';
+import jackpotSound from 'assets/sounds/jackpot.mp3';
 
 class ShuffleButton extends PureComponent {
   static propTypes = {
@@ -14,7 +16,8 @@ class ShuffleButton extends PureComponent {
 
     this.state = {
       amount: false,
-      claimed: false
+      claimed: false,
+      fireworks: false,
     }
   }
 
@@ -43,8 +46,7 @@ class ShuffleButton extends PureComponent {
       return this.props.handleSortOption('random');
     }
 
-    const $sound = document.getElementById("coin-sound");
-    $sound.play();
+    document.getElementById("coin-sound").play();
 
     const $coin = document.getElementById('coin');
     $coin.classList.add('play');
@@ -58,9 +60,20 @@ class ShuffleButton extends PureComponent {
         this.setState({ amount: res.amount, claimed: true });
         $coin.classList.remove('play');
 
-        setTimeout(function() {
-          $coinContainer.classList.remove('play');
-        }, 3000);
+        // Jackpot fireworks
+        if (res.amount === 1000) {
+          document.getElementById("jackpot-sound").play();
+
+          this.setState({ fireworks: true });
+          setTimeout(() => {
+            this.setState({ fireworks: false });
+            $coinContainer.classList.remove('play');
+          }, 5000);
+        } else {
+          setTimeout(function() {
+            $coinContainer.classList.remove('play');
+          }, 3000);
+        }
       });
 
       this.props.handleSortOption('random');
@@ -68,13 +81,19 @@ class ShuffleButton extends PureComponent {
   };
 
   render() {
-    const { amount } = this.state;
+    const { amount, fireworks } = this.state;
 
     return (
       <div className="shuffle-container">
+        {fireworks &&
+          <div className="pyro"><div className="before"></div><div className="after"></div></div>
+        }
+        <audio id="jackpot-sound" className="hidden">
+          <source src={jackpotSound} type="audio/mpeg" />
+        </audio>
         <div className="coin-container" id="coin-container">
           <audio id="coin-sound" className="hidden">
-            <source src="http://adobewordpress.com/tasarim/include/gold-sound.mp3" type="audio/mpeg" />
+            <source src={coinSound} type="audio/mpeg" />
           </audio>
           <div className="coin" id="coin">
             <div className="front"></div>
