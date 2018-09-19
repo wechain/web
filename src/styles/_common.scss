@@ -49,10 +49,18 @@ hr {
 }
 
 .mobile-hidden {
-  @include responsive(mobile) { // max-width: 1023
+  @include responsive(tablet) { // max-width: 1023
     display: none !important;
   }
 }
+
+.mobile-only {
+  display: none;
+  @include responsive(tablet) {
+    display: block;
+  }
+}
+
 
 .one-column-hidden {
   @include responsive(tablet) { // max-width: 1023

@@ -104,7 +104,7 @@ class Header extends Component {
               <Icon type="api" /> ABOUT HUNT PLATFORM
             </a>
           </Menu.Item>
-          <Menu.Item key="1-5">
+          <Menu.Item key="1-5" className="mobile-only">
             <Link to="/airdrop" onClick={() => this.changeVisibility(false)}>
               <Icon type="gift" /> ABOUT AIRDROPS
             </Link>
