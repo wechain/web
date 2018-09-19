@@ -1,35 +1,55 @@
 .airdrops {
-  padding: 80px;
-  color: $light_grey;
+  padding: 140px 160px 50px 160px;
+  color: #fff;
   text-align: left;
   background-color: #151515;
-  @include responsive(mobile) {
-    padding: 65px 20px;
+
+  @include responsive(ipadpro) {
+    padding: 70px 80px 35px 80px;
   }
+
+  @include responsive(mobile) {
+    padding: 80px 40px 45px 40px;
+  }
+
   .page-block {
-    margin-bottom: 50px;
+    margin-bottom: 90px;
+
+    @include responsive(ipadpro) {
+      margin-bottom: 45px;
+    }
+
     h1 {
-      width: 90%;
       margin-left: auto;
       margin-right: auto;
-      font-size: 1.7rem;
-      line-height: 2.2rem;
+      font-size: 2.8rem;
+      line-height: 1.3em;
       color: $primary;
       text-align: left;
-      letter-spacing: -1px;
       margin-bottom: 1.5rem;
+
+      @include responsive(ipadpro) {
+        font-size: 2rem;
+      }
+
+      @include responsive(mobile) {
+        font-size: 1.7rem;
+      }
     }
 
     h2 {
-      width: 90%;
       margin-left: auto;
       margin-right: auto;
-      font-size: 1.5rem;
-      line-height: 1.8rem;
+      font-size: 1.375rem;
+      line-height: 1.3em;
       color: $primary;
       text-align: left;
-      letter-spacing: -1px;
       margin-bottom: 1.5rem;
+
+      @include responsive(mobile) {
+        font-size: 1.2rem;
+      }
+
       &.margin-top {
         margin-top: 5rem;
       }
@@ -40,8 +60,8 @@
       }
       span {
         float: right;
-        color: $light_grey;
-        font-size: 0.8rem;
+        color: #fff;
+        font-size: 0.75rem;
         font-weight: 300;
       }
     }
@@ -51,10 +71,9 @@
     }
 
     .thin {
-      width: 90%;
       margin-left: auto;
       margin-right: auto;
-      font-size: 0.9375rem;
+      font-size: 0.875rem;
       .inner-block {
         margin-top: 1.5rem;
       }
@@ -74,19 +93,24 @@
           stroke: $primary;
         }
         .ant-progress-text {
-          color: $light_grey;
+          color: #fff;
+          font-size: 1.25rem;
         }
       }
       .progress-text {
-        margin-top: 5px;
-        font-size: 0.8rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.75rem;
+        text-align: center;
       }
     }
     .bar-progress {
       display: flex;
       flex-direction: column;
-      margin-bottom: 10px;
+      margin-bottom: 0.75rem;
+
       .ant-progress {
+        margin-top: -3px;
         .ant-progress-outer {
         }
         .ant-progress-inner {
@@ -96,12 +120,11 @@
           background-color: $primary;
         }
         .ant-progress-text {
-          color: $light_grey;
+          color: #fff;
         }
       }
       .progress-text {
-        margin-top: 5px;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
       }
       &.disabled {
         .ant-progress {
@@ -114,7 +137,7 @@
             background-color: #4a4a4a;
           }
           .ant-progress-text {
-            color: $light_grey;
+            color: #fff;
           }
         }
       }
@@ -136,7 +159,7 @@
     margin: 2rem 0;
 
     &.less-margin {
-      margin: .8rem 0 1.5rem 0;
+      margin: 1.2rem 0 3rem 0;
     }
 
     .anticon {
