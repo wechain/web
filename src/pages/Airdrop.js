@@ -25,7 +25,7 @@ export default class Airdrop extends Component {
   }
 
   componentDidMount() {
-    api.get('/hunt_transactions/status.json').then((res) => {
+    api.get('/hunt_transactions/stats.json').then((res) => {
       this.setState(res);
     })
   }
