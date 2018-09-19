@@ -104,6 +104,11 @@ class Header extends Component {
               <Icon type="api" /> ABOUT HUNT PLATFORM
             </a>
           </Menu.Item>
+          <Menu.Item key="1-5" className="mobile-only">
+            <Link to="/airdrop" onClick={() => this.changeVisibility(false)}>
+              <Icon type="gift" /> ABOUT AIRDROPS
+            </Link>
+          </Menu.Item>
           <Menu.Item key="2">
             <Link to="/hall-of-fame" onClick={() => this.changeVisibility(false)}>
               <Icon type="trophy" /> HALL OF FAME

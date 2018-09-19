@@ -1,92 +1,87 @@
 import React, { Component } from 'react';
-import { Icon, Row, Col } from 'antd';
-import imgHuntToken from 'assets/images/wallet/img-pie-chart@2x.png';
-import imgSpSwap from 'assets/images/wallet/img-sp-swap@2x.png';
+import { Icon, Progress } from 'antd';
 import imgHuntPlatform from 'assets/images/wallet/img-hunt-platform@2x.png';
-import iconOne from 'assets/images/wallet/num-1@2x.png';
-import iconTwo from 'assets/images/wallet/num-2@2x.png';
-import iconSponsor from 'assets/images/wallet/icon-sponsor@2x.png';
-import iconUpvote from 'assets/images/wallet/icon-upvote@2x.png';
-import iconReferral from 'assets/images/wallet/icon-referrals@2x.png';
-import iconPosting from 'assets/images/wallet/icon-posting@2x.png';
+import { formatNumber, formatFloat } from "utils/helpers/steemitHelpers";
+import api from 'utils/api';
+
+const BarProgress = ({ data, label, disabled, max }) => {
+  return (
+    <div className={`bar-progress ${disabled && 'disabled'}`}>
+      <span className="progress-text">{label} : {formatNumber(data)}</span>
+      <Progress percent={formatFloat(data/max*100)} showInfo={false} />
+    </div>
+  )
+}
 
 export default class Airdrop extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      record_time: 0,
+      total: 0,
+      days_passed: 0,
+      airdrops: {}
+    }
+  }
+
+  componentDidMount() {
+    api.get('/hunt_transactions/stats.json').then((res) => {
+      this.setState(res);
+    })
+  }
+
+  renderStatus() {
+    const { total, days_passed, airdrops } = this.state;
+    const airdropKeys = Object.keys(airdrops);
+
+    return (
+      <div className="inner-block">
+        <div className="round-progress">
+          <Progress type="circle" percent={formatFloat(total / 250000000 * 100)} />
+          <span className="progress-text">{formatNumber(total)}<br/>HUNT tokens</span>
+        </div>
+        <div className="round-progress">
+          <Progress type="circle" percent={formatFloat(days_passed / 365 * 100)} format={(d) => `${days_passed} days`} />
+          <span className="progress-text">SMT ver release<br/>on May 21th, 2019</span>
+        </div>
+        {airdropKeys.map((key, i) => {
+          const { data, label, disabled } = airdrops[key];
+          return <BarProgress key={i} data={data} label={label} disabled={disabled} max={airdrops[airdropKeys[0]].data} />;
+        })}
+      </div>
+    )
+  }
+
   render() {
     return (
-      <div className="airdrops primary-gradient">
-        <h1>HUNT Token<br/>Airdrop</h1>
-
-        <div className="thin">
-          A total of 500M HUNT tokens will be issued, and 250M tokens (50%) will be airdropped to Steemians -
-          largest-ever airdrop for Steemit users. SMT-based HUNT tokens are to be distributed in a 1:1 ratio
-          to the ERC20 tokens held by Steemhunt off-chain wallet owners and registered Ether addresses
-
-          <a href="https://github.com/Steemhunt/web/wiki/HUNT-Token-Airdrop-Manual" className="action" target="_blank" rel="noopener noreferrer">
-            Check out Airdrop Manual <Icon type="right-circle-o" />
-          </a>
+      <div className="airdrops">
+        <div className="page-block">
+          <h1>50% Airdrop to<br/>Focus on Product/<br/>Community Building</h1>
+          <div className="thin">
+            HUNT token airdrop was initiated on May 22nd, 2018.
+            It has been assigned 50% of the total tokens.
+            This airdrop will run until the SMT (Smart Media Token) system is launched (2Q of 2019).
+            The ERC20 will be issued first and then swapped with HUNT tokens when SMT is ready.
+            The HUNT token airdrop strategy is designed to gather as many product influencers as possible and amplify our community activities.
+          </div>
         </div>
-
-        <img src={imgHuntToken} alt="HUNT Token Airdrop" className="image token" />
-
-        <small>* Total 500M issues - 250M for airdrop, 100M for private sales, and 150M for company holding.</small>
-
-        <img src={iconOne} alt="No 1" className="icon-num" />
-        <h2>100M tokens<br/>for SP holders</h2>
-        <div className="thin">
-          Steemit users who have Steem Power are eligible to have HUNT tokens with 1:1 ratio.
-          This is based on a “first-come-first-get” system until all 100M tokens are claimed.
+        <div className="page-block">
+          <h2 className="bottom-line">Airdrop Status</h2>
+          <div className="thin">as of {this.state.record_time}</div>
+          <div className="thin">{this.renderStatus()}</div>
         </div>
+        <div className="page-block">
+          <h1 className="margin-top">What is HUNT<br/>Platform?</h1>
+          <div className="thin">
+            HUNT is an incentivising community platform on top of Steem Blockchain for product influencers who have exceptional knowledge and passion for cool new products.
+            It’s a bridging platform for makers to reach out to early adopters for the successful launch of their product.
 
-        <img src={imgSpSwap} alt="Airdrop on SP Holders" className="image sp-swap" />
-
-        <img src={iconTwo} alt="No 2" className="icon-num" />
-        <h2>150M tokens for bounty rewards<br/>for Steemhunt contributors</h2>
-        <div className="thin">
-          The bounty program will run for a maximum of 500 days.
-          We strongly believe that SMT will be ready within 500 days.
-          Every day 300,000 tokens (150M / 500 days) will be distributed in four sub-categories.
+            <a href="https://token.steemhunt.com/" className="action less-margin" target="_blank" rel="noopener noreferrer">
+              Learn more <Icon type="right-circle-o" />
+            </a>
+          </div>
+          <img src={imgHuntPlatform} alt="HUNT Platform" className="image hunt-platform" />
         </div>
-
-        <Row gutter={16}>
-          <Col className="grid" span={12}>
-            <img src={iconSponsor} alt="Sponsors" className="icon sponsors" />
-            <h3>Sponsors</h3>
-            <p>90,000 tokens per day are distributed to the sponsors who delegate Steem Power (SP) in @steemhunt.</p>
-          </Col>
-          <Col className="grid" span={12}>
-            <img src={iconUpvote} alt="Upvote" className="icon upvote" />
-            <h3>Voting / Promotion</h3>
-            <p>
-              40,000 tokens per day are distributed to people who upvote the hunts located under the “Today” section on Steemhunt.com.
-              20,000 tokens per day are distributed to people who help promote Steemhunt to the community.
-            </p>
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col className="grid" span={12}>
-            <img src={iconReferral} alt="Referrals" className="icon referrals" />
-            <h3>Referrals</h3>
-            <p>90,000 tokens per day will be distributed to people who refer Steemhunt to others. Both referrers and referees will gain tokens (this will be initiated after the new user sign-up interface is ready).</p>
-          </Col>
-          <Col className="grid" span={12}>
-            <img src={iconPosting} alt="Posting" className="icon posting" />
-            <h3>Content Creation</h3>
-            <p>60,000 tokens per day will be assigned to hunters who create content on HUNT platform.</p>
-          </Col>
-        </Row>
-
-        <h2 className="margin-top">HUNT Platform</h2>
-        <div className="thin">
-          We are going to create a HUNT Token Economy,
-          a decentralised token system to reward product influencers,
-          help them buy innovative products, and help makers reach out to product influencers.
-
-          <a href="https://steemit.com/steemit/@steemhunt/announcing-hunt-token-airdrops-for-steemians-smart-media-token-project" className="action less-margin" target="_blank" rel="noopener noreferrer">
-            Learn more <Icon type="right-circle-o" />
-          </a>
-        </div>
-
-        <img src={imgHuntPlatform} alt="HUNT Platform" className="image hunt-platform" />
       </div>
     );
   }

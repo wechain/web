@@ -83,6 +83,7 @@ export const hasVoted = (content, name) => {
 }
 export const formatAmount = amount => numeral(amount).format('$0,0.00');
 export const formatNumber = (amount, format = '0,0.00') => numeral(amount).format(format);
+export const formatFloat = (float) => Math.round(float*100)/100;
 
 export const createCommentPermlink = (parentAuthor, parentPermlink) => {
   let permlink;

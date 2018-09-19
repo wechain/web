@@ -1,25 +1,147 @@
 .airdrops {
-  padding: 80px;
+  padding: 140px 160px 50px 160px;
   color: #fff;
-  text-align: center;
+  text-align: left;
+  background-color: #151515;
 
-  h1 {
-    font-size: 3rem;
-    line-height: 3.7rem;
-    color: #fff;
-    letter-spacing: -1px;
-    margin-bottom: 3rem;
+  @include responsive(ipadpro) {
+    padding: 70px 80px 35px 80px;
   }
 
-  a {
-    color: #fff !important;
+  @include responsive(mobile) {
+    padding: 80px 40px 45px 40px;
   }
 
-  .thin {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 0.9375rem;
+  .page-block {
+    margin-bottom: 90px;
+
+    @include responsive(ipadpro) {
+      margin-bottom: 45px;
+    }
+
+    h1 {
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 2.8rem;
+      line-height: 1.3em;
+      color: $primary;
+      text-align: left;
+      margin-bottom: 1.5rem;
+
+      @include responsive(ipadpro) {
+        font-size: 2rem;
+      }
+
+      @include responsive(mobile) {
+        font-size: 1.7rem;
+      }
+    }
+
+    h2 {
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1.375rem;
+      line-height: 1.3em;
+      color: $primary;
+      text-align: left;
+      margin-bottom: 1.5rem;
+
+      @include responsive(mobile) {
+        font-size: 1.2rem;
+      }
+
+      &.margin-top {
+        margin-top: 5rem;
+      }
+      &.bottom-line {
+        border-bottom: 0.5px solid #979797;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+      }
+      span {
+        float: right;
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 300;
+      }
+    }
+
+    a {
+      color: $primary !important;
+    }
+
+    .thin {
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 0.875rem;
+      .inner-block {
+        margin-top: 1.5rem;
+      }
+    }
+    .round-progress {
+      display: inline-flex;
+      flex-direction: column;
+      margin: 0 5% 5% 0;
+      @include responsive(mobile) {
+        max-width: 45%;
+      }
+      .ant-progress {
+        .ant-progress-circle-trail {
+          stroke: #4e4e4e;
+        }
+        .ant-progress-circle-path {
+          stroke: $primary;
+        }
+        .ant-progress-text {
+          color: #fff;
+          font-size: 1.25rem;
+        }
+      }
+      .progress-text {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.75rem;
+        text-align: center;
+      }
+    }
+    .bar-progress {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0.75rem;
+
+      .ant-progress {
+        margin-top: -3px;
+        .ant-progress-outer {
+        }
+        .ant-progress-inner {
+          background-color: #151515;
+        }
+        .ant-progress-bg {
+          background-color: $primary;
+        }
+        .ant-progress-text {
+          color: #fff;
+        }
+      }
+      .progress-text {
+        font-size: 0.75rem;
+      }
+      &.disabled {
+        .ant-progress {
+          .ant-progress-outer {
+          }
+          .ant-progress-inner {
+            background-color: #151515;
+          }
+          .ant-progress-bg {
+            background-color: #4a4a4a;
+          }
+          .ant-progress-text {
+            color: #fff;
+          }
+        }
+      }
+    }
   }
 
   .icon-num {
@@ -32,21 +154,12 @@
     height: 39px;
   }
 
-  h2 {
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-
-    &.margin-top {
-      margin-top: 5rem;
-    }
-  }
-
   .action {
     display: block;
     margin: 2rem 0;
 
     &.less-margin {
-      margin: .8rem 0 1.5rem 0;
+      margin: 1.2rem 0 3rem 0;
     }
 
     .anticon {
@@ -74,46 +187,4 @@
       max-width: 578px;
     }
   }
-
-  .grid {
-    padding-top: 4rem;
-
-    .icon {
-      display: block;
-
-      &.sponsors {
-        width: 54px;
-        height: 46px;
-        margin: 2px auto;
-      }
-
-      &.upvote {
-        width: 48px;
-        height: 48px;
-        margin: 0 auto 2px auto;
-      }
-
-      &.referrals {
-        width: 51px;
-        height: 46px;
-        margin: 2px auto;
-      }
-
-      &.posting {
-        width: 52px;
-        height: 38px;
-        margin: 6px auto;
-      }
-    } // .icon
-
-    h3 {
-      color: #fff;
-      margin-bottom: 1rem;
-    }
-
-    p {
-      font-size: 0.875rem;
-      padding: 0 10%;
-    }
-  } // .grid
 } // .airdrops
