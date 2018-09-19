@@ -1,25 +1,124 @@
 .airdrops {
   padding: 80px;
-  color: #fff;
-  text-align: center;
-
-  h1 {
-    font-size: 3rem;
-    line-height: 3.7rem;
-    color: #fff;
-    letter-spacing: -1px;
-    margin-bottom: 3rem;
+  color: $light_grey;
+  text-align: left;
+  background-color: #151515;
+  @include responsive(mobile) {
+    padding: 65px 20px;
   }
+  .page-block {
+    margin-bottom: 50px;
+    h1 {
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1.7rem;
+      line-height: 2.2rem;
+      color: $primary;
+      text-align: left;
+      letter-spacing: -1px;
+      margin-bottom: 1.5rem;
+    }
 
-  a {
-    color: #fff !important;
-  }
+    h2 {
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1.5rem;
+      line-height: 1.8rem;
+      color: $primary;
+      text-align: left;
+      letter-spacing: -1px;
+      margin-bottom: 1.5rem;
+      &.margin-top {
+        margin-top: 5rem;
+      }
+      &.bottom-line {
+        border-bottom: 0.5px solid #979797;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+      }
+      span {
+        float: right;
+        color: $light_grey;
+        font-size: 0.8rem;
+        font-weight: 300;
+      }
+    }
 
-  .thin {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 0.9375rem;
+    a {
+      color: $primary !important;
+    }
+
+    .thin {
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 0.9375rem;
+      .inner-block {
+        margin-top: 1.5rem;
+      }
+    }
+    .round-progress {
+      display: inline-flex;
+      flex-direction: column;
+      margin: 0 5% 5% 0;
+      @include responsive(mobile) {
+        max-width: 45%;
+      }
+      .ant-progress {
+        .ant-progress-circle-trail {
+          stroke: #4e4e4e;
+        }
+        .ant-progress-circle-path {
+          stroke: $primary;
+        }
+        .ant-progress-text {
+          color: $light_grey;
+        }
+      }
+      .progress-text {
+        margin-top: 5px;
+        font-size: 0.8rem;
+      }
+    }
+    .bar-progress {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+      .ant-progress {
+        .ant-progress-outer {
+        }
+        .ant-progress-inner {
+          background-color: #151515;
+        }
+        .ant-progress-bg {
+          background-color: $primary;
+        }
+        .ant-progress-text {
+          color: $light_grey;
+        }
+      }
+      .progress-text {
+        margin-top: 5px;
+        font-size: 0.8rem;
+      }
+      &.disabled {
+        .ant-progress {
+          .ant-progress-outer {
+          }
+          .ant-progress-inner {
+            background-color: #151515;
+          }
+          .ant-progress-bg {
+            background-color: #4a4a4a;
+          }
+          .ant-progress-text {
+            color: $light_grey;
+          }
+        }
+      }
+    }
   }
 
   .icon-num {
@@ -30,15 +129,6 @@
     margin-right: auto;
     width: 39px;
     height: 39px;
-  }
-
-  h2 {
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-
-    &.margin-top {
-      margin-top: 5rem;
-    }
   }
 
   .action {
@@ -74,46 +164,4 @@
       max-width: 578px;
     }
   }
-
-  .grid {
-    padding-top: 4rem;
-
-    .icon {
-      display: block;
-
-      &.sponsors {
-        width: 54px;
-        height: 46px;
-        margin: 2px auto;
-      }
-
-      &.upvote {
-        width: 48px;
-        height: 48px;
-        margin: 0 auto 2px auto;
-      }
-
-      &.referrals {
-        width: 51px;
-        height: 46px;
-        margin: 2px auto;
-      }
-
-      &.posting {
-        width: 52px;
-        height: 38px;
-        margin: 6px auto;
-      }
-    } // .icon
-
-    h3 {
-      color: #fff;
-      margin-bottom: 1rem;
-    }
-
-    p {
-      font-size: 0.875rem;
-      padding: 0 10%;
-    }
-  } // .grid
 } // .airdrops
