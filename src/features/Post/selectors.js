@@ -29,12 +29,6 @@ export const selectDailyLoadingStatus = () => createSelector(
   state => state.dailyLoadingStatus,
 );
 
-export const selectDailyStats = () => createSelector(
-  selectPostDomain(),
-  state => state.dailyStats,
-);
-
-
 export const selectAuthorPosts = () => createSelector(
   selectPostDomain(),
   state => state.authorPosts,

@@ -5,8 +5,8 @@ import { formatAmount } from "utils/helpers/steemitHelpers";
 
 export class SubHeading extends PureComponent {
   static propTypes = {
-    huntsCount: PropTypes.number,
-    dailyTotalReward: PropTypes.number,
+    huntsCount: PropTypes.number.isRequired,
+    dailyTotalReward: PropTypes.number.isRequired,
     daysAgo: PropTypes.number.isRequired,
   };
 
