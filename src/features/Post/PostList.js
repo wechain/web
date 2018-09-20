@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import isEmpty from 'lodash/isEmpty';
-import { Button, Select, Icon, Tooltip, Spin } from 'antd';
+import { Button, Select, Icon, Tooltip } from 'antd';
 import { selectPosts, selectDailyRanking, selectDailyLoadingStatus } from './selectors';
 import { getPostsBegin } from './actions/getPosts';
 import { daysAgoToString } from 'utils/date';
@@ -36,18 +36,14 @@ class PostList extends Component {
   }
 
   componentDidMount() {
-    this.props.getPosts(this.props.daysAgo, this.state.showAll);
+    this.props.getPosts(this.props.daysAgo);
   }
 
-  showAll = () => {
-    this.setState({ showAll: true });
-    this.props.getPosts(this.props.daysAgo, true);
-  }
+  showAll = () => this.setState({ showAll: true });
 
   handleSortOption = (value) => {
     setSortOption(`daily-${this.props.daysAgo}`, value);
-    this.setState({ showAll: false });
-    this.props.getPosts(this.props.daysAgo, false);
+    this.props.getPosts(this.props.daysAgo);
   }
 
   render() {
@@ -118,13 +114,11 @@ class PostList extends Component {
           }
         </div>
         <div className="daily-posts">
-          {rankingItems}
-          {dailyLoadingStatus[daysAgo] === 'done' &&
+          {rankingItems.slice(0,10)}
+          {rankingItems.length > 10 &&
             <Button type="primary" size="default" className={buttonClass} ghost onClick={this.showAll}>Show All</Button>
           }
-          {dailyLoadingStatus[daysAgo] === 'loading' &&
-            <Spin className="center-loading" />
-          }
+          {rankingItems.length > 10 && this.state.showAll && rankingItems.slice(10)}
         </div>
       </div>
     );
@@ -139,7 +133,7 @@ const mapStateToProps = () => createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getPosts: (daysAgo, all) => dispatch(getPostsBegin(daysAgo, all)),
+  getPosts: (daysAgo) => dispatch(getPostsBegin(daysAgo)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostList);

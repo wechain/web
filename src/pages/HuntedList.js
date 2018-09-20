@@ -38,7 +38,7 @@ class HuntedList extends Component {
     return (
       <InfiniteScroll
         loadMore={this.addMorePostList}
-        hasMore={dailyLoadingStatus[maxPage] === 'done' || dailyLoadingStatus[maxPage] === 'finished'}
+        hasMore={dailyLoadingStatus[maxPage] === 'finished'}
         isLoading={dailyLoadingStatus[maxPage] === 'loading'}
         loader={<Spin className="center-loading" key={0} />}
         useWindow={false}
