@@ -72,7 +72,7 @@ class PostList extends Component {
       const post = posts[postKey];
       if (post) {
         rankingItems.push(
-          <PostItem key={post.id} rank={index + 1} post={post} />
+          <PostItem key={post.id} rank={index + 1} post={post} lazyLoad={daysAgo === 0} />
         );
       }
     });

@@ -16,19 +16,23 @@ class PostItem extends Component {
     pathPrefix: PropTypes.string,
     rank: PropTypes.number.isRequired,
     post: PropTypes.object.isRequired,
+    lazyLoad: PropTypes.bool.isRequired,
   };
 
   render() {
-    const { me, rank, post, pathPrefix } = this.props;
+    const { me, rank, post, pathPrefix, lazyLoad } = this.props;
     // const activeVotes = post.active_votes.filter(v => v.percent !== 0).length;
+    const image = <img src={post.images && getCachedImage(post.images[0].link, 240, 240)} alt={post.title} className="thumbnail"/>
 
     return (
       <div className={`post${rank === 1 ? ' top-border' : ''}${post.is_active ? '' : ' faded'}`}>
         <div className="rank">{rank}</div>
         <Link to={getPostPath(post, pathPrefix)}>
-          <LazyLoad height={0} offset={500} once={true} scroll={false} overflow={true}>
-            <img src={post.images && getCachedImage(post.images[0].link, 240, 240)} alt={post.title} className="thumbnail"/>
-          </LazyLoad>
+          {lazyLoad ?
+            <LazyLoad height={0} offset={500} once={true} scroll={false} overflow={true}>{image}</LazyLoad>
+          :
+            image
+          }
         </Link>
         <div className="summary">
           <div className="title">

@@ -35,7 +35,11 @@ export function getPostsReducer(state, action) {
       const { posts, total_count, total_payout } = res;
 
       const newPosts = {};
-      const dailyRanking = state.dailyRanking[daysAgo] || [];
+      let dailyRanking = []
+      if (all) {
+        dailyRanking = state.dailyRanking[daysAgo] || [];
+      }
+
       posts.forEach(post => {
         const key = getPostKey(post);
         if (!state.posts[key]) { // only update non-existing post (preventing race-condition with getPost)
