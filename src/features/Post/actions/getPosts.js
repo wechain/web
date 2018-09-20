@@ -14,8 +14,8 @@ export function getPostsBegin(daysAgo, all) {
   return { type: GET_POSTS_BEGIN, daysAgo, all };
 }
 
-export function getPostsSuccess(daysAgo, posts, all) {
-  return { type: GET_POSTS_SUCCESS, daysAgo, posts, all };
+export function getPostsSuccess(daysAgo, res, all) {
+  return { type: GET_POSTS_SUCCESS, daysAgo, res, all };
 }
 
 export function getPostsFailure(daysAgo, message) {
@@ -31,7 +31,8 @@ export function getPostsReducer(state, action) {
       });
     }
     case GET_POSTS_SUCCESS: {
-      const { daysAgo, posts, all } = action;
+      const { daysAgo, res, all } = action;
+      const { posts, total_count, total_payout } = res;
 
       const newPosts = {};
       const dailyRanking = state.dailyRanking[daysAgo] || [];
@@ -47,6 +48,7 @@ export function getPostsReducer(state, action) {
         posts: { $merge: newPosts },
         dailyRanking: { [daysAgo]: { $set: dailyRanking } },
         dailyLoadingStatus: { [daysAgo]: { $set: all ? 'finished' : 'done' } },
+        dailyStats: { [daysAgo]: { $set: { total_count: total_count, total_payout: total_payout }} },
       });
     }
     case GET_POSTS_FAILURE: {
@@ -62,9 +64,9 @@ export function getPostsReducer(state, action) {
 /*--------- SAGAS ---------*/
 function* getPosts({ daysAgo, all }) {
   try {
-    const posts = yield api.get('/posts.json', { days_ago: daysAgo, all: all, sort: getSortOption('daily-' + daysAgo) });
+    const res = yield api.get('/posts.json', { days_ago: daysAgo, all: all, sort: getSortOption('daily-' + daysAgo) });
 
-    yield put(getPostsSuccess(daysAgo, posts, all));
+    yield put(getPostsSuccess(daysAgo, res, all));
   } catch(e) {
     yield put(getPostsFailure(daysAgo, e.message));
   }
