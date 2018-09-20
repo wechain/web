@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import isEmpty from 'lodash/isEmpty';
 import { Button, Select, Icon, Tooltip, Spin } from 'antd';
-import { selectPosts, selectDailyRanking, selectDailyLoadingStatus } from './selectors';
+import { selectPosts, selectDailyRanking, selectDailyLoadingStatus, selectDailyStats } from './selectors';
 import { getPostsBegin } from './actions/getPosts';
 import { daysAgoToString } from 'utils/date';
 import PostItem from './components/PostItem';
@@ -21,6 +21,7 @@ class PostList extends Component {
     getPosts: PropTypes.func.isRequired,
     posts: PropTypes.object.isRequired,
     dailyRanking: PropTypes.object.isRequired,
+    dailyStats: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -51,7 +52,7 @@ class PostList extends Component {
   }
 
   render() {
-    const { me, posts, dailyRanking, dailyLoadingStatus, daysAgo } = this.props;
+    const { me, posts, dailyRanking, dailyLoadingStatus, dailyStats, daysAgo } = this.props;
 
     if (dailyLoadingStatus[daysAgo] === 'error') {
       return (
@@ -66,12 +67,10 @@ class PostList extends Component {
       return null;
     }
 
-    let dailyTotalReward = 0;
     let rankingItems = [];
     ranking.forEach(function(postKey, index) {
       const post = posts[postKey];
       if (post) {
-        dailyTotalReward += post.payout_value;
         rankingItems.push(
           <PostItem key={post.id} rank={index + 1} post={post} />
         );
@@ -83,6 +82,7 @@ class PostList extends Component {
       buttonClass += ' hide';
     }
 
+    const stats = dailyStats[daysAgo] || {};
     const currentSortOption = getSortOption('daily-' + daysAgo);
 
     return (
@@ -92,7 +92,7 @@ class PostList extends Component {
             <span className="days-ago-text">{daysAgoToString(daysAgo)}</span>
             {daysAgo === 0 && <ShuffleButton handleSortOption={this.handleSortOption} me={me}/>}
           </h3>
-          <SubHeading huntsCount={ranking.length} dailyTotalReward={dailyTotalReward} daysAgo={daysAgo}  />
+          <SubHeading huntsCount={stats.total_count} dailyTotalReward={stats.total_payout} daysAgo={daysAgo}  />
           {daysAgo !== -1 &&
             <div className="sort-option">
               <span className="text-small">Sort by: </span>
@@ -136,6 +136,7 @@ const mapStateToProps = () => createStructuredSelector({
   posts: selectPosts(),
   dailyRanking: selectDailyRanking(),
   dailyLoadingStatus: selectDailyLoadingStatus(),
+  dailyStats: selectDailyStats(),
 });
 
 const mapDispatchToProps = dispatch => ({
