@@ -36,18 +36,14 @@ export function getPostsReducer(state, action) {
 
       const newPosts = {};
       let dailyRanking = []
-      if (all) {
-        dailyRanking = state.dailyRanking[daysAgo] || [];
-      }
 
       posts.forEach(post => {
         const key = getPostKey(post);
         if (!state.posts[key]) { // only update non-existing post (preventing race-condition with getPost)
           newPosts[key] = post;
         }
-        if (dailyRanking.indexOf(key) === -1) { // unique check
-          dailyRanking.push(key);
-        }
+
+        dailyRanking.push(key);
       });
 
       return update(state, {
