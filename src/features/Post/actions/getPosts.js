@@ -45,7 +45,9 @@ export function getPostsReducer(state, action) {
         if (!state.posts[key]) { // only update non-existing post (preventing race-condition with getPost)
           newPosts[key] = post;
         }
-        dailyRanking.push(key);
+        if (dailyRanking.indexOf(key) === -1) { // unique check
+          dailyRanking.push(key);
+        }
       });
 
       return update(state, {
