@@ -42,7 +42,7 @@ export default class Airdrop extends Component {
         </div>
         <div className="round-progress">
           <Progress type="circle" percent={formatFloat(days_passed / 365 * 100)} format={(d) => `${days_passed} days`} />
-          <span className="progress-text">SMT ver release<br/>on May 21th, 2019</span>
+          <span className="progress-text">SMT ver release<br/>on May 21st, 2019</span>
         </div>
         {airdropKeys.map((key, i) => {
           const { data, label, disabled } = airdrops[key];
