@@ -719,6 +719,13 @@
         border-left: 0;
         padding: 0 5px;
       }
+
+      a {
+        text-overflow: ellipsis;
+        max-width: 100%;
+        overflow: hidden;
+        display: inline-block;
+      }
     }
 
     .vote-container {
