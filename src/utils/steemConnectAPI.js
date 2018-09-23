@@ -1,6 +1,7 @@
 import sc2 from 'sc2-sdk';
 
 const api = sc2.Initialize({
+  baseURL: 'https://steemconnect.com',
   app: 'steemhunt.com',
   callbackURL: process.env.REACT_APP_STEEMCONNECT_REDIRECT_URL,
   accessToken: 'access_token',
