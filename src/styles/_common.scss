@@ -332,6 +332,9 @@ hr {
 }
 
 .diagonal-split-view {
+  overflow-x: hidden;
+  position: relative;
+
   .top-container {
     font-size: 1rem;
     padding: 30px 20px 150px 20px;
