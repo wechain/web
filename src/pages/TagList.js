@@ -46,7 +46,7 @@ class TagList extends Component {
     let items = [];
     if (tagPosts !== {} && (typeof tagPosts[tag] !== 'function')) {
       items = (tagPosts[tag] || []).map((key, index) =>
-        <PostItem key={index + 1} rank={index + 1} post={posts[key]} pathPrefix={`/tag/${tag}`} />
+        <PostItem key={index + 1} rank={index + 1} post={posts[key]} pathPrefix={`/tag/${tag}`} lazyLoad={false} />
       )
     }
 

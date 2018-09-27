@@ -8,6 +8,8 @@ import './utils/helpers/immutabilityHelpers';
 import store from './store';
 import App from './features/App/App';
 
+window.steem = steem
+
 steem.api.setOptions({ url: process.env.REACT_APP_STEEM_API_URL });
 
 window.API_ROOT = process.env.REACT_APP_API_ROOT;

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { getLoginURL } from 'utils/token';
-import { Menu, Popover, Icon, Button, Spin, Input } from 'antd';
+import { Popover, Button, Spin, Input, Avatar } from 'antd';
 import {
   selectMe,
   selectMyAccount,
@@ -19,8 +19,7 @@ import { followBegin } from 'features/User/actions/follow';
 import { logoutBegin } from 'features/User/actions/logout';
 import { setSearchTerm } from 'features/Post/actions/searchPost';
 import logo from 'assets/images/logo-nav-pink@2x.png'
-import AvatarSteemit from 'components/AvatarSteemit';
-import { formatNumber } from 'utils/helpers/steemitHelpers';
+import MenuContent from './MenuContent';
 
 class Header extends Component {
   static propTypes = {
@@ -70,118 +69,20 @@ class Header extends Component {
     }
   };
 
-  currentVotingPower = ({ last_vote_time, voting_power }) => {
-    const vpLeft = voting_power / 100;
-    const lastVotingTime = Date.parse(last_vote_time) - (new Date().getTimezoneOffset() * 60 * 1000);
-    const secPassed = (Date.now() - lastVotingTime) / 1000;
-    const currentVP = (vpLeft + (secPassed / 3600) * (20/24));
-    const vp = currentVP > 100 ? 100 : currentVP;
-
-    return Math.round(vp * 100) / 100;
-  }
-
   render() {
     const { me, myAccount, myFollowingsList, myFollowingsLoadStatus, isLoading, follow, searchTerm } = this.props;
     const isFollowing = myFollowingsList.find(following => following.following === 'steemhunt');
-    const isFollowLoading = isLoading || myFollowingsLoadStatus['steemhunt'];
     const searchBarHidden = (this.props.path === '/wallet' || this.props.path === '/post');
-
-    let menu;
-    if(me) {
-      menu = (
-        <Menu theme="dark">
-          {!isFollowing && me !== 'steemhunt' &&
-            <Menu.Item key="0">
-               <span onClick={follow}>
-                <Icon type={isFollowLoading ? 'loading' : 'star-o'} />
-                FOLLOW STEEMHUNT
-              </span>
-            </Menu.Item>
-          }
-
-          <Menu.Item key="1">
-            <a href="https://token.steemhunt.com" rel="noopener noreferrer" target="_blank">
-              <Icon type="api" /> ABOUT HUNT PLATFORM
-            </a>
-          </Menu.Item>
-          <Menu.Item key="1-5" className="mobile-only">
-            <Link to="/airdrop" onClick={() => this.changeVisibility(false)}>
-              <Icon type="gift" /> ABOUT AIRDROPS
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <Link to="/hall-of-fame" onClick={() => this.changeVisibility(false)}>
-              <Icon type="trophy" /> HALL OF FAME
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="3">
-            <Link to={`/wallet`} onClick={() => this.changeVisibility(false)}>
-              <Icon type="wallet" /> WALLET <sup>beta</sup>
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="4">
-            <Link to={`/author/@${me}`} onClick={() => this.changeVisibility(false)}>
-              <Icon type="user" /> MY PROFILE
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="4-1" className="sub">
-            <Link to={`/author/@${me}`} onClick={() => this.changeVisibility(false)}>
-              <Icon type="up-circle-o" />
-              Level: {myAccount.level}&nbsp;
-              ({formatNumber(myAccount.user_score, '0,0.00')}
-                {myAccount.boost_score && myAccount.boost_score > 1 && <span> x {myAccount.boost_score}</span> }
-              )
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="4-2" className="sub">
-            <Link to={`/author/@${me}`} onClick={() => this.changeVisibility(false)}>
-              <Icon type="loading-3-quarters" />
-              Voting Power: {formatNumber(this.currentVotingPower(myAccount), '0,0.00')}%
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="5">
-            <a href="https://discord.gg/mWXpgks" rel="noopener noreferrer" target="_blank">
-              <Icon type="message" /> CHAT ON DISCORD
-            </a>
-          </Menu.Item>
-          <Menu.Item key="6">
-            <span onClick={this.props.logout}>
-              <Icon type="poweroff" /> LOGOUT
-            </span>
-          </Menu.Item>
-        </Menu>
-      );
-    } else {
-      menu = (
-        <Menu theme="dark">
-          <Menu.Item key="0" className="two-column-hidden">
-            <Link to="/about" onClick={() => this.changeVisibility(false)}>
-              <Icon type="question-circle-o" /> ABOUT STEEMHUNT
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="1">
-            <a href="https://token.steemhunt.com" rel="noopener noreferrer" target="_blank">
-              <Icon type="api" /> ABOUT HUNT PLATFORM
-            </a>
-          </Menu.Item>
-          <Menu.Item key="1-5">
-            <Link to="/airdrop" onClick={() => this.changeVisibility(false)}>
-              <Icon type="gift" /> ABOUT AIRDROPS
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <Link to="/hall-of-fame" onClick={() => this.changeVisibility(false)}>
-              <Icon type="trophy" /> HALL OF FAME
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="3">
-            <a href="https://discord.gg/mWXpgks" rel="noopener noreferrer" target="_blank">
-              <Icon type="message" /> CHAT ON DISCORD
-            </a>
-          </Menu.Item>
-        </Menu>
-      );
-    }
+    const menu = (
+      <MenuContent
+        me={me}
+        follow={follow}
+        isFollowing={isFollowing}
+        isFollowLoading={isLoading || myFollowingsLoadStatus['steemhunt']}
+        myAccount={myAccount}
+        logout={this.props.logout}
+      />
+    );
 
     return (
       <header>
@@ -191,7 +92,7 @@ class Header extends Component {
 
         {isLoading &&
           <div className="pull-right">
-            <Spin size="large" className="header-button smaller avatar-steemit" />
+            <Spin size="large" className="header-button smaller avatar-container" />
           </div>
         }
 
@@ -208,8 +109,12 @@ class Header extends Component {
               onVisibleChange={this.changeVisibility}
               overlayClassName="menu-popover"
             >
-              <span className="ant-dropdown-link header-button" role="button">
-                <AvatarSteemit name={me} votingPower={this.currentVotingPower(myAccount)} />
+              <span className="ant-dropdown-link header-button avatar-container" role="button">
+                <Avatar
+                  src={`${process.env.REACT_APP_STEEMCONNECT_IMG_HOST}/@${me}?s=80`}
+                  size="large"
+                  className="avatar-steemit"
+                />
               </span>
             </Popover>
           </div>

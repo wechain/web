@@ -87,10 +87,10 @@
       }
       .ant-progress {
         .ant-progress-circle-trail {
-          stroke: #4e4e4e;
+          stroke: #4e4e4e !important;
         }
         .ant-progress-circle-path {
-          stroke: $primary;
+          stroke: $primary !important;
         }
         .ant-progress-text {
           color: #fff;

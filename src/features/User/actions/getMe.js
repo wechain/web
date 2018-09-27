@@ -4,6 +4,7 @@ import { setToken } from 'utils/token';
 import { format } from '../utils';
 import { selectAppProps } from 'features/App/selectors';
 import steemConnectAPI from 'utils/steemConnectAPI';
+import steem from 'steem';
 import { getToken } from 'utils/token';
 import api from 'utils/api';
 
@@ -59,6 +60,18 @@ export function getMeReducer(state, action) {
   }
 }
 
+function getRCInfo(account) {
+  return new Promise(function(resolve, _) {
+    steem.api.send('rc_api', {
+        method: 'find_rc_accounts',
+        params: {'accounts': [account]},
+    }, function(_, res) {
+      resolve(res.rc_accounts[0]);
+    });
+  });
+}
+
+
 /*--------- SAGAS ---------*/
 function* getMe({ token }) {
   try {
@@ -70,6 +83,7 @@ function* getMe({ token }) {
     steemConnectAPI.setAccessToken(token);
 
     const me = yield steemConnectAPI.me();
+    const rcInfo = yield getRCInfo(me.user);
     const appProps = yield select(selectAppProps());
 
     setToken(token);
@@ -80,7 +94,7 @@ function* getMe({ token }) {
 
     yield put(getMeSuccess({
       ...me,
-      account: Object.assign({}, format(me.account, appProps), info),
+      account: Object.assign({}, format(me.account, appProps), info, rcInfo),
     }));
   } catch(e) {
     // removeToken();
@@ -100,11 +114,12 @@ function* refreshMe() {
 
   try {
     const me = yield steemConnectAPI.me();
+    const rcInfo = yield getRCInfo(me.user);
     const appProps = yield select(selectAppProps());
 
     yield put(getMeSuccess({
       ...me,
-      account: format(me.account, appProps),
+      account: Object.assign({}, format(me.account, appProps), rcInfo),
     }));
   } catch(e) {
     console.error(e);

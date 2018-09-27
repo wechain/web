@@ -32,7 +32,7 @@ class Search extends Component {
     const { searchTerm, searchResult, posts, isSearching } = this.props;
 
     const items = searchResult.map((key, index) =>
-      <PostItem key={index + 1} rank={index + 1} post={posts[key]} />
+      <PostItem key={index + 1} rank={index + 1} post={posts[key]} lazyLoad={false} />
     )
 
     return (

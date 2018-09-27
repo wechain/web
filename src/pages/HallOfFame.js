@@ -37,7 +37,7 @@ class HallOfFame extends Component {
     const { period } = this.state;
 
     const items = (topPosts[period] || []).map((key, index) =>
-      <PostItem key={index + 1} rank={index + 1} pathPrefix="/hall-of-fame" post={posts[key]} />
+      <PostItem key={index + 1} rank={index + 1} pathPrefix="/hall-of-fame" post={posts[key]} lazyLoad={false} />
     )
 
     let hasMore = true;

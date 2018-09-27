@@ -22,18 +22,18 @@ header {
   .nav-logo {
     width: 31px;
     height: 45px;
-    margin-top: 3px;
   }
 
   .pull-right {
     text-align: right;
+    margin-top: 2px;
 
     .header-button {
       display: block;
       float: left;
 
       &.smaller {
-        margin-top: 8px;
+        margin-top: 5px;
       }
     }
 
@@ -67,12 +67,18 @@ header {
       }
     }
 
-    .avatar-steemit {
-      margin-left: 5px; // additional 5px (right 8px)
+    .avatar-container {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      margin-left: 8px;
 
-      // NOTE: Should be automatically set. Maybe a bug
-      .ant-progress-circle-path {
-        stroke: $primary;
+      .avatar-steemit {
+        position: absolute;
+        transform: translate(-50%,-50%);
+        top: 50%;
+        left: 50%;
+        position: relative;
       }
     }
 
@@ -101,20 +107,15 @@ header {
         margin-right: 0
       }
     }
-
-    .avatar-steemit {
-      position: relative;
-    }
   }
 }
 
 // override for header dropdown
 .menu-popover.ant-popover.ant-popover-placement-bottom,
 .menu-popover.ant-popover.ant-popover-placement-bottomRight {
-  margin-left: 5px;
-
   .ant-popover-inner-content, .ant-popover-arrow {
     background: $dark_background;
+    right: 15px !important;
   }
 
   .ant-popover-inner-content {
@@ -131,10 +132,43 @@ header {
 
   .sub {
     padding-left: 30px;
-    font-size: 13px;
+    padding-right: 30px;
     margin-top: 0;
-    height: 30px;
-    line-height: 30px;
+    margin-bottom: 0;
+    height: auto;
+    line-height: 1;
+    font-size: 0.75rem;
+    cursor: default;
+
+    .group {
+      margin-bottom: 0.5rem;
+
+      &:last-child {
+        margin-bottom: 0.3rem;
+      }
+
+      .label {
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      .ant-progress {
+        line-height: 1.2;
+
+        .ant-progress-bg {
+          background-color: $primary;
+        }
+
+        .ant-progress-inner {
+          background-color: rgba(255, 255, 255, 0.85);
+        }
+
+        .ant-progress-text {
+          color: rgba(255, 255, 255, 0.5);
+          font-size: 0.75rem;
+          margin-left: 5px;
+        }
+      }
+    }
   }
 }
 
