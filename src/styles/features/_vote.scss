@@ -36,6 +36,7 @@
   width: 240px;
   overflow: hidden;
   padding: 0 10px;
+  touch-action: manipulation;
 
   .weight {
     float: left;
