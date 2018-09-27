@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "antd": "^3.9.3",
+    "antd": "^3.9.2",
     "aws-sdk": "^2.323.0",
     "axios": "^0.18.0",
     "bs58": "^4.0.1",
