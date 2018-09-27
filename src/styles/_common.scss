@@ -367,10 +367,13 @@ hr {
   }
 
   .diagonal-line {
-    height: 80px;
-    margin-top: -80px;
+    width: 110%;
+    height: 150px;
+    margin-left: -5%;
+    margin-top: -2.5vw;
+    position: absolute;
     background-color: #fff;
-    background: linear-gradient(to right bottom, transparent 49.9%, #fff 50.1%);
+    transform: rotate(-5.5deg);
   }
 
   .bottom-container {
