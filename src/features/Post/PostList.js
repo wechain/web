@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import isEmpty from 'lodash/isEmpty';
 import { Button, Select, Icon, Tooltip, Spin } from 'antd';
+import { forceCheck } from 'react-lazyload';
 import { selectPosts, selectDailyRanking, selectDailyLoadingStatus, selectDailyStats } from './selectors';
 import { getPostsBegin } from './actions/getPosts';
 import { daysAgoToString } from 'utils/date';
@@ -48,7 +49,7 @@ class PostList extends Component {
   handleSortOption = (value) => {
     setSortOption(`daily-${this.props.daysAgo}`, value);
     this.setState({ showAll: false });
-    this.props.getPosts(this.props.daysAgo, false);
+    this.props.getPosts(this.props.daysAgo, false, forceCheck);
   }
 
   render() {
@@ -140,7 +141,7 @@ const mapStateToProps = () => createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getPosts: (daysAgo, all) => dispatch(getPostsBegin(daysAgo, all)),
+  getPosts: (daysAgo, all, callback) => dispatch(getPostsBegin(daysAgo, all, callback)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostList);

@@ -10,8 +10,8 @@ const GET_POSTS_SUCCESS = 'GET_POSTS_SUCCESS';
 const GET_POSTS_FAILURE = 'GET_POSTS_FAILURE';
 
 /*--------- ACTIONS ---------*/
-export function getPostsBegin(daysAgo, all) {
-  return { type: GET_POSTS_BEGIN, daysAgo, all };
+export function getPostsBegin(daysAgo, all, callback) {
+  return { type: GET_POSTS_BEGIN, daysAgo, all, callback };
 }
 
 export function getPostsSuccess(daysAgo, res, all) {
@@ -64,11 +64,15 @@ export function getPostsReducer(state, action) {
 }
 
 /*--------- SAGAS ---------*/
-function* getPosts({ daysAgo, all }) {
+function* getPosts({ daysAgo, all, callback }) {
   try {
     const res = yield api.get('/posts.json', { days_ago: daysAgo, all: all, sort: getSortOption('daily-' + daysAgo) });
 
     yield put(getPostsSuccess(daysAgo, res, all));
+
+    if (callback) {
+      callback();
+    }
   } catch(e) {
     yield put(getPostsFailure(daysAgo, e.message));
   }
