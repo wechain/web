@@ -377,10 +377,13 @@ hr {
     position: absolute;
     background-color: #fff;
     transform: rotate(-5.5deg);
+    z-index: 1;
   }
 
   .bottom-container {
     text-align: center;
+    z-index: 10;
+    position: relative;
 
     .timeline-container {
       padding-top: 26px;
