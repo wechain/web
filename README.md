@@ -3,12 +3,6 @@
 ## Daily Ranking for Effortlessly Cool Products That Rewards Hunters
 Steemhunt is a Steem blockchain powered ranking community for geeks, alpha nerds, and product enthusiasts who love to dig out new products and talk about them with others.
 
-## Get in touch
-* Web - https://steemhunt.com
-* Email - steemhunt@gmail.com
-* Blog - https://steemit.com/@steemhunt
-* Discord - https://discord.gg/mWXpgks
-
 ## Stacks
 This project was bootstrapped with [Steemiz](https://github.com/steemiz/steemiz) and [Create React App](https://github.com/facebookincubator/create-react-app) projects.
 
@@ -30,3 +24,9 @@ to start both API (back-end) and Node server (front-end) on local port 3000 and 
 ```
 git push && npm run build && cd ../api && git push && bundle exec cap production deploy
 ```
+
+## Get in touch
+* Web - https://steemhunt.com
+* Email - steemhunt@gmail.com
+* Blog - https://steemit.com/@steemhunt
+* Discord - https://discord.gg/mWXpgks
