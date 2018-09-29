@@ -11,8 +11,8 @@ function adjustRecharge(lastValue, lastUpdated) {
   return Math.round(result * 100) / 100;
 }
 
-function currentVP({ voting_power, voting_manabar }) {
-  return adjustRecharge(voting_power / 100, voting_manabar.last_update_time);
+function currentVP({ max_rc, voting_manabar }) {
+  return adjustRecharge(100 * voting_manabar.current_mana / max_rc, voting_manabar.last_update_time);
 }
 
 function currentRC({ max_rc, rc_manabar}) {
