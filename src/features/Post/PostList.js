@@ -120,7 +120,7 @@ class PostList extends Component {
         </div>
         <div className="daily-posts">
           {rankingItems}
-          {dailyLoadingStatus[daysAgo] === 'done' &&
+          {dailyLoadingStatus[daysAgo] === 'done' && !this.state['showAll'] &&
             <Button type="primary" size="default" className={buttonClass} ghost onClick={this.showAll}>Show All</Button>
           }
           {dailyLoadingStatus[daysAgo] === 'loading' &&
