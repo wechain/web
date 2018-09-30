@@ -327,10 +327,6 @@ hr {
   }
 }
 
-.panel-right .center-loading.full-page {
-  line-height: calc(100vh - #{$header_height} * 2);
-}
-
 .diagonal-split-view {
   overflow-x: hidden;
   position: relative;
