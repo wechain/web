@@ -111,7 +111,7 @@ class PostList extends Component {
                 }
               </Select>
               {currentSortOption === 'hunt_score' &&
-                <Tooltip placement="left" title="Hunt score is calculated by upvoting counts that are weighted by Steem reputation in order to avoid spamming attempts.">
+                <Tooltip placement="left" title="Hunt score is calculated by upvoting counts that are weighted by Steemhunt User Scores in order to avoid spamming attempts.">
                   <Icon type="question-circle-o" className="help-hunt-score" />
                 </Tooltip>
               }
