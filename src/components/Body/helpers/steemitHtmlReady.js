@@ -103,7 +103,8 @@ export default function (html, { mutate = true, resolveIframe } = {}) {
 
 function traverse(node, state, depth = 0) {
   if (!node || !node.childNodes) return;
-  Array(...node.childNodes).forEach((child) => {
+  // Array(...node.childNodes).forEach((child) => {
+  Object.values(node.childNodes).forEach((child) => {
     // console.log(depth, 'child.tag,data', child.tagName, child.data)
     const tag = child.tagName ? child.tagName.toLowerCase() : null;
     if (tag) state.htmltags.add(tag);
@@ -206,18 +207,38 @@ function linkifyNode(child, state) {
 
 function linkify(content, mutate, hashtags, usertags, images, links) {
   // usertag (mention)
-  content = content.replace(/(^|\s)(@[a-z][-\.a-z\d]+[a-z\d])/ig, (user) => {
-    const space = /^\s/.test(user) ? user[0] : '';
-    const user2 = user.trim().substring(1);
-    const userLower = user2.toLowerCase();
-    const valid = validateAccountName(userLower) == null;
-    if (valid && usertags) usertags.add(userLower);
-    if (!mutate) return user;
-    return space + (valid ?
-      `<a href="/author/@${userLower}">@${user2}</a>` :
-      `@${user2}`
+
+  content = content.replace(
+    /(^|[^a-zA-Z0-9_!#$%&*@＠\/]|(^|[^a-zA-Z0-9_+~.-\/#]))[@＠]([a-z][-\.a-z\d]+[a-z\d])/gi,
+    (match, preceeding1, preceeding2, user) => {
+      const userLower = user.toLowerCase();
+      const valid = validateAccountName(userLower) == null;
+
+      if (valid && usertags) usertags.add(userLower);
+
+          const preceedings = (preceeding1 || '') + (preceeding2 || ''); // include the preceeding matches if they exist
+
+          if (!mutate) return `${preceedings}${user}`;
+
+          return valid
+              ? `${preceedings}<a href="/author/@${userLower}">@${user}</a>`
+              : `${preceedings}@${user}`;
+      }
     );
-  });
+
+
+  // content = content.replace(/(^|\s)(@[a-z][-\.a-z\d]+[a-z\d])/ig, (user) => {
+  //   const space = /^\s/.test(user) ? user[0] : '';
+  //   const user2 = user.trim().substring(1);
+  //   const userLower = user2.toLowerCase();
+  //   const valid = validateAccountName(userLower) == null;
+  //   if (valid && usertags) usertags.add(userLower);
+  //   if (!mutate) return user;
+  //   return space + (valid ?
+  //     `<a href="/author/@${userLower}">@${user2}</a>` :
+  //     `@${user2}`
+  //   );
+  // });
 
   content = content.replace(linksRe.any, (ln) => {
     if (linksRe.image.test(ln)) {
