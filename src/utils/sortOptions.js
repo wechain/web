@@ -1,7 +1,7 @@
 export function getSortOption(key) {
   let defaultOption =  'hunt_score';
   if (key === 'daily--1') {
-    defaultOption = 'created';
+    defaultOption = 'random';
   }
 
   if (window.sortOption && window.sortOption[key]) {

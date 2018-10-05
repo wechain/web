@@ -64,7 +64,7 @@ class PostList extends Component {
     }
 
     let ranking = dailyRanking[daysAgo] || [];
-    if (isEmpty(ranking) && daysAgo !== 0) { // Hide except today section
+    if (isEmpty(ranking)) { // Hide except today section
       return null;
     }
 
@@ -85,13 +85,14 @@ class PostList extends Component {
 
     const stats = dailyStats[daysAgo] || {};
     const currentSortOption = getSortOption('daily-' + daysAgo);
+    const allRandomMode = daysAgo === -1 && isEmpty(dailyRanking[0]);
 
     return (
       <div className={`post-list day-ago-${daysAgo}`}>
         <div className="heading left-padded">
           <h3>
             <span className="days-ago-text">{daysAgoToString(daysAgo)}</span>
-            {daysAgo === 0 && <ShuffleButton handleSortOption={this.handleSortOption} me={me}/>}
+            {(daysAgo === 0 || allRandomMode) && <ShuffleButton handleSortOption={this.handleSortOption} me={me}/>}
           </h3>
           <SubHeading huntsCount={stats.total_count} dailyTotalReward={stats.total_payout} daysAgo={daysAgo}  />
           {daysAgo !== -1 &&
