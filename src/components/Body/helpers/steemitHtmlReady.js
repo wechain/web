@@ -103,7 +103,6 @@ export default function (html, { mutate = true, resolveIframe } = {}) {
 
 function traverse(node, state, depth = 0) {
   if (!node || !node.childNodes) return;
-  // Array(...node.childNodes).forEach((child) => {
   Object.values(node.childNodes).forEach((child) => {
     // console.log(depth, 'child.tag,data', child.tagName, child.data)
     const tag = child.tagName ? child.tagName.toLowerCase() : null;
@@ -225,20 +224,6 @@ function linkify(content, mutate, hashtags, usertags, images, links) {
               : `${preceedings}@${user}`;
       }
     );
-
-
-  // content = content.replace(/(^|\s)(@[a-z][-\.a-z\d]+[a-z\d])/ig, (user) => {
-  //   const space = /^\s/.test(user) ? user[0] : '';
-  //   const user2 = user.trim().substring(1);
-  //   const userLower = user2.toLowerCase();
-  //   const valid = validateAccountName(userLower) == null;
-  //   if (valid && usertags) usertags.add(userLower);
-  //   if (!mutate) return user;
-  //   return space + (valid ?
-  //     `<a href="/author/@${userLower}">@${user2}</a>` :
-  //     `@${user2}`
-  //   );
-  // });
 
   content = content.replace(linksRe.any, (ln) => {
     if (linksRe.image.test(ln)) {
