@@ -28,6 +28,11 @@ export function getHtml(body, jsonMetadata = {}, returnType = 'Object') {
   body = htmlReady(body, htmlReadyOptions).html;
   body = sanitizeHtml(body, sanitizeConfig({}));
   body = emojione.shortnameToImage(body);
+
+  // Disable problematic images till Google fixes the fishing detection issue
+  // https://d26i3uk99q2djv.cloudfront.net/items/3R1x3B383P0u3x1E2M01/steemhunt-collab-video.gif
+  body = body.replace(/<img src="https:\/\/cl\.ly(.)+"\s*\/>/g, '');
+
   if (returnType === 'text') {
     return body;
   }
