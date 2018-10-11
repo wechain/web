@@ -39,7 +39,7 @@ Steemhunt is a “product hunting” site, **not a writing curation site**. We h
 5-2. Do not duplicate the product name or use any non-product-specific words in the field “short description.” <br>
 5-3. Do not attach non-related screenshot images or videos.<br>
 5-4. Do not use low quality product images.<br>
-5-5. Do not share any scams, highly suspicious cryptocurrency/fin-tech, or illegal products.<br>
+5-5. Do not share any scams, highly suspicious cryptocurrency/fin-tech, illegal products, or any type of weaponry.<br>
 5-6. Do not share porn or anything under the #nsfw category.
 
 ## 6. No Duplication Allowed
@@ -64,4 +64,4 @@ Steemhunt is running a blacklist to maintain a fair community platform. If you c
 Even if you are blacklisted, you can still use our platform (posting, upvoting, and commenting), however, you won't be able to get upvoted by Steemhunt for 30 days. If you receive "permanent blacklist" status, you are not be elligiable to receive Steemhunt's upvotes indefinately. We announce the blacklist via #blacklist channel in our [Discord Group](https://discord.gg/mWXpgks).
 
 
-Please note that our moderators are human, so they may make mistakes/errors during the moderation process. If you have query, please join our [Discord Group](https://discord.gg/mWXpgks) and request to re-review in the #moderation-errors channel. *These posting guidelines were updated on August 14, 2018.*
+Please note that our moderators are human, so they may make mistakes/errors during the moderation process. If you have query, please join our [Discord Group](https://discord.gg/mWXpgks) and request to re-review in the #moderation-errors channel. *These posting guidelines were updated on October 11, 2018.*
