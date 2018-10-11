@@ -19,6 +19,8 @@ Steemhunt generally covers unique IT or hardware products, including:
 2-5. Games<br>
 2-6. Innovative Engineering/Design Products (It may cover non-tech products that have been invented based on high-level engineering/design approach to solve a major problem)
 
+If you are posting any conceptual product, it must be past the planning stage. It should have an official physical prototype announced.
+
 ## 3. Product Link
 We only accept these four product links (Your post will be delisted if you include other websites than those listed below):
 
